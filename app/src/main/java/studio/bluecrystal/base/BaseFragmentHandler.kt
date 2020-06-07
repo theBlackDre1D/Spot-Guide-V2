@@ -1,0 +1,3 @@
+package studio.bluecrystal.base
+
+interface BaseFragmentHandler
