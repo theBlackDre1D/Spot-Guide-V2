@@ -8,4 +8,8 @@
 
     <color name="white_FFFFFF">#FFFFFF</color>
 
+    <color name="grey_disabled">#E5E5E5</color>
+    <color name="btn_grey_text">#8E8E8E</color>
+    <color name="grey_state_unselected">#808080</color>
+
 </resources>

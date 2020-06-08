@@ -1,4 +1,4 @@
-package studio.bluecrystal.base
+package com.bluecrystal.base
 
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView

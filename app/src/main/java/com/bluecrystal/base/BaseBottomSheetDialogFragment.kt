@@ -1,27 +1,30 @@
-package studio.bluecrystal.base
+package com.bluecrystal.base
 
 import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.annotation.StringRes
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.OnLifecycleEvent
 import androidx.viewbinding.ViewBinding
-import com.google.android.material.snackbar.Snackbar
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
+abstract class BaseBottomSheetDialogFragment<BINDING : ViewBinding, HANDLER : BaseFragmentHandler> : BottomSheetDialogFragment(), LifecycleObserver {
 
-abstract class BaseFragment<BINDING: ViewBinding, HANDLER: BaseFragmentHandler> : Fragment(), LifecycleObserver {
-
-    protected lateinit var binding: BINDING
     protected lateinit var handler: HANDLER
+    protected lateinit var binding: BINDING
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         this.lifecycle.addObserver(this)
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        this.handler = context as HANDLER
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -29,17 +32,10 @@ abstract class BaseFragment<BINDING: ViewBinding, HANDLER: BaseFragmentHandler> 
         return this.binding.root
     }
 
-    @Suppress("UNCHECKED_CAST")
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        this.handler = context as HANDLER
-    }
-
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        this@BaseFragment.context?.let {
-            this.setupViewModelStateObserver()
-            this.onFragmentLoadingFinished(this@BaseFragment.binding, it)
+        this@BaseBottomSheetDialogFragment.context?.let {
+            this.onFragmentLoadingFinished(this@BaseBottomSheetDialogFragment.binding, it)
         }
     }
 
@@ -73,13 +69,6 @@ abstract class BaseFragment<BINDING: ViewBinding, HANDLER: BaseFragmentHandler> 
         this.onFragmentDestroyed()
     }
 
-    protected fun showSnackBar(rootView: View, @StringRes text: Int, longDuration: Boolean = false) {
-        Snackbar.make(rootView, text, if (longDuration) Snackbar.LENGTH_LONG else Snackbar.LENGTH_SHORT).show()
-    }
-
-    protected abstract fun setBinding(layoutInflater: LayoutInflater): BINDING
-    protected abstract fun onFragmentLoadingFinished(binding: BINDING, context: Context)
-
     protected open fun onFragmentCreated() {}
     protected open fun onFragmentStarted() {}
     protected open fun onFragmentResumed() {}
@@ -87,5 +76,6 @@ abstract class BaseFragment<BINDING: ViewBinding, HANDLER: BaseFragmentHandler> 
     protected open fun onFragmentStopped() {}
     protected open fun onFragmentDestroyed() {}
 
-    open fun setupViewModelStateObserver() {}
+    protected abstract fun setBinding(layoutInflater: LayoutInflater): BINDING
+    protected abstract fun onFragmentLoadingFinished(binding: BINDING, context: Context)
 }

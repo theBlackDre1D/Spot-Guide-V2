@@ -1,4 +1,4 @@
-package studio.bluecrystal.base
+package com.bluecrystal.base
 
 import android.os.Bundle
 import android.view.LayoutInflater

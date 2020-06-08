@@ -6,4 +6,6 @@
 
     <string name="error__location_permission_denied_rationale">This permission is mandatory for recommendation spots near you.</string>
 
+    <string name="map__add">Add</string>
+
 </resources>

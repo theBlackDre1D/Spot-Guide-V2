@@ -1,9 +1,9 @@
-package studio.bluecrystal
+package com.bluecrystal
 
 import android.view.LayoutInflater
-import studio.bluecrystal.base.BaseActivity
-import studio.bluecrystal.base.BaseFragmentHandler
-import studio.bluecrystal.databinding.MainActivityBinding
+import com.bluecrystal.base.BaseActivity
+import com.bluecrystal.base.BaseFragmentHandler
+import com.bluecrystal.databinding.MainActivityBinding
 
 class MainActivity : BaseActivity<MainActivityBinding>(), BaseFragmentHandler {
 

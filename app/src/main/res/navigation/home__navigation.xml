@@ -6,7 +6,7 @@
 
     <fragment
         android:id="@+id/homeFragment"
-        android:name="studio.bluecrystal.screens.map.HomeFragment"
+        android:name="com.bluecrystal.screens.map.HomeFragment"
         android:label="HomeFragment"
         tools:layout="@layout/home__fragment" />
 

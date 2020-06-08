@@ -1,4 +1,4 @@
-package studio.bluecrystal
+package com.bluecrystal
 
 import android.app.Application
 

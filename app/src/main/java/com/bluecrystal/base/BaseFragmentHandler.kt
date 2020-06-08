@@ -1,0 +1,3 @@
+package com.bluecrystal.base
+
+interface BaseFragmentHandler

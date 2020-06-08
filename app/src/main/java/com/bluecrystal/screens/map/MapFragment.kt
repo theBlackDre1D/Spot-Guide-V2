@@ -1,4 +1,4 @@
-package studio.bluecrystal.screens.map
+package com.bluecrystal.screens.map
 
 import android.Manifest
 import android.annotation.SuppressLint
@@ -11,6 +11,10 @@ import android.view.LayoutInflater
 import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import com.bluecrystal.R
+import com.bluecrystal.base.BaseFragment
+import com.bluecrystal.base.BaseFragmentHandler
+import com.bluecrystal.databinding.HomeFragmentBinding
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.MapView
@@ -19,13 +23,9 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import com.nabinbhandari.android.permissions.PermissionHandler
 import com.nabinbhandari.android.permissions.Permissions
-import studio.bluecrystal.R
-import studio.bluecrystal.base.BaseFragment
-import studio.bluecrystal.base.BaseFragmentHandler
-import studio.bluecrystal.databinding.HomeFragmentBinding
 import java.util.*
 
-private const val DEFAULT_ZOOM_LEVEL = 15F
+private const val DEFAULT_ZOOM_LEVEL = 10F
 
 class HomeFragment : BaseFragment<HomeFragmentBinding, HomeFragmentHandler>(), GoogleMap.OnMapLongClickListener, GoogleMap.OnMarkerClickListener {
 
@@ -50,7 +50,11 @@ class HomeFragment : BaseFragment<HomeFragmentBinding, HomeFragmentHandler>(), G
         override fun onProviderDisabled(provider: String?) {}
     }
 
-    private val viewModel: MapFragmentViewModel by viewModels { MapFragmentViewModel.ViewModelInstanceFactory(this) }
+    private val viewModel: MapFragmentViewModel by viewModels {
+        MapFragmentViewModel.ViewModelInstanceFactory(
+            this
+        )
+    }
     override fun setBinding(layoutInflater: LayoutInflater): HomeFragmentBinding = HomeFragmentBinding.inflate(layoutInflater)
     override fun onFragmentLoadingFinished(binding: HomeFragmentBinding, context: Context) {
         handleLocationPermission()
@@ -66,7 +70,7 @@ class HomeFragment : BaseFragment<HomeFragmentBinding, HomeFragmentHandler>(), G
             it?.let { state ->
                 state.lastKnowLocation?.let { newLocation ->
                     val latLng = LatLng(newLocation.latitude, newLocation.longitude)
-                    googleMap?.animateCamera(CameraUpdateFactory.newLatLng(latLng))
+                    googleMap?.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, DEFAULT_ZOOM_LEVEL))
                 }
             }
         })
@@ -88,15 +92,11 @@ class HomeFragment : BaseFragment<HomeFragmentBinding, HomeFragmentHandler>(), G
     @SuppressLint("MissingPermission")
     private fun getAndSetLocation() {
         val lastKnowLocation = locationManager?.getLastKnownLocation(LocationManager.GPS_PROVIDER)
+        locationManager?.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000, 0f, locationListener)
         lastKnowLocation?.let { newLocation ->
             val newState = viewModel.state.value?.copy(lastKnowLocation = newLocation)
             viewModel.state.postValue(newState)
-//
-//            val latLng = LatLng(newLocation.latitude, newLocation.longitude)
-//            googleMap?.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, DEFAULT_ZOOM_LEVEL))
         }
-
-        locationManager?.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000, 0f, locationListener)
     }
 
     private fun initMap(savedInstanceState: Bundle?) {
@@ -112,11 +112,11 @@ class HomeFragment : BaseFragment<HomeFragmentBinding, HomeFragmentHandler>(), G
         }
     }
 
-    override fun onMapLongClick(p0: LatLng?) {
+    override fun onMapLongClick(latLng: LatLng?) {
         // TODO
     }
 
-    override fun onMarkerClick(p0: Marker?): Boolean {
+    override fun onMarkerClick(marker: Marker?): Boolean {
         // TODO
         return true
     }
