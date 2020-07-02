@@ -1,11 +1,7 @@
 <resources>
-    <string name="app_name">Spot-Guide</string>
+    <string name="app_name">spot_guide</string>
 
-    <string name="bar_menu_map">Map</string>
-    <string name="bar_menu_profile">Profile</string>
-
+    <!--  Map  -->
     <string name="error__location_permission_denied_rationale">This permission is mandatory for recommendation spots near you.</string>
-
-    <string name="map__add">Add</string>
 
 </resources>

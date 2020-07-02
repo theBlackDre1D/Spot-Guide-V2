@@ -1,2 +1,2 @@
 include ':app'
-rootProject.name = "Spot-Guide"
+rootProject.name = "spot_guide"

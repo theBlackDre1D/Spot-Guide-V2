@@ -1,15 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="colorPrimary">#6B14A6</color>
-    <color name="colorPrimaryDark">#581188</color>
+    <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#6B14A6</color>
 
-    <color name="ripple_color">#4D6B14A6</color>
-
     <color name="white_FFFFFF">#FFFFFF</color>
-
-    <color name="grey_disabled">#E5E5E5</color>
-    <color name="btn_grey_text">#8E8E8E</color>
-    <color name="grey_state_unselected">#808080</color>
 
 </resources>
