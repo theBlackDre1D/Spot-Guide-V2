@@ -14,6 +14,7 @@ import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import com.araujo.jordan.excuseme.ExcuseMe
 import com.g3.spot_guide.R
 import com.g3.spot_guide.base.BaseFragment
 import com.g3.spot_guide.base.BaseFragmentHandler
@@ -26,13 +27,8 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.MapView
 import com.google.android.gms.maps.MapsInitializer
 import com.google.android.gms.maps.model.*
-import com.innfinity.permissionflow.lib.Permission
-import com.innfinity.permissionflow.lib.permissionFlow
-import com.innfinity.permissionflow.lib.withFragment
-import com.innfinity.permissionflow.lib.withPermissions
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 private const val DEFAULT_ZOOM_LEVEL = 17f
@@ -122,22 +118,11 @@ class MapFragment : BaseFragment<MapFragmentBinding, MapFragmentViewModel, MapFr
 
     private fun handlePermissions() {
         CoroutineScope(Dispatchers.Main).launch {
-            permissionFlow {
-                withPermissions(Manifest.permission.ACCESS_FINE_LOCATION)
-
-                withFragment(this@MapFragment)
-
-                requestEach().collect { permission: Permission ->
-                    when (permission.permission) {
-                        Manifest.permission.ACCESS_FINE_LOCATION -> {
-                            if (permission.isGranted) {
-                                getAndSetLocation()
-                            } else {
-                                showSnackBar(binding.root, R.string.error__location_permission_denied_rationale, true)
-                            }
-                        }
-                    }
-                }
+            val result = ExcuseMe.couldYouGive(requireContext()).permissionFor(Manifest.permission.ACCESS_FINE_LOCATION)
+            if (result) {
+                getAndSetLocation()
+            } else {
+                showSnackBar(binding.root, R.string.error__location_permission_denied_rationale)
             }
         }
     }
