@@ -8,6 +8,7 @@ import com.g3.spot_guide.R
 import com.g3.spot_guide.base.BaseActivity
 import com.g3.spot_guide.base.BaseParameters
 import com.g3.spot_guide.databinding.AddSpotActivityBinding
+import com.g3.spot_guide.enums.SpotType
 import com.g3.spot_guide.extensions.navigateSafe
 import com.g3.spot_guide.models.ImageModel
 import com.g3.spot_guide.screens.gallery.GalleryFragmentHandler
@@ -15,7 +16,7 @@ import java.io.Serializable
 
 
 class AddSpotActivity : BaseActivity<AddSpotActivityBinding, AddSpotActivityViewModel, AddSpotActivity.Arguments>(),  AddSpotFragmentHandler,
-    GalleryFragmentHandler {
+    GalleryFragmentHandler, ChooseSpotTypeBottomSheetHandler {
 
     companion object {
         const val ADD_SPOT_PARAMETERS__EXTRAS_KEY = "ADD_SPOT_PARAMETERS__EXTRAS_KEY"
@@ -71,7 +72,19 @@ class AddSpotActivity : BaseActivity<AddSpotActivityBinding, AddSpotActivityView
         navController?.navigateSafe(AddSpotFragmentDirections.actionAddSpotToGalleryFragment())
     }
 
+    override fun openSpotTypeDialog() {
+        navController?.navigateSafe(AddSpotFragmentDirections.actionAddSpotToChooseSpotTypeBottomSheet())
+    }
+
     override fun getLocationData(): Parameters {
         return viewModel.activityParams
+    }
+
+    override fun getSpotTypeLiveData(): MutableLiveData<SpotType> {
+        return viewModel.spotType
+    }
+
+    override fun onTypePick(type: SpotType) {
+        viewModel.spotType.postValue(type)
     }
 }

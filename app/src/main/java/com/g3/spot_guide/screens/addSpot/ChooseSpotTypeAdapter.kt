@@ -5,25 +5,36 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.g3.spot_guide.databinding.SpotTypeItemBinding
 import com.g3.spot_guide.enums.SpotType
+import com.g3.spot_guide.extensions.onClick
 
 class ChooseSpotTypeAdapter(
-    private val listener: ChooseSpotTypeAdapterHandler,
-    private val allowMultipleChoices: Boolean
-) : RecyclerView.Adapter<ChooseSpotTypeAdapter.SpotTypeViewHolder>() {
+    private val handler: ChooseSpotTypeAdapterHandler
+) : RecyclerView.Adapter<ChooseSpotTypeAdapter.ChooseSpotTypeAdapterViewHolder>() {
 
-    private val adapterItems = mutableListOf<SpotTypeViewHolder>()
+    private val adapterItems = mutableListOf<SpotType>()
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SpotTypeViewHolder {
-        return SpotTypeViewHolder(SpotTypeItemBinding.inflate(LayoutInflater.from(parent.context), parent, false))
+    fun injectData(newItems: MutableList<SpotType>) {
+        adapterItems.clear()
+        adapterItems.addAll(newItems)
+        notifyDataSetChanged()
+    }
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ChooseSpotTypeAdapterViewHolder {
+        return ChooseSpotTypeAdapterViewHolder(SpotTypeItemBinding.inflate(LayoutInflater.from(parent.context), parent, false))
     }
 
     override fun getItemCount() = adapterItems.size
 
-    override fun onBindViewHolder(holder: SpotTypeViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: ChooseSpotTypeAdapterViewHolder, position: Int) {
+        val adapterItem = adapterItems[position]
+        holder.binding.typeTV.text = adapterItem.spotName
 
+        holder.binding.root.onClick {
+            handler.onSpotTypeCLick(adapterItem)
+        }
     }
 
-    inner class SpotTypeViewHolder(val binding: SpotTypeItemBinding) : RecyclerView.ViewHolder(binding.root)
+    inner class ChooseSpotTypeAdapterViewHolder(val binding: SpotTypeItemBinding) : RecyclerView.ViewHolder(binding.root)
 }
 
 interface ChooseSpotTypeAdapterHandler {

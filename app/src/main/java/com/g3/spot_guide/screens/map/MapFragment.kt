@@ -143,7 +143,9 @@ class MapFragment : BaseFragment<MapFragmentBinding, MapFragmentViewModel, MapFr
     }
 
     override fun onMapLongClick(latLng: LatLng?) {
-        // TODO
+        latLng?.let {
+            handler.openAddSpotScreen(latLng)
+        }
     }
 
     override fun onMarkerClick(marker: Marker?): Boolean {

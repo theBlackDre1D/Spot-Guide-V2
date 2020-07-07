@@ -3,6 +3,7 @@ package com.g3.spot_guide.screens.addSpot
 import GeoCoderUtils
 import android.content.Context
 import android.view.LayoutInflater
+import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.MutableLiveData
@@ -27,7 +28,7 @@ import com.google.android.gms.maps.model.LatLng
 const val ADD_PHOTO__REQUEST_CODE = 100
 
 
-class AddSpotFragment : BaseFragment<AddSpotFragmentBinding, AddSpotFragmentViewModel, AddSpotFragmentHandler>(), ChooseSpotTypeBottomSheetHandler, PhotosAdapter.PhotosAdapterHandler, AppBarView.AppBarViewHandler {
+class AddSpotFragment : BaseFragment<AddSpotFragmentBinding, AddSpotFragmentViewModel, AddSpotFragmentHandler>(), PhotosAdapter.PhotosAdapterHandler, AppBarView.AppBarViewHandler {
 
     private val photosAdapter: PhotosAdapter by lazy { PhotosAdapter(this) }
 
@@ -39,6 +40,12 @@ class AddSpotFragment : BaseFragment<AddSpotFragmentBinding, AddSpotFragmentView
         setupGroundEmojiRating()
         setupLocationName()
         setupPhotosSection()
+    }
+
+    override fun onFragmentResumed() {
+        super.onFragmentResumed()
+
+        setupSpotCategorySection()
     }
 
     private fun setupAppBar() {
@@ -102,8 +109,21 @@ class AddSpotFragment : BaseFragment<AddSpotFragmentBinding, AddSpotFragmentView
 
     }
 
-    override fun onTypePick(type: SpotType) {
-        // TODO
+    private fun setupSpotCategorySection() {
+        binding.chooseTypeB.onClick {
+            handler.openSpotTypeDialog()
+        }
+
+        binding.choosedTypeB.onClick {
+            handler.openSpotTypeDialog()
+        }
+
+        handler.getSpotTypeLiveData().observe(this, Observer { spotType ->
+            binding.choosedTypeB.text = spotType.spotName
+
+            binding.chooseTypeB.isInvisible = spotType != null
+            binding.choosedTypeB.isInvisible = spotType == null
+        })
     }
 
     override fun onPhotoClick(imageModel: ImageModel) {
@@ -122,7 +142,9 @@ class AddSpotFragment : BaseFragment<AddSpotFragmentBinding, AddSpotFragmentView
 interface AddSpotFragmentHandler : BaseFragmentHandler {
     fun navigateBack()
     fun openGallery(requestCode: Int)
+    fun openSpotTypeDialog()
     fun getPickedImages(): MutableLiveData<List<ImageModel>>
     fun onDeletePhoto(imageModel: ImageModel)
     fun getLocationData(): AddSpotActivity.Parameters
+    fun getSpotTypeLiveData(): MutableLiveData<SpotType>
 }

@@ -24,4 +24,10 @@
         android:label="GalleryFragment"
         tools:layout="@layout/gallery__fragment" />
 
+    <dialog
+        android:id="@+id/chooseSpotTypeBottomSheet"
+        android:name="com.g3.spot_guide.screens.addSpot.ChooseSpotTypeBottomSheet"
+        android:label="ChooseSpotTypeBottomSheet"
+        tools:layout="@layout/choose_spot_type__dialog_fragment" />
+
 </navigation>

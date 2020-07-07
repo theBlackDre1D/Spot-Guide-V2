@@ -9,12 +9,24 @@ import com.g3.spot_guide.databinding.ChooseSpotTypeDialogFragmentBinding
 import com.g3.spot_guide.enums.SpotType
 import com.g3.spot_guide.screens.EmptyViewModel
 
-class ChooseSpotTypeBottomSheet : BaseBottomSheet<ChooseSpotTypeDialogFragmentBinding, EmptyViewModel, ChooseSpotTypeBottomSheetHandler>() {
+class ChooseSpotTypeBottomSheet : BaseBottomSheet<ChooseSpotTypeDialogFragmentBinding, EmptyViewModel, ChooseSpotTypeBottomSheetHandler>(), ChooseSpotTypeAdapterHandler {
+
+    private val adapter: ChooseSpotTypeAdapter by lazy { ChooseSpotTypeAdapter(this) }
 
     override val viewModel: EmptyViewModel by viewModels { EmptyViewModel.ViewModelInstanceFactory(this) }
     override fun setBinding(layoutInflater: LayoutInflater): ChooseSpotTypeDialogFragmentBinding = ChooseSpotTypeDialogFragmentBinding.inflate(layoutInflater)
     override fun onFragmentLoadingFinished(binding: ChooseSpotTypeDialogFragmentBinding, context: Context) {
+        setupRV()
+    }
 
+    private fun setupRV() {
+        binding.typesRV.adapter = adapter
+        adapter.injectData(SpotType.values().toMutableList())
+    }
+
+    override fun onSpotTypeCLick(spotType: SpotType) {
+        handler.onTypePick(spotType)
+        dismiss()
     }
 }
 
