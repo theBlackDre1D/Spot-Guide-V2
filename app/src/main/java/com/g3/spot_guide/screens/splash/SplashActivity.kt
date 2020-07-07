@@ -8,6 +8,6 @@ class SplashActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        Session.application.coordinator.startMainActivity(this)
+        Session.application.coordinator.startMapActivity(this)
     }
 }

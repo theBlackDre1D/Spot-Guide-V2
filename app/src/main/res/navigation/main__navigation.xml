@@ -9,6 +9,26 @@
         android:id="@+id/mapFragment"
         android:name="com.g3.spot_guide.screens.map.MapFragment"
         android:label="MapFragment"
-        tools:layout="@layout/map__fragment" />
+        tools:layout="@layout/map__fragment">
+        <action
+            android:id="@+id/action__mapFragment_to_spotDetailFragment"
+            app:destination="@id/spotDetailBottomSheetFragment" />
+    </fragment>
+
+    <dialog
+        android:id="@+id/spotDetailBottomSheetFragment"
+        android:name="com.g3.spot_guide.screens.spotDetail.SpotDetailFragment"
+        android:label="SpotDetailFragment"
+        tools:layout="@layout/spot_detail__fragment">
+        <argument
+            android:name="args"
+            app:argType="com.g3.spot_guide.models.Spot" />
+    </dialog>
+
+    <dialog
+        android:id="@+id/chooseSpotTypeBottomSheet"
+        android:name="com.g3.spot_guide.screens.addSpot.ChooseSpotTypeBottomSheet"
+        android:label="ChooseSpotTypeBottomSheet"
+        tools:layout="@layout/choose_spot_type__dialog_fragment" />
 
 </navigation>

@@ -8,6 +8,7 @@ import androidx.lifecycle.ViewModel
 import androidx.savedstate.SavedStateRegistryOwner
 import com.g3.spot_guide.Session
 
+@Suppress("UNCHECKED_CAST")
 class EmptyViewModel(private val savedState: SavedStateHandle, session: Session) : AndroidViewModel(session) {
 
     class ViewModelInstanceFactory(owner: SavedStateRegistryOwner, bundle: Bundle? = null) : AbstractSavedStateViewModelFactory(owner, bundle) {

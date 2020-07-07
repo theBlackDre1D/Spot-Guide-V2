@@ -48,7 +48,10 @@
 
     <style name="Button.Full" parent="AppButton">
         <item name="android:layout_width">match_parent</item>
+    </style>
 
+    <style name="Button.Middle" parent="AppButton">
+        <item name="android:layout_width">wrap_content</item>
     </style>
 
     <style name="Button.Outlined.Full" parent="Button.Outlined">
@@ -59,6 +62,93 @@
     <style name="Button.Outlined.Middle" parent="Button.Outlined">
         <item name="android:layout_width">wrap_content</item>
         <item name="strokeColor">@color/colorAccent</item>
+    </style>
+
+    <!--  Bottom sheet dialog  -->
+    <style name="BottomSheet" parent="@style/Widget.Design.BottomSheet.Modal">
+        <item name="android:background">@drawable/background_rounded_corners_30_top</item>
+    </style>
+
+    <style name="BaseBottomSheetDialog" parent="@style/Theme.MaterialComponents.Light.BottomSheetDialog">
+        <item name="android:windowIsFloating">false</item>
+        <item name="bottomSheetStyle">@style/BottomSheet</item>
+        <item name="android:windowSoftInputMode">adjustResize</item>
+    </style>
+
+    <style name="BottomSheetDialogTheme" parent="BaseBottomSheetDialog" />
+
+    <style name="CustomDialogTheme" parent="@style/ThemeOverlay.MaterialComponents.Dialog">
+        <item name="android:windowMinWidthMajor">90%</item>
+        <item name="android:windowMinWidthMinor">90%</item>
+    </style>
+
+
+    <!-- TEXT VIEW - PARENTS -->
+    <style name="sfpro_text__text_view" parent="Widget.MaterialComponents.TextView">
+<!--        <item name="android:fontFamily">@font/roboto</item>-->
+    </style>
+
+    <style name="sfpro_text_bold__text_view" parent="Widget.MaterialComponents.TextView">
+<!--        <item name="android:fontFamily">@font/roboto</item>-->
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="sfpro_text_italic__text_view" parent="Widget.MaterialComponents.TextView">
+<!--        <item name="android:fontFamily">@font/roboto</item>-->
+        <item name="android:textStyle">italic</item>
+    </style>
+
+    <style name="sfpro_display__text_view" parent="Widget.MaterialComponents.TextView">
+<!--        <item name="android:fontFamily">@font/roboto</item>-->
+    </style>
+
+    <style name="sfpro_display_bold__text_view" parent="Widget.MaterialComponents.TextView">
+<!--        <item name="android:fontFamily">@font/roboto</item>-->
+        <item name="android:textStyle">bold</item>
+    </style>
+
+
+    <!-- TEXT VIEW - CHILD -->
+    <style name="bold_sfpro_text__36__black_333333" parent="sfpro_display_bold__text_view">
+        <item name="android:textSize">36sp</item>
+        <item name="android:textColor">@color/black_333333</item>
+    </style>
+
+    <style name="bold_sfpro_text__24__black_333333" parent="sfpro_display_bold__text_view">
+        <item name="android:textSize">24sp</item>
+        <item name="android:textColor">@color/black_333333</item>
+    </style>
+
+    <style name="normal_sfpro_text__16__grey_BFBFBF" parent="sfpro_text__text_view">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/grey_BFBFBF</item>
+    </style>
+
+    <style name="bold_sfpro_text__16__grey_899191" parent="sfpro_display_bold__text_view">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/grey_899191</item>
+    </style>
+
+    <style name="normal_sfpro_text__16__grey_8A8A8A" parent="sfpro_text__text_view">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/grey_8A8A8A</item>
+    </style>
+
+    <style name="normal_sfpro_text__16__black_333333" parent="sfpro_text__text_view">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/black_333333</item>
+    </style>
+
+    <!-- RATING BAR -->
+    <style name="RatingBar" parent="Theme.AppCompat">
+        <item name="colorControlActivated">@color/yellow__FFEC00</item>
+    </style>
+
+    <!--  SHAPABLE IMAGE VIEW  -->
+
+    <style name="circleImageView" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerRadius">15dp</item>
     </style>
 
 </resources>

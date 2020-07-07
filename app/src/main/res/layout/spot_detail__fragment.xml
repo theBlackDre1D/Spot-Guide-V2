@@ -1,6 +1,113 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/draggerV"
+            style="@style/AppButton"
+            android:layout_width="50dp"
+            android:layout_height="20dp"
+            android:background="@color/colorPrimary"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.g3.spot_guide.views.FavoriteSpotView
+            android:id="@+id/favoriteSpotV"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/draggerV" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/spotNameTV"
+            style="@style/bold_sfpro_text__36__black_333333"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintEnd_toStartOf="@id/favoriteSpotV"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/draggerV"
+            tools:text="Krivan 6 stairs" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/spotLocationTV"
+            style="@style/normal_sfpro_text__16__grey_BFBFBF"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/spotNameTV"
+            tools:text="Pri zeleznici, Krivan, SK" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/navigateB"
+            style="@style/AppButton"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="16dp"
+            android:text="@string/map__navigate"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/spotLocationTV" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/descriptionTV"
+            style="@style/normal_sfpro_text__16__grey_BFBFBF"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="25dp"
+            android:text="@string/map__description"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/navigateB" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/descriptionContentTV"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="12dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/descriptionTV" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/photosRV"
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:layout_marginTop="20dp"
+            app:layout_constraintTop_toBottomOf="@id/descriptionContentTV" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/addReviewB"
+            style="@style/AppButton"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="16dp"
+            android:text="@string/map__add_review"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/photosRV" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/reviewsRV"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/addReviewB" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</ScrollView>

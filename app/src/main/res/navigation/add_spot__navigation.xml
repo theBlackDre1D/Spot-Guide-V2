@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/add_spot__navigation"
+    app:startDestination="@id/addSpotFragment">
+
+    <fragment
+        android:id="@+id/addSpotFragment"
+        android:name="com.g3.spot_guide.screens.addSpot.AddSpotFragment"
+        android:label="AddSpotFragment"
+        tools:layout="@layout/add_spot__fragment">
+        <action
+            android:id="@+id/action__addSpot_to_chooseSpotTypeBottomSheet"
+            app:destination="@+id/chooseSpotTypeBottomSheet" />
+        <action
+            android:id="@+id/action__addSpot_to_galleryFragment"
+            app:destination="@id/galleryFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/galleryFragment"
+        android:name="com.g3.spot_guide.screens.gallery.GalleryFragment"
+        android:label="GalleryFragment"
+        tools:layout="@layout/gallery__fragment" />
+
+</navigation>

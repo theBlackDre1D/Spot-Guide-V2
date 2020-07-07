@@ -3,23 +3,29 @@ package com.g3.spot_guide.screens.map
 import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Context
+import android.graphics.Bitmap
+import android.graphics.Canvas
 import android.location.Location
 import android.location.LocationListener
 import android.location.LocationManager
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import com.g3.spot_guide.R
 import com.g3.spot_guide.base.BaseFragment
 import com.g3.spot_guide.base.BaseFragmentHandler
+import com.g3.spot_guide.base.Either
 import com.g3.spot_guide.databinding.MapFragmentBinding
+import com.g3.spot_guide.extensions.onClick
+import com.g3.spot_guide.models.Spot
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.MapView
 import com.google.android.gms.maps.MapsInitializer
-import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.Marker
+import com.google.android.gms.maps.model.*
 import com.innfinity.permissionflow.lib.Permission
 import com.innfinity.permissionflow.lib.permissionFlow
 import com.innfinity.permissionflow.lib.withFragment
@@ -32,13 +38,7 @@ import kotlinx.coroutines.launch
 private const val DEFAULT_ZOOM_LEVEL = 17f
 
 
-class MapFragment : BaseFragment<MapFragmentBinding, MapFragmentViewModel, MapFragmentHandler>(), GoogleMap.OnMapLongClickListener, GoogleMap.OnMarkerClickListener, MapFragmentHandler {
-
-    override val viewModel: MapFragmentViewModel by viewModels { MapFragmentViewModel.ViewModelInstanceFactory(this) }
-    override fun setBinding(layoutInflater: LayoutInflater): MapFragmentBinding = MapFragmentBinding.inflate(layoutInflater)
-    override fun onFragmentLoadingFinished(binding: MapFragmentBinding, context: Context) {
-        handlePermissions()
-    }
+class MapFragment : BaseFragment<MapFragmentBinding, MapFragmentViewModel, MapFragmentHandler>(), GoogleMap.OnMapLongClickListener, GoogleMap.OnMarkerClickListener {
 
     private var mMapView: MapView? = null
     private var googleMap: GoogleMap? = null
@@ -60,6 +60,21 @@ class MapFragment : BaseFragment<MapFragmentBinding, MapFragmentViewModel, MapFr
         override fun onProviderDisabled(provider: String?) {}
     }
 
+    override val viewModel: MapFragmentViewModel by viewModels { MapFragmentViewModel.ViewModelInstanceFactory(this) }
+    override fun setBinding(layoutInflater: LayoutInflater): MapFragmentBinding = MapFragmentBinding.inflate(layoutInflater)
+    override fun onFragmentLoadingFinished(binding: MapFragmentBinding, context: Context) {
+        handlePermissions()
+        setupObservers()
+
+        viewModel.getAllSpots()
+        binding.addSpotB.onClick {
+            viewModel.lastKnownLocation?.let { location ->
+                val latLng = LatLng(location.latitude, location.longitude)
+                handler.openAddSpotScreen(latLng)
+            }
+        }
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         this.initMap(savedInstanceState)
         super.onViewCreated(view, savedInstanceState)
@@ -76,6 +91,32 @@ class MapFragment : BaseFragment<MapFragmentBinding, MapFragmentViewModel, MapFr
             googleMap = map
             googleMap?.setOnMapLongClickListener(this)
             googleMap?.setOnMarkerClickListener(this)
+        }
+    }
+
+    private fun setupObservers() {
+        viewModel.spots.observe(this, Observer { spots ->
+            when (spots) {
+                is Either.Error -> showSnackBar(binding.root, R.string.error__spots_load)
+                is Either.Success -> {
+                    spots.value.forEach { spot ->
+                        val marker = MarkerOptions().position(spot.location)
+                        val pinIcon = bitmapDescriptorFromVector(R.drawable.ic_pin)
+                        marker.icon(pinIcon)
+                        val addedMarker = googleMap?.addMarker(marker)
+                        addedMarker?.tag = spot
+                    }
+                }
+            }
+        })
+    }
+
+    private fun bitmapDescriptorFromVector(vectorResId: Int): BitmapDescriptor? {
+        return ContextCompat.getDrawable(requireContext(), vectorResId)?.run {
+            setBounds(0, 0, intrinsicWidth, intrinsicHeight)
+            val bitmap = Bitmap.createBitmap(intrinsicWidth, intrinsicHeight, Bitmap.Config.ARGB_8888)
+            draw(Canvas(bitmap))
+            BitmapDescriptorFactory.fromBitmap(bitmap)
         }
     }
 
@@ -121,9 +162,18 @@ class MapFragment : BaseFragment<MapFragmentBinding, MapFragmentViewModel, MapFr
     }
 
     override fun onMarkerClick(marker: Marker?): Boolean {
-        // TODO
-        return true
+        marker?.let {
+            val spot = marker.tag as? Spot
+            spot?.let {
+                handler.openSpotDetailScreen(spot)
+            }
+            return true
+        }
+        return false
     }
 }
 
-interface MapFragmentHandler : BaseFragmentHandler
+interface MapFragmentHandler : BaseFragmentHandler {
+    fun openSpotDetailScreen(spot: Spot)
+    fun openAddSpotScreen(latLng: LatLng)
+}

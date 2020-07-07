@@ -1,7 +1,34 @@
 <resources>
     <string name="app_name">spot_guide</string>
 
-    <!--  Map  -->
+    <!--  Error  -->
     <string name="error__location_permission_denied_rationale">This permission is mandatory for recommendation spots near you.</string>
+    <string name="error__storage_permission_denied_rationale">This permission is mandatory for pick images from yor phone.</string>
+    <string name="error__spots_load">Spots loading failed.</string>
+    <string name="error__images_load">Images loading failed.</string>
+
+    <!--  Map  -->
+    <string name="map__add_spot">Add</string>
+    <string name="map__navigate">Navigate</string>
+    <string name="map__description">Description</string>
+    <string name="map__add_review">Add review</string>
+    <string name="map__unknown_location">Unknown location</string>
+
+    <!--  Add spot  -->
+    <string name="add_spot__header">Add spot</string>
+    <string name="add_spot__spot_name_hint">Spot name...</string>
+    <string name="add_spot__category">Category</string>
+    <string name="add_spot__chose_type">Chose type</string>
+    <string name="add_spot__ground_quality">Ground quality</string>
+    <string name="add_spot__description">Description</string>
+    <string name="add_spot__description_hint">Tell something more about this spot...</string>
+    <string name="add_spot__cancel">Cancel</string>
+    <string name="add_spot__confirm">Confirm</string>
+    <string name="add_spot__photos">Photos</string>
+
+    <!--  Gallery  -->
+    <string name="gallery__screen_title">Gallery</string>
+    <string name="gallery__camera">Camera</string>
+    <string name="gallery__confirm">Confirm</string>
 
 </resources>

@@ -3,6 +3,7 @@ package com.g3.spot_guide.base
 import android.os.Bundle
 import android.view.LayoutInflater
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.OnLifecycleEvent
@@ -10,10 +11,11 @@ import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.viewbinding.ViewBinding
 
-abstract class BaseActivity<BINDING: ViewBinding> : AppCompatActivity(), LifecycleObserver {
+abstract class BaseActivity<BINDING: ViewBinding, VIEW_MODEL: AndroidViewModel, PARAMETERS : BaseParameters> : AppCompatActivity(), LifecycleObserver {
 
     protected lateinit var binding: BINDING
     protected var navController: NavController? = null
+    protected abstract val viewModel: VIEW_MODEL
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -22,6 +24,8 @@ abstract class BaseActivity<BINDING: ViewBinding> : AppCompatActivity(), Lifecyc
 
         this.binding = this.setBinding(this.layoutInflater)
         this.setContentView(this.binding.root)
+
+        this.initializeParameters()
 
         this.setNavigationGraph().let { navigationGraph ->
             this.navController = Navigation.findNavController(this, navigationGraph)
@@ -60,9 +64,13 @@ abstract class BaseActivity<BINDING: ViewBinding> : AppCompatActivity(), Lifecyc
         this.onActivityDestroyed()
     }
 
+    private fun initializeParameters() = this.intent.extras?.let { extras -> this.createParameters()?.loadParameters(extras) }
+
     protected abstract fun setNavigationGraph(): Int
     protected abstract fun setBinding(layoutInflater: LayoutInflater): BINDING
     protected abstract fun onActivityLoadingFinished(binding: BINDING)
+
+    protected open fun createParameters(): PARAMETERS? = null
 
     protected open fun onActivityCreated() {}
     protected open fun onActivityStarted() {}

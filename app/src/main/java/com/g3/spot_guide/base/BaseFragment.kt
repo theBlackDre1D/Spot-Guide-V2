@@ -17,7 +17,7 @@ import com.google.android.material.snackbar.Snackbar
 abstract class BaseFragment<BINDING: ViewBinding, VIEW_MODEL: AndroidViewModel, HANDLER: BaseFragmentHandler> : Fragment(), LifecycleObserver {
 
     protected lateinit var binding: BINDING
-    private lateinit var handler: HANDLER
+    protected lateinit var handler: HANDLER
     protected abstract val viewModel: VIEW_MODEL
 
     override fun onCreate(savedInstanceState: Bundle?) {
