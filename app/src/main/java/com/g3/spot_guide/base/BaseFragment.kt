@@ -7,18 +7,16 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.StringRes
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.OnLifecycleEvent
 import androidx.viewbinding.ViewBinding
 import com.google.android.material.snackbar.Snackbar
 
-abstract class BaseFragment<BINDING: ViewBinding, VIEW_MODEL: AndroidViewModel, HANDLER: BaseFragmentHandler> : Fragment(), LifecycleObserver {
+abstract class BaseFragment<BINDING: ViewBinding, HANDLER: BaseFragmentHandler> : Fragment(), LifecycleObserver {
 
     protected lateinit var binding: BINDING
     protected lateinit var handler: HANDLER
-    protected abstract val viewModel: VIEW_MODEL
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

@@ -3,7 +3,6 @@ package com.g3.spot_guide.screens.gallery
 import android.Manifest
 import android.content.Context
 import android.view.LayoutInflater
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
@@ -19,13 +18,15 @@ import com.g3.spot_guide.views.BottomButtonsView
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import org.koin.android.viewmodel.ext.android.viewModel
 
-class GalleryFragment : BaseFragment<GalleryFragmentBinding, GalleryFragmentViewModel, GalleryFragmentHandler>(),
+
+class GalleryFragment : BaseFragment<GalleryFragmentBinding, GalleryFragmentHandler>(),
     GalleryAdapter.GalleryAdapterHandler, BottomButtonsView.BottomButtonsViewListener, AppBarView.AppBarViewHandler {
 
     private val adapter: GalleryAdapter by lazy { GalleryAdapter(this) }
 
-    override val viewModel: GalleryFragmentViewModel by viewModels { GalleryFragmentViewModel.ViewModelInstanceFactory(this) }
+    private val galleryFragmentViewModel: GalleryFragmentViewModel by viewModel()
     override fun setBinding(layoutInflater: LayoutInflater): GalleryFragmentBinding = GalleryFragmentBinding.inflate(layoutInflater)
     override fun onFragmentLoadingFinished(binding: GalleryFragmentBinding, context: Context) {
         setupPhotosRV()
@@ -36,7 +37,7 @@ class GalleryFragment : BaseFragment<GalleryFragmentBinding, GalleryFragmentView
     }
 
     private fun setupImagesObserver() {
-        viewModel.images.observe(this, Observer { images ->
+        galleryFragmentViewModel.images.observe(this, Observer { images ->
             when (images) {
                 is Either.Error -> showSnackBar(binding.root, R.string.error__images_load)
                 is Either.Success -> showImagesInRV(images.value)
@@ -53,7 +54,7 @@ class GalleryFragment : BaseFragment<GalleryFragmentBinding, GalleryFragmentView
         CoroutineScope(Dispatchers.Main).launch {
             val result = ExcuseMe.couldYouGive(requireContext()).permissionFor(Manifest.permission.READ_EXTERNAL_STORAGE)
             if (result) {
-                viewModel.getImagesFromStorage()
+                galleryFragmentViewModel.getImagesFromStorage()
             } else {
                 showSnackBar(binding.root, R.string.error__images_load)
             }

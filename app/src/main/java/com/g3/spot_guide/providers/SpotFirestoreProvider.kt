@@ -1,5 +1,6 @@
 package com.g3.spot_guide.providers
 
+import android.net.Uri
 import com.g3.spot_guide.base.Either
 import com.g3.spot_guide.enums.FirestoreEntityName
 import com.g3.spot_guide.models.Spot
@@ -45,6 +46,15 @@ class SpotFirestoreProvider : BaseFirestoreProvider(FirestoreEntityName.SPOTS) {
             Either.Success(Unit)
         } catch (e: Exception) {
             Either.Error(e.message)
+        }
+    }
+
+    suspend fun downloadImage(imagePath: String): Either<Uri> {
+        return try {
+            val result = storage.reference.child(imagePath).downloadUrl.await()
+            Either.Success(result)
+        } catch (e: Exception) {
+            Either.Error(null)
         }
     }
 }

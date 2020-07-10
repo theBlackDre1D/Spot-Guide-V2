@@ -5,7 +5,6 @@ import android.content.Context
 import android.view.LayoutInflater
 import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import com.azoft.carousellayoutmanager.CarouselLayoutManager
@@ -25,16 +24,17 @@ import com.g3.spot_guide.views.AppBarView
 import com.g3.spot_guide.views.BottomButtonsView
 import com.g3.spot_guide.views.EmojiRatingView
 import com.google.android.gms.maps.model.LatLng
+import org.koin.android.viewmodel.ext.android.viewModel
 
 
 const val ADD_PHOTO__REQUEST_CODE = 100
 
 
-class AddSpotFragment : BaseFragment<AddSpotFragmentBinding, AddSpotFragmentViewModel, AddSpotFragmentHandler>(), PhotosAdapter.PhotosAdapterHandler, AppBarView.AppBarViewHandler {
+class AddSpotFragment : BaseFragment<AddSpotFragmentBinding, AddSpotFragmentHandler>(), PhotosAdapter.PhotosAdapterHandler, AppBarView.AppBarViewHandler {
 
     private val photosAdapter: PhotosAdapter by lazy { PhotosAdapter(this) }
 
-    override val viewModel: AddSpotFragmentViewModel by viewModels { AddSpotFragmentViewModel.ViewModelInstanceFactory(this) }
+    private val addSpotFragmentViewModel: AddSpotFragmentViewModel by viewModel()
     override fun setBinding(layoutInflater: LayoutInflater): AddSpotFragmentBinding = AddSpotFragmentBinding.inflate(layoutInflater)
     override fun onFragmentLoadingFinished(binding: AddSpotFragmentBinding, context: Context) {
         saveLocationData()
@@ -56,14 +56,14 @@ class AddSpotFragment : BaseFragment<AddSpotFragmentBinding, AddSpotFragmentView
         val listener = object : BottomButtonsView.BottomButtonsViewListener {
             override fun onLeftButtonClick() = handler.navigateBack()
             override fun onRightButtonClick() {
-                viewModel.uploadSpotResult.observe(this@AddSpotFragment, Observer { result ->
+                addSpotFragmentViewModel.uploadSpotResult.observe(this@AddSpotFragment, Observer { result ->
                     when(result) {
                         is Either.Error -> showSnackBar(binding.root, R.string.error__spot_upload)
                         is Either.Success -> handler.navigateBack()
                     }
                 })
 
-                viewModel.uploadSpot(requireContext(), handler.getPickedImages().value ?: listOf())
+                addSpotFragmentViewModel.uploadSpot(requireContext(), handler.getPickedImages().value ?: listOf())
             }
     }
 
@@ -75,7 +75,7 @@ class AddSpotFragment : BaseFragment<AddSpotFragmentBinding, AddSpotFragmentView
     private fun setupGroundEmojiRating() {
         val listener = object : EmojiRatingView.EmojiRatingViewListener {
             override fun onEmojiClick(type: GroundType) {
-                viewModel.groundType = type
+                addSpotFragmentViewModel.groundType = type
             }
         }
 
@@ -84,11 +84,11 @@ class AddSpotFragment : BaseFragment<AddSpotFragmentBinding, AddSpotFragmentView
 
     private fun saveLocationData() {
         val locationData = handler.getLocationData()
-        viewModel.locationData = LatLng(locationData.latitude, locationData.longitude)
+        addSpotFragmentViewModel.locationData = LatLng(locationData.latitude, locationData.longitude)
     }
 
     private fun setupLocationName() {
-        binding.spotLocationTV.text = GeoCoderUtils.getNameFromLocation(requireContext(), viewModel.locationData)
+        binding.spotLocationTV.text = GeoCoderUtils.getNameFromLocation(requireContext(), addSpotFragmentViewModel.locationData)
     }
 
     private fun setupPhotosSection() {
@@ -134,15 +134,15 @@ class AddSpotFragment : BaseFragment<AddSpotFragmentBinding, AddSpotFragmentView
 
     private fun setupListeners() {
         binding.spotNameET.afterTextChanged {
-            viewModel.spotName = it
+            addSpotFragmentViewModel.spotName = it
         }
 
         binding.descriptionET.afterTextChanged {
-            viewModel.description = it
+            addSpotFragmentViewModel.description = it
         }
 
         binding.ratingV.setOnRatingBarChangeListener { _, rating, _ ->
-            viewModel.spotRating = rating.toInt()
+            addSpotFragmentViewModel.spotRating = rating.toInt()
         }
     }
 

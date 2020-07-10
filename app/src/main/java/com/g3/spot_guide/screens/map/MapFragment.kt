@@ -12,7 +12,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import androidx.core.content.ContextCompat
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import com.araujo.jordan.excuseme.ExcuseMe
 import com.g3.spot_guide.R
@@ -30,11 +29,12 @@ import com.google.android.gms.maps.model.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import org.koin.android.viewmodel.ext.android.viewModel
 
 private const val DEFAULT_ZOOM_LEVEL = 17f
 
 
-class MapFragment : BaseFragment<MapFragmentBinding, MapFragmentViewModel, MapFragmentHandler>(), GoogleMap.OnMapLongClickListener, GoogleMap.OnMarkerClickListener {
+class MapFragment : BaseFragment<MapFragmentBinding, MapFragmentHandler>(), GoogleMap.OnMapLongClickListener, GoogleMap.OnMarkerClickListener {
 
     private var mMapView: MapView? = null
     private var googleMap: GoogleMap? = null
@@ -47,7 +47,7 @@ class MapFragment : BaseFragment<MapFragmentBinding, MapFragmentViewModel, MapFr
     private val locationListener = object : LocationListener {
         override fun onLocationChanged(location: Location?) {
             location?.let {
-                viewModel.lastKnownLocation = location
+                mapFragmentViewModel.lastKnownLocation = location
             }
         }
 
@@ -56,14 +56,14 @@ class MapFragment : BaseFragment<MapFragmentBinding, MapFragmentViewModel, MapFr
         override fun onProviderDisabled(provider: String?) {}
     }
 
-    override val viewModel: MapFragmentViewModel by viewModels { MapFragmentViewModel.ViewModelInstanceFactory(this) }
+    private val mapFragmentViewModel: MapFragmentViewModel by viewModel()
     override fun setBinding(layoutInflater: LayoutInflater): MapFragmentBinding = MapFragmentBinding.inflate(layoutInflater)
     override fun onFragmentLoadingFinished(binding: MapFragmentBinding, context: Context) {
         handlePermissions()
         setupObservers()
 
         binding.addSpotB.onClick {
-            viewModel.lastKnownLocation?.let { location ->
+            mapFragmentViewModel.lastKnownLocation?.let { location ->
                 val latLng = LatLng(location.latitude, location.longitude)
                 handler.openAddSpotScreen(latLng)
             }
@@ -72,7 +72,7 @@ class MapFragment : BaseFragment<MapFragmentBinding, MapFragmentViewModel, MapFr
 
     override fun onFragmentResumed() {
         super.onFragmentResumed()
-        viewModel.getAllSpots()
+        mapFragmentViewModel.getAllSpots()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -95,7 +95,7 @@ class MapFragment : BaseFragment<MapFragmentBinding, MapFragmentViewModel, MapFr
     }
 
     private fun setupObservers() {
-        viewModel.spots.observe(this, Observer { spots ->
+        mapFragmentViewModel.spots.observe(this, Observer { spots ->
             when (spots) {
                 is Either.Error -> showSnackBar(binding.root, R.string.error__spots_load)
                 is Either.Success -> {
@@ -137,7 +137,7 @@ class MapFragment : BaseFragment<MapFragmentBinding, MapFragmentViewModel, MapFr
 
         val lastKnowLocation = locationManager?.getLastKnownLocation(LocationManager.GPS_PROVIDER)
         lastKnowLocation?.let { newLocation ->
-            viewModel.lastKnownLocation = newLocation
+            mapFragmentViewModel.lastKnownLocation = newLocation
 
             val latLng = LatLng(newLocation.latitude, newLocation.longitude)
             googleMap?.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, DEFAULT_ZOOM_LEVEL))

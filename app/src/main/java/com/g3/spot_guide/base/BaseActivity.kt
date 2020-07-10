@@ -3,7 +3,6 @@ package com.g3.spot_guide.base
 import android.os.Bundle
 import android.view.LayoutInflater
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.OnLifecycleEvent
@@ -11,11 +10,10 @@ import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.viewbinding.ViewBinding
 
-abstract class BaseActivity<BINDING: ViewBinding, VIEW_MODEL: AndroidViewModel, PARAMETERS : BaseParameters> : AppCompatActivity(), LifecycleObserver {
+abstract class BaseActivity<BINDING: ViewBinding, PARAMETERS : BaseParameters> : AppCompatActivity(), LifecycleObserver {
 
     protected lateinit var binding: BINDING
     protected var navController: NavController? = null
-    protected abstract val viewModel: VIEW_MODEL
 
 
     override fun onCreate(savedInstanceState: Bundle?) {

@@ -2,10 +2,8 @@ package com.g3.spot_guide.screens.addSpot
 
 import android.content.Context
 import android.graphics.Bitmap
-import android.os.Bundle
-import androidx.lifecycle.*
-import androidx.savedstate.SavedStateRegistryOwner
-import com.g3.spot_guide.Session
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import com.g3.spot_guide.base.Either
 import com.g3.spot_guide.enums.GroundType
 import com.g3.spot_guide.extensions.doInCoroutine
@@ -25,9 +23,9 @@ import kotlinx.coroutines.async
 import java.io.File
 
 @Suppress("UNCHECKED_CAST")
-class AddSpotFragmentViewModel(private val savedState: SavedStateHandle, session: Session) : AndroidViewModel(session) {
-
-    private val repository: SpotRepository by lazy { SpotRepository() }
+class AddSpotFragmentViewModel(
+    val repository: SpotRepository
+) : ViewModel() {
 
     var uploadSpotResult = MutableLiveData<Either<Unit>>()
 
@@ -75,9 +73,5 @@ class AddSpotFragmentViewModel(private val savedState: SavedStateHandle, session
             }
         }
         return images
-    }
-
-    class ViewModelInstanceFactory(owner: SavedStateRegistryOwner, bundle: Bundle? = null) : AbstractSavedStateViewModelFactory(owner, bundle) {
-        override fun <T : ViewModel?> create(key: String, modelClass: Class<T>, handle: SavedStateHandle): T = AddSpotFragmentViewModel(handle, Session.application) as T
     }
 }

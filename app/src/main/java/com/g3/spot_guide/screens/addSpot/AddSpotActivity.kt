@@ -2,7 +2,6 @@ package com.g3.spot_guide.screens.addSpot
 
 import android.os.Bundle
 import android.view.LayoutInflater
-import androidx.activity.viewModels
 import androidx.lifecycle.MutableLiveData
 import com.g3.spot_guide.R
 import com.g3.spot_guide.base.BaseActivity
@@ -12,17 +11,18 @@ import com.g3.spot_guide.enums.SpotType
 import com.g3.spot_guide.extensions.navigateSafe
 import com.g3.spot_guide.models.ImageModel
 import com.g3.spot_guide.screens.gallery.GalleryFragmentHandler
+import org.koin.android.viewmodel.ext.android.viewModel
 import java.io.Serializable
 
 
-class AddSpotActivity : BaseActivity<AddSpotActivityBinding, AddSpotActivityViewModel, AddSpotActivity.Arguments>(),  AddSpotFragmentHandler,
+class AddSpotActivity : BaseActivity<AddSpotActivityBinding, AddSpotActivity.Arguments>(),  AddSpotFragmentHandler,
     GalleryFragmentHandler, ChooseSpotTypeBottomSheetHandler {
 
     companion object {
         const val ADD_SPOT_PARAMETERS__EXTRAS_KEY = "ADD_SPOT_PARAMETERS__EXTRAS_KEY"
     }
 
-    override val viewModel: AddSpotActivityViewModel by viewModels { AddSpotActivityViewModel.ViewModelInstanceFactory(this) }
+    private val addSpotActivityViewModel: AddSpotActivityViewModel by viewModel()
     override fun setNavigationGraph() = R.id.addSpotNavigationContainer
     override fun setBinding(layoutInflater: LayoutInflater): AddSpotActivityBinding = AddSpotActivityBinding.inflate(layoutInflater)
     override fun createParameters() = Arguments()
@@ -30,7 +30,7 @@ class AddSpotActivity : BaseActivity<AddSpotActivityBinding, AddSpotActivityView
 
     inner class Arguments : BaseParameters {
         override fun loadParameters(extras: Bundle) {
-            viewModel.activityParams = extras.getSerializable(ADD_SPOT_PARAMETERS__EXTRAS_KEY) as Parameters
+            addSpotActivityViewModel.activityParams = extras.getSerializable(ADD_SPOT_PARAMETERS__EXTRAS_KEY) as Parameters
         }
     }
 
@@ -44,11 +44,11 @@ class AddSpotActivity : BaseActivity<AddSpotActivityBinding, AddSpotActivityView
     }
 
     override fun getPickedImages(): MutableLiveData<List<ImageModel>> {
-        return viewModel.pickedImages
+        return addSpotActivityViewModel.pickedImages
     }
 
     override fun onImageClick(imageModel: ImageModel) {
-        val currentImages = viewModel.pickedImages.value?.toMutableList()
+        val currentImages = addSpotActivityViewModel.pickedImages.value?.toMutableList()
         if (currentImages != null) {
             if (currentImages.contains(imageModel)) {
                 currentImages.remove(imageModel)
@@ -56,15 +56,15 @@ class AddSpotActivity : BaseActivity<AddSpotActivityBinding, AddSpotActivityView
                 currentImages.add(imageModel)
             }
 
-            viewModel.pickedImages.postValue(currentImages)
+            addSpotActivityViewModel.pickedImages.postValue(currentImages)
         }
     }
 
     override fun onDeletePhoto(imageModel: ImageModel) {
-        val currentImages = viewModel.pickedImages.value?.toMutableList()
+        val currentImages = addSpotActivityViewModel.pickedImages.value?.toMutableList()
         currentImages?.let {
             currentImages.remove(imageModel)
-            viewModel.pickedImages.postValue(currentImages)
+            addSpotActivityViewModel.pickedImages.postValue(currentImages)
         }
     }
 
@@ -77,14 +77,14 @@ class AddSpotActivity : BaseActivity<AddSpotActivityBinding, AddSpotActivityView
     }
 
     override fun getLocationData(): Parameters {
-        return viewModel.activityParams
+        return addSpotActivityViewModel.activityParams
     }
 
     override fun getSpotTypeLiveData(): MutableLiveData<SpotType> {
-        return viewModel.spotType
+        return addSpotActivityViewModel.spotType
     }
 
     override fun onTypePick(type: SpotType) {
-        viewModel.spotType.postValue(type)
+        addSpotActivityViewModel.spotType.postValue(type)
     }
 }

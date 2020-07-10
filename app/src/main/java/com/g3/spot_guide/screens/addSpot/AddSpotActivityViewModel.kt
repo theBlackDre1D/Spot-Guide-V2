@@ -1,21 +1,15 @@
 package com.g3.spot_guide.screens.addSpot
 
-import android.os.Bundle
-import androidx.lifecycle.*
-import androidx.savedstate.SavedStateRegistryOwner
-import com.g3.spot_guide.Session
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import com.g3.spot_guide.enums.SpotType
 import com.g3.spot_guide.models.ImageModel
 
 @Suppress("UNCHECKED_CAST")
-class AddSpotActivityViewModel(val state: SavedStateHandle, application: Session) : AndroidViewModel(application) {
+class AddSpotActivityViewModel : ViewModel() {
 
     lateinit var activityParams: AddSpotActivity.Parameters
 
     val pickedImages = MutableLiveData<List<ImageModel>>(mutableListOf())
     var spotType = MutableLiveData<SpotType>()
-
-    class ViewModelInstanceFactory(owner: SavedStateRegistryOwner, bundle: Bundle? = null) : AbstractSavedStateViewModelFactory(owner, bundle) {
-        override fun <T : ViewModel?> create(key: String, modelClass: Class<T>, handle: SavedStateHandle): T = AddSpotActivityViewModel(handle, Session.application) as T
-    }
 }

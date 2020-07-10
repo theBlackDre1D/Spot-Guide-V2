@@ -6,7 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.StringRes
-import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.OnLifecycleEvent
@@ -15,11 +14,10 @@ import com.g3.spot_guide.R
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.snackbar.Snackbar
 
-abstract class BaseBottomSheet<BINDING: ViewBinding, VIEW_MODEL: AndroidViewModel, HANDLER: BaseFragmentHandler> : BottomSheetDialogFragment(), LifecycleObserver {
+abstract class BaseBottomSheet<BINDING: ViewBinding, HANDLER: BaseFragmentHandler> : BottomSheetDialogFragment(), LifecycleObserver {
 
     protected lateinit var binding: BINDING
     protected lateinit var handler: HANDLER
-    protected abstract val viewModel: VIEW_MODEL
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
