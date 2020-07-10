@@ -52,7 +52,7 @@ class EmojiRatingView : ConstraintLayout {
     }
 
     private fun onEmojiClick(type: GroundType, listener: EmojiRatingViewListener) {
-        listener.onEmojiClick(GroundType.HORRIBLE)
+        listener.onEmojiClick(type)
         val emojies = listOf(binding.horribleIV, binding.badIV, binding.okIV, binding.goodIV, binding.perfectIV)
         emojies.forEachIndexed { index, imageView ->
             setupSelectedEmoji(imageView, SIZE_UNSELECTED)

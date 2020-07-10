@@ -62,13 +62,17 @@ class MapFragment : BaseFragment<MapFragmentBinding, MapFragmentViewModel, MapFr
         handlePermissions()
         setupObservers()
 
-        viewModel.getAllSpots()
         binding.addSpotB.onClick {
             viewModel.lastKnownLocation?.let { location ->
                 val latLng = LatLng(location.latitude, location.longitude)
                 handler.openAddSpotScreen(latLng)
             }
         }
+    }
+
+    override fun onFragmentResumed() {
+        super.onFragmentResumed()
+        viewModel.getAllSpots()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

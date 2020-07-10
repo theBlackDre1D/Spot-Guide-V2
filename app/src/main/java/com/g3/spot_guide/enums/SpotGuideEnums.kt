@@ -11,8 +11,12 @@ enum class SpotType(val spotName: String) {
     OTHER("Other")
 }
 
-enum class GroundType {
-    HORRIBLE, BAD, OK, GOOD, PERFECT
+enum class GroundType(val typeName: String) {
+    HORRIBLE("Horrible"),
+    BAD("Bad"),
+    OK("Ok"),
+    GOOD("Good"),
+    PERFECT("Perfect")
 }
 
 enum class FirestoreEntityName(val collectionName: String) {

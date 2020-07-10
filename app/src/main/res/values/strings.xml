@@ -6,6 +6,7 @@
     <string name="error__storage_permission_denied_rationale">This permission is mandatory for pick images from yor phone.</string>
     <string name="error__spots_load">Spots loading failed.</string>
     <string name="error__images_load">Images loading failed.</string>
+    <string name="error__spot_upload">Spot upload failed.</string>
 
     <!--  Map  -->
     <string name="map__add_spot">Add</string>

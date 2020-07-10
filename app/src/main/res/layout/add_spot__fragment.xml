@@ -39,7 +39,7 @@
                 tools:text="Pri zeleznici" />
 
             <androidx.appcompat.widget.AppCompatEditText
-                android:id="@+id/spotNameTV"
+                android:id="@+id/spotNameET"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="16dp"
@@ -58,7 +58,7 @@
                 android:progressTint="@color/yellow__FFEC00"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/spotNameTV" />
+                app:layout_constraintTop_toBottomOf="@id/spotNameET" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/categoryTV"

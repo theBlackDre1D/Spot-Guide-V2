@@ -14,9 +14,11 @@ import com.azoft.carousellayoutmanager.CenterScrollListener
 import com.g3.spot_guide.R
 import com.g3.spot_guide.base.BaseFragment
 import com.g3.spot_guide.base.BaseFragmentHandler
+import com.g3.spot_guide.base.Either
 import com.g3.spot_guide.databinding.AddSpotFragmentBinding
 import com.g3.spot_guide.enums.GroundType
 import com.g3.spot_guide.enums.SpotType
+import com.g3.spot_guide.extensions.afterTextChanged
 import com.g3.spot_guide.extensions.onClick
 import com.g3.spot_guide.models.ImageModel
 import com.g3.spot_guide.views.AppBarView
@@ -35,17 +37,14 @@ class AddSpotFragment : BaseFragment<AddSpotFragmentBinding, AddSpotFragmentView
     override val viewModel: AddSpotFragmentViewModel by viewModels { AddSpotFragmentViewModel.ViewModelInstanceFactory(this) }
     override fun setBinding(layoutInflater: LayoutInflater): AddSpotFragmentBinding = AddSpotFragmentBinding.inflate(layoutInflater)
     override fun onFragmentLoadingFinished(binding: AddSpotFragmentBinding, context: Context) {
+        saveLocationData()
         setupAppBar()
         setupBottomButtons()
         setupGroundEmojiRating()
         setupLocationName()
         setupPhotosSection()
-    }
-
-    override fun onFragmentResumed() {
-        super.onFragmentResumed()
-
         setupSpotCategorySection()
+        setupListeners()
     }
 
     private fun setupAppBar() {
@@ -55,14 +54,18 @@ class AddSpotFragment : BaseFragment<AddSpotFragmentBinding, AddSpotFragmentView
 
     private fun setupBottomButtons() {
         val listener = object : BottomButtonsView.BottomButtonsViewListener {
-            override fun onLeftButtonClick() {
-                handler.navigateBack()
-            }
-
+            override fun onLeftButtonClick() = handler.navigateBack()
             override fun onRightButtonClick() {
-                // TODO
+                viewModel.uploadSpotResult.observe(this@AddSpotFragment, Observer { result ->
+                    when(result) {
+                        is Either.Error -> showSnackBar(binding.root, R.string.error__spot_upload)
+                        is Either.Success -> handler.navigateBack()
+                    }
+                })
+
+                viewModel.uploadSpot(requireContext(), handler.getPickedImages().value ?: listOf())
             }
-        }
+    }
 
         val configuration = BottomButtonsView.BottomButtonsViewConfiguration(R.string.add_spot__cancel, R.string.add_spot__confirm, listener)
 
@@ -72,17 +75,20 @@ class AddSpotFragment : BaseFragment<AddSpotFragmentBinding, AddSpotFragmentView
     private fun setupGroundEmojiRating() {
         val listener = object : EmojiRatingView.EmojiRatingViewListener {
             override fun onEmojiClick(type: GroundType) {
-                // TODO
+                viewModel.groundType = type
             }
         }
 
         binding.groundQualityRatingV.listener = listener
     }
 
-    private fun setupLocationName() {
+    private fun saveLocationData() {
         val locationData = handler.getLocationData()
-        val latLng = LatLng(locationData.latitude, locationData.longitude)
-        binding.spotLocationTV.text = GeoCoderUtils.getNameFromLocation(requireContext(), latLng)
+        viewModel.locationData = LatLng(locationData.latitude, locationData.longitude)
+    }
+
+    private fun setupLocationName() {
+        binding.spotLocationTV.text = GeoCoderUtils.getNameFromLocation(requireContext(), viewModel.locationData)
     }
 
     private fun setupPhotosSection() {
@@ -124,6 +130,20 @@ class AddSpotFragment : BaseFragment<AddSpotFragmentBinding, AddSpotFragmentView
             binding.chooseTypeB.isInvisible = spotType != null
             binding.choosedTypeB.isInvisible = spotType == null
         })
+    }
+
+    private fun setupListeners() {
+        binding.spotNameET.afterTextChanged {
+            viewModel.spotName = it
+        }
+
+        binding.descriptionET.afterTextChanged {
+            viewModel.description = it
+        }
+
+        binding.ratingV.setOnRatingBarChangeListener { _, rating, _ ->
+            viewModel.spotRating = rating.toInt()
+        }
     }
 
     override fun onPhotoClick(imageModel: ImageModel) {
