@@ -15,6 +15,16 @@
             app:destination="@id/spotDetailBottomSheetFragment" />
     </fragment>
 
+    <fragment
+        android:id="@+id/imagesPreviewFragment"
+        android:name="com.g3.spot_guide.screens.spotDetail.ImagesPreviewFragment"
+        android:label="ImagesPreviewFragment"
+        tools:layout="@layout/images_preview__fragment">
+        <argument
+            android:name="args"
+            app:argType="com.g3.spot_guide.screens.spotDetail.ImagesPreviewFragmentArguments" />
+    </fragment>
+
     <dialog
         android:id="@+id/spotDetailBottomSheetFragment"
         android:name="com.g3.spot_guide.screens.spotDetail.SpotDetailFragment"
@@ -23,6 +33,9 @@
         <argument
             android:name="args"
             app:argType="com.g3.spot_guide.models.Spot" />
+        <action
+            android:id="@+id/action__spot_detail_to_imagesPreview"
+            app:destination="@id/imagesPreviewFragment" />
     </dialog>
 
     <dialog

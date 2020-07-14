@@ -7,6 +7,7 @@ import com.g3.spot_guide.base.Either
 import com.g3.spot_guide.extensions.doInCoroutine
 import com.g3.spot_guide.repositories.SpotRepository
 
+
 class SpotDetailFragmentViewModel(
     private val repository: SpotRepository
 ) : ViewModel() {
@@ -20,7 +21,7 @@ class SpotDetailFragmentViewModel(
                 if (result is Either.Success) {
                     val currentImages = imagesUris.value
                     currentImages?.add(result.value)
-
+                    imagesUris.postValue(currentImages)
                 }
             }
         }

@@ -1,6 +1,7 @@
 package com.g3.spot_guide.models
 
 import com.g3.spot_guide.base.IHasUploadModel
+import com.g3.spot_guide.enums.SpotType
 import com.google.android.gms.maps.model.LatLng
 import java.io.Serializable
 
@@ -12,7 +13,8 @@ data class Spot(
     val name: String = "",
     val rating: Int = 1,
     val images: List<String> = listOf(),
-    var groundType: String = ""
+    val groundType: String = "",
+    val spotType: String = ""
 ) : Serializable, IHasUploadModel {
 
     override fun toUploadModel(): HashMap<String, Any?> {
@@ -27,8 +29,18 @@ data class Spot(
         )
     }
 
-    val location: LatLng
+    val location: LatLng get() = LatLng(latitude, longitude)
+
+    val spotTypeEnum: SpotType
         get() {
-            return LatLng(latitude.toDouble(), longitude.toDouble())
+            return when (spotType) {
+                SpotType.SKATEPARK.spotName -> SpotType.SKATEPARK
+                SpotType.GAP.spotName -> SpotType.GAP
+                SpotType.BOX.spotName -> SpotType.BOX
+                SpotType.STAIRS.spotName -> SpotType.STAIRS
+                SpotType.HANDRAIL.spotName -> SpotType.HANDRAIL
+                SpotType.DIY.spotName -> SpotType.DIY
+                else -> SpotType.OTHER
+            }
         }
 }

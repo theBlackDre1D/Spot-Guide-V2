@@ -110,7 +110,7 @@ class AddSpotFragment : BaseFragment<AddSpotFragmentBinding, AddSpotFragmentHand
             images.forEach { bitmap ->
                 items.add(PhotosAdapter.PhotosAdapterItem(bitmap))
             }
-            photosAdapter.injectItems(items)
+            photosAdapter.injectData(items)
         })
 
     }
@@ -144,10 +144,6 @@ class AddSpotFragment : BaseFragment<AddSpotFragmentBinding, AddSpotFragmentHand
         binding.ratingV.setOnRatingBarChangeListener { _, rating, _ ->
             addSpotFragmentViewModel.spotRating = rating.toInt()
         }
-    }
-
-    override fun onPhotoClick(imageModel: ImageModel) {
-        // TODO
     }
 
     override fun onDeletePhoto(imageModel: ImageModel) {

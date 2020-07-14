@@ -21,8 +21,8 @@ val appModules = module {
     viewModel { GalleryFragmentViewModel( get() ) }
 
     // Repositories
-    single<SpotRepository> { SpotRepository( get() ) }
-    single<ImagesRepository> { ImagesRepository() }
+    single { SpotRepository( get() ) }
+    single { ImagesRepository() }
 
     // Providers
     factory { SpotFirestoreProvider() }

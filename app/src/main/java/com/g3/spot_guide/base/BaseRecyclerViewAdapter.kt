@@ -5,11 +5,11 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 
 @Suppress("UNCHECKED_CAST")
-abstract class BaseRecyclerViewAdapter<VH: BaseViewHolder> : RecyclerView.Adapter<BaseViewHolder>() {
+abstract class BaseRecyclerViewAdapter<VH: BaseViewHolder, ADAPTER_ITEM: BaseAdapterItem> : RecyclerView.Adapter<BaseViewHolder>() {
 
-    private val adapterItems = mutableListOf<BaseAdapterItem>()
+    private val adapterItems = mutableListOf<ADAPTER_ITEM>()
 
-    fun injectData(newItems: List<BaseAdapterItem>) {
+    fun injectData(newItems: List<ADAPTER_ITEM>) {
         adapterItems.clear()
         adapterItems.addAll(newItems)
         notifyDataSetChanged()
@@ -22,11 +22,11 @@ abstract class BaseRecyclerViewAdapter<VH: BaseViewHolder> : RecyclerView.Adapte
     override fun getItemCount() = adapterItems.size
 
     override fun onBindViewHolder(holder: BaseViewHolder, position: Int) {
-        bindAdapterViewHolder(holder as VH, position)
+        bindAdapterViewHolder(holder as VH, adapterItems[position], position)
     }
 
     abstract fun createAdapterViewHolder(parent: ViewGroup, viewType: Int): VH
-    abstract fun bindAdapterViewHolder(holder: VH, position: Int)
+    abstract fun bindAdapterViewHolder(holder: VH, adapterItem: ADAPTER_ITEM, position: Int)
 }
 
 abstract class BaseViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)

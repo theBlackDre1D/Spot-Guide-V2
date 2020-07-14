@@ -9,24 +9,15 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/draggerV"
-            style="@style/Button.Middle"
-            android:layout_width="50dp"
-            android:layout_height="8dp"
-            android:background="@color/colorPrimary"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
         <com.g3.spot_guide.views.FavoriteSpotView
             android:id="@+id/favoriteSpotV"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_marginTop="20dp"
             android:layout_marginEnd="16dp"
+            android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/draggerV" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/spotNameTV"
@@ -37,7 +28,7 @@
             android:layout_marginTop="8dp"
             app:layout_constraintEnd_toStartOf="@id/favoriteSpotV"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/draggerV"
+            app:layout_constraintTop_toTopOf="parent"
             tools:text="Krivan 6 stairs" />
 
         <com.google.android.material.textview.MaterialTextView
@@ -60,6 +51,17 @@
             android:text="@string/map__navigate"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/spotLocationTV" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/spotTypeTV"
+            style="@style/normal_sfpro_text__16__black_333333"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            app:layout_constraintBottom_toBottomOf="@id/navigateB"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/navigateB"
+            tools:text="Stairs" />
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/descriptionTV"
@@ -88,6 +90,7 @@
             android:layout_width="match_parent"
             android:layout_height="150dp"
             android:layout_marginTop="20dp"
+            android:overScrollMode="never"
             app:layout_constraintTop_toBottomOf="@id/descriptionContentTV" />
 
         <com.google.android.material.button.MaterialButton
@@ -103,6 +106,7 @@
             android:id="@+id/reviewsRV"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:overScrollMode="never"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

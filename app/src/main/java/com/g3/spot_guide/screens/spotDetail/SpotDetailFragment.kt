@@ -2,7 +2,9 @@ package com.g3.spot_guide.screens.spotDetail
 
 import GeoCoderUtils
 import android.content.Context
+import android.net.Uri
 import android.view.LayoutInflater
+import androidx.lifecycle.Observer
 import androidx.navigation.fragment.navArgs
 import com.azoft.carousellayoutmanager.CarouselLayoutManager
 import com.azoft.carousellayoutmanager.CarouselZoomPostLayoutListener
@@ -10,21 +12,20 @@ import com.azoft.carousellayoutmanager.CenterScrollListener
 import com.g3.spot_guide.base.BaseBottomSheet
 import com.g3.spot_guide.base.BaseFragmentHandler
 import com.g3.spot_guide.databinding.SpotDetailFragmentBinding
-import com.g3.spot_guide.models.ImageModel
-import com.g3.spot_guide.screens.addSpot.PhotosAdapter
 import org.koin.android.viewmodel.ext.android.viewModel
 
-class SpotDetailFragment : BaseBottomSheet<SpotDetailFragmentBinding, SpotDetailFragmentHandler>(), PhotosAdapter.PhotosAdapterHandler {
+class SpotDetailFragment : BaseBottomSheet<SpotDetailFragmentBinding, SpotDetailFragmentHandler>(), SpotDetailPhotosAdapter.SpotDetailPhotosAdapterHandler {
 
     private val arguments: SpotDetailFragmentArgs by navArgs()
 
-    private val photosAdapter: PhotosAdapter by lazy { PhotosAdapter(this) }
+    private val photosAdapter: SpotDetailPhotosAdapter by lazy { SpotDetailPhotosAdapter(this) }
 
     private val spotDetailFragmentViewModel: SpotDetailFragmentViewModel by viewModel()
     override fun setBinding(layoutInflater: LayoutInflater): SpotDetailFragmentBinding = SpotDetailFragmentBinding.inflate(layoutInflater)
     override fun onFragmentLoadingFinished(binding: SpotDetailFragmentBinding, context: Context) {
         setupSpotData()
         setupImagesRV()
+        downloadImages()
     }
 
     private fun setupSpotData() {
@@ -33,6 +34,7 @@ class SpotDetailFragment : BaseBottomSheet<SpotDetailFragmentBinding, SpotDetail
         binding.spotNameTV.text = spot.name
         binding.spotLocationTV.text = GeoCoderUtils.getNameFromLocation(requireContext(), spot.location)
         binding.descriptionContentTV.text = spot.description
+        binding.spotTypeTV.text = spot.spotType
     }
 
     private fun setupImagesRV() {
@@ -44,13 +46,23 @@ class SpotDetailFragment : BaseBottomSheet<SpotDetailFragmentBinding, SpotDetail
         binding.photosRV.addOnScrollListener(CenterScrollListener())
     }
 
-    override fun onPhotoClick(imageModel: ImageModel) {
-        // TODO
+    private fun downloadImages() {
+        spotDetailFragmentViewModel.imagesUris.observe(this, Observer { imageUris ->
+            val adapterItems = mutableListOf<SpotDetailPhotosAdapter.SpotDetailPhotosAdapterItem>()
+            imageUris.forEach {
+                adapterItems.add(SpotDetailPhotosAdapter.SpotDetailPhotosAdapterItem(it))
+            }
+            photosAdapter.injectData(adapterItems)
+        })
+
+        spotDetailFragmentViewModel.loadImages(arguments.args.images)
     }
 
-    override fun onDeletePhoto(imageModel: ImageModel) {
-        // nothing
+    override fun onPhotoClick(position: Int) {
+        handler.openImagesGallery(spotDetailFragmentViewModel.imagesUris.value ?: listOf(), position)
     }
 }
 
-interface SpotDetailFragmentHandler : BaseFragmentHandler
+interface SpotDetailFragmentHandler : BaseFragmentHandler {
+    fun openImagesGallery(images: List<Uri>, position: Int)
+}
