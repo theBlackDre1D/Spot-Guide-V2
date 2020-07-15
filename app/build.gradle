@@ -77,7 +77,7 @@ dependencies {
 
     // Firebase
     implementation 'com.google.firebase:firebase-storage:19.1.1'
-    implementation 'com.google.firebase:firebase-firestore:21.4.3'
+    implementation 'com.google.firebase:firebase-firestore:21.5.0'
 
     // Fotoapparat
     implementation 'io.fotoapparat:fotoapparat:2.7.0'

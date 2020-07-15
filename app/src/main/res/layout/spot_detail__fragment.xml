@@ -93,6 +93,15 @@
             android:overScrollMode="never"
             app:layout_constraintTop_toBottomOf="@id/descriptionContentTV" />
 
+        <com.g3.spot_guide.views.SpotGuideLoadingView
+            android:id="@+id/photosLoadingV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="@id/photosRV"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/photosRV" />
+
         <com.google.android.material.button.MaterialButton
             android:id="@+id/addReviewB"
             style="@style/AppButton"

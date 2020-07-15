@@ -13,6 +13,7 @@ class GalleryFragmentViewModel(
 ) : ViewModel() {
 
     val images = MutableLiveData<Either<List<ImageModel>>>()
+    val pickedImages = mutableListOf<ImageModel>()
 
     fun getImagesFromStorage() {
         viewModelScope.launch {

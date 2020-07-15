@@ -6,31 +6,32 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.g3.spot_guide.base.Either
 import com.g3.spot_guide.enums.GroundType
+import com.g3.spot_guide.enums.SpotType
 import com.g3.spot_guide.extensions.doInCoroutine
+import com.g3.spot_guide.extensions.getFileName
 import com.g3.spot_guide.models.ImageModel
 import com.g3.spot_guide.models.Spot
 import com.g3.spot_guide.repositories.SpotRepository
+import com.google.android.gms.common.util.IOUtils
 import com.google.android.gms.maps.model.LatLng
 import id.zelory.compressor.Compressor
 import id.zelory.compressor.constraint.format
 import id.zelory.compressor.constraint.quality
 import id.zelory.compressor.constraint.resolution
 import id.zelory.compressor.constraint.size
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.SupervisorJob
-import kotlinx.coroutines.async
 import java.io.File
+import java.io.FileInputStream
+import java.io.FileOutputStream
 
-@Suppress("UNCHECKED_CAST")
 class AddSpotFragmentViewModel(
-    val repository: SpotRepository
+    private val repository: SpotRepository
 ) : ViewModel() {
 
     var uploadSpotResult = MutableLiveData<Either<Unit>>()
 
     lateinit var locationData: LatLng
     var spotName: String? = null
+    var spotType: SpotType? = null
     var spotRating: Int? = null
     var groundType: GroundType? = null
     var description: String? = null
@@ -47,7 +48,8 @@ class AddSpotFragmentViewModel(
                     name = this.spotName ?: "",
                     rating = this.spotRating ?: 0,
                     images = uploadedImages.value,
-                    groundType = this.groundType?.typeName ?: ""
+                    groundType = this.groundType?.typeName ?: "",
+                    spotType = this.spotType?.spotName ?: SpotType.OTHER.spotName
                 )
                 val result = repository.uploadSpot(spot)
                 uploadSpotResult.postValue(result)
@@ -57,21 +59,35 @@ class AddSpotFragmentViewModel(
 
     private suspend fun compressImage(context: Context, imageModels: List<ImageModel>): MutableList<File> {
         val images = mutableListOf<File>()
-        imageModels.forEach { imageModel ->
-            imageModel.path?.let {
-                val imageFile = File(it)
-                val deferred = CoroutineScope(Dispatchers.IO + SupervisorJob()).async {
-                    Compressor.compress(context, imageFile) {
-                        resolution(1280, 720)
-                        quality(80)
-                        format(Bitmap.CompressFormat.JPEG)
-                        size(500000) // 2 MB
-                    }
+        val cachedImages = copyImageToCacheDir(context, imageModels)
+        cachedImages.forEach { imageFile ->
+            val compressedImage = Compressor.compress(context, imageFile) {
+                    resolution(1280, 720)
+                    quality(80)
+                    format(Bitmap.CompressFormat.JPEG)
+                    size(500000) // 2 MB
                 }
-                val compressedImage = deferred.await()
-                images.add(compressedImage)
-            }
+            images.add(compressedImage)
         }
         return images
+    }
+
+    private fun copyImageToCacheDir(context: Context, imageModels: List<ImageModel>): MutableList<File> {
+        val cachedImages = mutableListOf<File>()
+        imageModels.forEach { imageModel ->
+            imageModel.uri?.let { uri ->
+                val parcelFileDescriptor = context.contentResolver.openFileDescriptor(uri, "r", null)
+
+                parcelFileDescriptor?.let {
+                    val inputStream = FileInputStream(parcelFileDescriptor.fileDescriptor)
+                    val file = File(context.cacheDir, context.contentResolver.getFileName(uri))
+                    val outputStream = FileOutputStream(file)
+                    IOUtils.copyStream(inputStream, outputStream)
+                    cachedImages.add(file)
+                }
+            }
+        }
+
+        return cachedImages
     }
 }

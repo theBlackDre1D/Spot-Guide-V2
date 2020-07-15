@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">spot_guide</string>
+    <string name="app_name">Spot Guide</string>
 
     <!--  Error  -->
     <string name="error__location_permission_denied_rationale">This permission is mandatory for recommendation spots near you.</string>

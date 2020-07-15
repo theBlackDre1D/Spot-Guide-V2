@@ -2,6 +2,7 @@ package com.g3.spot_guide.screens.addSpot
 
 import android.os.Bundle
 import android.view.LayoutInflater
+import androidx.core.view.isVisible
 import androidx.lifecycle.MutableLiveData
 import com.g3.spot_guide.R
 import com.g3.spot_guide.base.BaseActivity
@@ -47,17 +48,8 @@ class AddSpotActivity : BaseActivity<AddSpotActivityBinding, AddSpotActivity.Arg
         return addSpotActivityViewModel.pickedImages
     }
 
-    override fun onImageClick(imageModel: ImageModel) {
-        val currentImages = addSpotActivityViewModel.pickedImages.value?.toMutableList()
-        if (currentImages != null) {
-            if (currentImages.contains(imageModel)) {
-                currentImages.remove(imageModel)
-            } else {
-                currentImages.add(imageModel)
-            }
-
-            addSpotActivityViewModel.pickedImages.postValue(currentImages)
-        }
+    override fun savePickedImages(images: List<ImageModel>) {
+        addSpotActivityViewModel.pickedImages.postValue(images)
     }
 
     override fun onDeletePhoto(imageModel: ImageModel) {
@@ -82,6 +74,10 @@ class AddSpotActivity : BaseActivity<AddSpotActivityBinding, AddSpotActivity.Arg
 
     override fun getSpotTypeLiveData(): MutableLiveData<SpotType> {
         return addSpotActivityViewModel.spotType
+    }
+
+    override fun showLoading(show: Boolean) {
+        binding.loadingV.isVisible = show
     }
 
     override fun onTypePick(type: SpotType) {

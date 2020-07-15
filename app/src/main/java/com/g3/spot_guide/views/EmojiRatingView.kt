@@ -21,33 +21,35 @@ class EmojiRatingView : ConstraintLayout {
 
     private val binding = EmojiRatingViewBinding.inflate(LayoutInflater.from(context), this, true)
 
-    var listener: EmojiRatingViewListener? = null
+    var configuration: EmojiRatingViewConfiguration? = null
         set(value) {
             field = value
-            value?.let {
-                setupView(value)
-            }
+            value?.let { setupView(value) }
         }
 
-    private fun setupView(listener: EmojiRatingViewListener) {
+    private fun setupView(configuration: EmojiRatingViewConfiguration) {
         binding.horribleIV.onClick {
-            onEmojiClick(GroundType.HORRIBLE, listener)
+            onEmojiClick(GroundType.HORRIBLE, configuration.listener)
         }
 
         binding.badIV.onClick {
-            onEmojiClick(GroundType.BAD, listener)
+            onEmojiClick(GroundType.BAD, configuration.listener)
         }
 
         binding.okIV.onClick {
-            onEmojiClick(GroundType.OK, listener)
+            onEmojiClick(GroundType.OK, configuration.listener)
         }
 
         binding.goodIV.onClick {
-            onEmojiClick(GroundType.GOOD, listener)
+            onEmojiClick(GroundType.GOOD, configuration.listener)
         }
 
         binding.perfectIV.onClick {
-            onEmojiClick(GroundType.PERFECT, listener)
+            onEmojiClick(GroundType.PERFECT, configuration.listener)
+        }
+
+        configuration.groundType?.let { type ->
+            onEmojiClick(type, configuration.listener)
         }
     }
 
@@ -74,6 +76,11 @@ class EmojiRatingView : ConstraintLayout {
         layoutParams.height = size.dp
         layoutParams.width = size.dp
     }
+
+    data class EmojiRatingViewConfiguration(
+        val groundType: GroundType?,
+        val listener: EmojiRatingViewListener
+    )
 
     interface EmojiRatingViewListener{
         fun onEmojiClick(type: GroundType)

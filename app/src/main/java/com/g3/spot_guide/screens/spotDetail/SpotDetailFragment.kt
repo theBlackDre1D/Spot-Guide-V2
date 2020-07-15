@@ -4,6 +4,7 @@ import GeoCoderUtils
 import android.content.Context
 import android.net.Uri
 import android.view.LayoutInflater
+import androidx.core.view.isVisible
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.navArgs
 import com.azoft.carousellayoutmanager.CarouselLayoutManager
@@ -13,6 +14,7 @@ import com.g3.spot_guide.base.BaseBottomSheet
 import com.g3.spot_guide.base.BaseFragmentHandler
 import com.g3.spot_guide.databinding.SpotDetailFragmentBinding
 import org.koin.android.viewmodel.ext.android.viewModel
+
 
 class SpotDetailFragment : BaseBottomSheet<SpotDetailFragmentBinding, SpotDetailFragmentHandler>(), SpotDetailPhotosAdapter.SpotDetailPhotosAdapterHandler {
 
@@ -53,6 +55,7 @@ class SpotDetailFragment : BaseBottomSheet<SpotDetailFragmentBinding, SpotDetail
                 adapterItems.add(SpotDetailPhotosAdapter.SpotDetailPhotosAdapterItem(it))
             }
             photosAdapter.injectData(adapterItems)
+            binding.photosLoadingV.isVisible = imageUris.isEmpty()
         })
 
         spotDetailFragmentViewModel.loadImages(arguments.args.images)

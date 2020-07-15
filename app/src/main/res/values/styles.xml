@@ -6,15 +6,19 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
-        <item name="android:windowAnimationStyle">@null</item>
+        <item name="android:windowAnimationStyle">@style/Animation.SpotGuide.Activity.FromBottom</item>
         <item name="materialButtonStyle">@style/AppButton</item>
     </style>
 
     <style name="SplashTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
-
         <item name="android:windowBackground">@drawable/splash_screen</item>
-        <item name="android:windowTranslucentStatus">true</item>
+    </style>
 
+    <!--  Animation  -->
+
+    <style name="Animation.SpotGuide.Activity.FromBottom" parent="">
+<!--        <item name="android:windowEnterAnimation">@anim/enter_from_bottom</item>-->
+<!--        <item name="android:windowExitAnimation">@anim/exit_to_bottom</item>-->
     </style>
 
     <!-- BUTTON -->

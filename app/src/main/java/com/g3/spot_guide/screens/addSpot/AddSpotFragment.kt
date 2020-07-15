@@ -58,12 +58,16 @@ class AddSpotFragment : BaseFragment<AddSpotFragmentBinding, AddSpotFragmentHand
             override fun onRightButtonClick() {
                 addSpotFragmentViewModel.uploadSpotResult.observe(this@AddSpotFragment, Observer { result ->
                     when(result) {
-                        is Either.Error -> showSnackBar(binding.root, R.string.error__spot_upload)
+                        is Either.Error -> {
+                            showSnackBar(binding.root, R.string.error__spot_upload)
+                            handler.showLoading(false)
+                        }
                         is Either.Success -> handler.navigateBack()
                     }
                 })
 
                 addSpotFragmentViewModel.uploadSpot(requireContext(), handler.getPickedImages().value ?: listOf())
+                handler.showLoading(true)
             }
     }
 
@@ -79,7 +83,8 @@ class AddSpotFragment : BaseFragment<AddSpotFragmentBinding, AddSpotFragmentHand
             }
         }
 
-        binding.groundQualityRatingV.listener = listener
+        val configuration = EmojiRatingView.EmojiRatingViewConfiguration(addSpotFragmentViewModel.groundType, listener)
+        binding.groundQualityRatingV.configuration = configuration
     }
 
     private fun saveLocationData() {
@@ -125,6 +130,7 @@ class AddSpotFragment : BaseFragment<AddSpotFragmentBinding, AddSpotFragmentHand
         }
 
         handler.getSpotTypeLiveData().observe(this, Observer { spotType ->
+            addSpotFragmentViewModel.spotType = spotType
             binding.choosedTypeB.text = spotType.spotName
 
             binding.chooseTypeB.isInvisible = spotType != null
@@ -163,4 +169,5 @@ interface AddSpotFragmentHandler : BaseFragmentHandler {
     fun onDeletePhoto(imageModel: ImageModel)
     fun getLocationData(): AddSpotActivity.Parameters
     fun getSpotTypeLiveData(): MutableLiveData<SpotType>
+    fun showLoading(show: Boolean)
 }

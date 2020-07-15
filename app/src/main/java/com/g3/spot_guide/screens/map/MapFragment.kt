@@ -12,6 +12,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import androidx.lifecycle.Observer
 import com.araujo.jordan.excuseme.ExcuseMe
 import com.g3.spot_guide.R
@@ -59,6 +60,7 @@ class MapFragment : BaseFragment<MapFragmentBinding, MapFragmentHandler>(), Goog
     private val mapFragmentViewModel: MapFragmentViewModel by viewModel()
     override fun setBinding(layoutInflater: LayoutInflater): MapFragmentBinding = MapFragmentBinding.inflate(layoutInflater)
     override fun onFragmentLoadingFinished(binding: MapFragmentBinding, context: Context) {
+        setupLoading()
         handlePermissions()
         setupObservers()
 
@@ -94,6 +96,10 @@ class MapFragment : BaseFragment<MapFragmentBinding, MapFragmentHandler>(), Goog
         }
     }
 
+    private fun setupLoading() {
+        binding.loadingV.isBlurVisible = false
+    }
+
     private fun setupObservers() {
         mapFragmentViewModel.spots.observe(this, Observer { spots ->
             when (spots) {
@@ -108,6 +114,7 @@ class MapFragment : BaseFragment<MapFragmentBinding, MapFragmentHandler>(), Goog
                     }
                 }
             }
+            binding.loadingV.isVisible = false
         })
     }
 

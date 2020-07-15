@@ -3,7 +3,6 @@ package com.g3.spot_guide.screens.gallery
 import android.Manifest
 import android.content.Context
 import android.view.LayoutInflater
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
 import com.araujo.jordan.excuseme.ExcuseMe
@@ -52,8 +51,8 @@ class GalleryFragment : BaseFragment<GalleryFragmentBinding, GalleryFragmentHand
 
     private fun handlePermissions() {
         CoroutineScope(Dispatchers.Main).launch {
-            val result = ExcuseMe.couldYouGive(requireContext()).permissionFor(Manifest.permission.READ_EXTERNAL_STORAGE)
-            if (result) {
+            val result = ExcuseMe.couldYouGive(requireContext()).permissionFor(Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+            if (result.granted.size == 2) {
                 galleryFragmentViewModel.getImagesFromStorage()
             } else {
                 showSnackBar(binding.root, R.string.error__images_load)
@@ -63,10 +62,8 @@ class GalleryFragment : BaseFragment<GalleryFragmentBinding, GalleryFragmentHand
 
     private fun showImagesInRV(images: List<ImageModel>) {
         val items = mutableListOf<GalleryAdapter.GalleryAdapterItem>()
-        handler.getPickedImages().value?.let { pickedImages ->
-            images.forEach { imageModel ->
-                items.add(GalleryAdapter.GalleryAdapterItem(imageModel, pickedImages.contains(imageModel)))
-            }
+        images.forEach { imageModel ->
+            items.add(GalleryAdapter.GalleryAdapterItem(imageModel, galleryFragmentViewModel.pickedImages.contains(imageModel)))
         }
 
         adapter.injectData(items)
@@ -83,14 +80,19 @@ class GalleryFragment : BaseFragment<GalleryFragmentBinding, GalleryFragmentHand
     }
 
     override fun onImageClick(imageModel: ImageModel) {
-        handler.onImageClick(imageModel)
+        if (galleryFragmentViewModel.pickedImages.contains(imageModel)) {
+            galleryFragmentViewModel.pickedImages.remove(imageModel)
+        } else {
+            galleryFragmentViewModel.pickedImages.add(imageModel)
+        }
     }
 
     override fun onLeftButtonClick() {
-        handler.navigateBack()
+        // TODO
     }
 
     override fun onRightButtonClick() {
+        handler.savePickedImages(galleryFragmentViewModel.pickedImages)
         handler.navigateBack()
     }
 
@@ -102,6 +104,5 @@ class GalleryFragment : BaseFragment<GalleryFragmentBinding, GalleryFragmentHand
 
 interface GalleryFragmentHandler : BaseFragmentHandler {
     fun navigateBack()
-    fun getPickedImages(): MutableLiveData<List<ImageModel>>
-    fun onImageClick(imageModel: ImageModel)
+    fun savePickedImages(images: List<ImageModel>)
 }

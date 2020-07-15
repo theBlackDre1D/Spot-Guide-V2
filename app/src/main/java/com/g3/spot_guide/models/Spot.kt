@@ -25,7 +25,8 @@ data class Spot(
             "name" to name,
             "rating" to rating,
             "images" to images,
-            "groundType" to groundType
+            "groundType" to groundType,
+            "spotType" to spotType
         )
     }
 
