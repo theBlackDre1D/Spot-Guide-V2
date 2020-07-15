@@ -5,11 +5,17 @@ import android.content.Intent
 import com.g3.spot_guide.base.BaseCoordinator
 import com.g3.spot_guide.screens.addSpot.AddSpotActivity
 import com.g3.spot_guide.screens.map.MapActivity
+import com.g3.spot_guide.screens.onBoarding.OnBoardingActivity
 
 class SpotGuideCoordinator : BaseCoordinator() {
 
     fun startMapActivity(activity: Activity) {
         val intent = Intent(activity, MapActivity::class.java)
+        super.startActivity(activity, intent, true)
+    }
+
+    fun startOnBoardingActivity(activity: Activity) {
+        val intent = Intent(activity, OnBoardingActivity::class.java)
         super.startActivity(activity, intent, true)
     }
 
