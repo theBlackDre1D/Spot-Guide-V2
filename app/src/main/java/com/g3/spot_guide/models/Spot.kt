@@ -41,6 +41,7 @@ data class Spot(
                 SpotType.STAIRS.spotName -> SpotType.STAIRS
                 SpotType.HANDRAIL.spotName -> SpotType.HANDRAIL
                 SpotType.DIY.spotName -> SpotType.DIY
+                SpotType.INDOOR.spotName -> SpotType.INDOOR
                 else -> SpotType.OTHER
             }
         }

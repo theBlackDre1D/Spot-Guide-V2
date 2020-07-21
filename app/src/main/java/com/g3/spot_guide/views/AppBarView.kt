@@ -28,16 +28,18 @@ class AppBarView : ConstraintLayout {
     private fun setupView(configuration: AppBarViewConfiguration) {
         binding.middleTV.setText(configuration.middleText)
         binding.backArrowIV.isVisible = configuration.backArrowVisible
+        binding.dividerV.isVisible = configuration.showDivider
 
         binding.backArrowIV.onClick {
-            configuration.handler.onBackArrowClick()
+            configuration.handler?.onBackArrowClick()
         }
     }
 
     data class AppBarViewConfiguration(
         @StringRes val middleText: Int,
         val backArrowVisible: Boolean,
-        val handler: AppBarViewHandler
+        val showDivider: Boolean = false,
+        val handler: AppBarViewHandler?
     )
 
     interface AppBarViewHandler{

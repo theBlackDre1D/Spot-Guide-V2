@@ -7,6 +7,7 @@
     <string name="error__spots_load">Spots loading failed.</string>
     <string name="error__images_load">Images loading failed.</string>
     <string name="error__spot_upload">Spot upload failed.</string>
+    <string name="error__log_in">Unable to log in. Check username and password and try again.</string>
 
     <!--  On boarding  -->
     <string name="on_boarding__community_spots">Spots are created by community - riders from all corners of world. If you saw good spot share it with community as they shared theirs with you.</string>
@@ -37,5 +38,13 @@
     <string name="gallery__screen_title">Gallery</string>
     <string name="gallery__camera">Camera</string>
     <string name="gallery__confirm">Confirm</string>
+
+    <!--  Login  -->
+    <string name="login__title">Spot Guide</string>
+    <string name="login__login">Log In</string>
+    <string name="login__email">E-mail</string>
+    <string name="login__password">Password</string>
+    <string name="login__no_account">Don\'t have an account?</string>
+    <string name="login__register">Register</string>
 
 </resources>

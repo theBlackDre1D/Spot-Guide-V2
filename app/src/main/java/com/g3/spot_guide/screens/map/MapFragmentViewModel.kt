@@ -17,6 +17,7 @@ class MapFragmentViewModel(
 ) : ViewModel() {
 
     var lastKnownLocation: Location? = null
+    var mostRecentOpenedSpot: Spot? = null
 
     val spots = MutableLiveData<Either<List<Spot>>>()
 

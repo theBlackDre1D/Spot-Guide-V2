@@ -4,21 +4,25 @@ import android.content.Context
 import android.view.LayoutInflater
 import com.g3.spot_guide.base.BaseBottomSheet
 import com.g3.spot_guide.base.BaseFragmentHandler
-import com.g3.spot_guide.databinding.ChooseSpotTypeDialogFragmentBinding
+import com.g3.spot_guide.databinding.ChooseSpotTypeBottomSheetBinding
 import com.g3.spot_guide.enums.SpotType
 
-class ChooseSpotTypeBottomSheet : BaseBottomSheet<ChooseSpotTypeDialogFragmentBinding, ChooseSpotTypeBottomSheetHandler>(), ChooseSpotTypeAdapterHandler {
+class ChooseSpotTypeBottomSheet : BaseBottomSheet<ChooseSpotTypeBottomSheetBinding, ChooseSpotTypeBottomSheetHandler>(), ChooseSpotTypeAdapterHandler {
 
-    private val adapter: ChooseSpotTypeAdapter by lazy { ChooseSpotTypeAdapter(this) }
+    private val adapter: ChooseSpotTypeAdapter by lazy { ChooseSpotTypeAdapter(this, ChooseSpotTypeAdapter.Mode.SINGLE_PICK) }
 
-    override fun setBinding(layoutInflater: LayoutInflater): ChooseSpotTypeDialogFragmentBinding = ChooseSpotTypeDialogFragmentBinding.inflate(layoutInflater)
-    override fun onFragmentLoadingFinished(binding: ChooseSpotTypeDialogFragmentBinding, context: Context) {
+    override fun setBinding(layoutInflater: LayoutInflater): ChooseSpotTypeBottomSheetBinding = ChooseSpotTypeBottomSheetBinding.inflate(layoutInflater)
+    override fun onFragmentLoadingFinished(binding: ChooseSpotTypeBottomSheetBinding, context: Context) {
         setupRV()
     }
 
     private fun setupRV() {
         binding.typesRV.adapter = adapter
-        adapter.injectData(SpotType.values().toMutableList())
+        val items = mutableListOf<ChooseSpotTypeAdapter.ChooseSpotTypeAdapterItem>()
+        SpotType.values().forEach { spotType ->
+            items.add(ChooseSpotTypeAdapter.ChooseSpotTypeAdapterItem(spotType, false))
+        }
+        adapter.injectData(items)
     }
 
     override fun onSpotTypeCLick(spotType: SpotType) {

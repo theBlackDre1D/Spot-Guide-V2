@@ -4,9 +4,9 @@
     <style name="AppTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorPrimaryDark">@color/grey_BFBFBF</item>
         <item name="colorAccent">@color/colorAccent</item>
-        <item name="android:windowAnimationStyle">@style/Animation.SpotGuide.Activity.FromBottom</item>
+<!--        <item name="android:windowAnimationStyle">@style/Animation.SpotGuide.Activity.FromBottom</item>-->
         <item name="materialButtonStyle">@style/AppButton</item>
     </style>
 
@@ -40,6 +40,7 @@
         <item name="android:lines">1</item>
         <item name="cornerRadius">20dp</item>
         <item name="textAllCaps">false</item>
+        <item name="android:fontFamily">@font/roboto_medium</item>
     </style>
 
     <style name="Button.Outlined" parent="Widget.MaterialComponents.Button.OutlinedButton">
@@ -94,25 +95,24 @@
 
     <!-- TEXT VIEW - PARENTS -->
     <style name="sfpro_text__text_view" parent="Widget.MaterialComponents.TextView">
-<!--        <item name="android:fontFamily">@font/roboto</item>-->
+        <item name="android:fontFamily">@font/roboto_light</item>
     </style>
 
     <style name="sfpro_text_bold__text_view" parent="Widget.MaterialComponents.TextView">
-<!--        <item name="android:fontFamily">@font/roboto</item>-->
-        <item name="android:textStyle">bold</item>
+        <item name="android:fontFamily">@font/roboto_bold</item>
     </style>
 
     <style name="sfpro_text_italic__text_view" parent="Widget.MaterialComponents.TextView">
-<!--        <item name="android:fontFamily">@font/roboto</item>-->
+        <item name="android:fontFamily">@font/roboto_light</item>
         <item name="android:textStyle">italic</item>
     </style>
 
     <style name="sfpro_display__text_view" parent="Widget.MaterialComponents.TextView">
-<!--        <item name="android:fontFamily">@font/roboto</item>-->
+        <item name="android:fontFamily">@font/roboto_light</item>
     </style>
 
     <style name="sfpro_display_bold__text_view" parent="Widget.MaterialComponents.TextView">
-<!--        <item name="android:fontFamily">@font/roboto</item>-->
+        <item name="android:fontFamily">@font/roboto_bold</item>
         <item name="android:textStyle">bold</item>
     </style>
 
@@ -146,6 +146,11 @@
     <style name="normal_sfpro_text__16__black_333333" parent="sfpro_text__text_view">
         <item name="android:textSize">16sp</item>
         <item name="android:textColor">@color/black_333333</item>
+    </style>
+
+    <style name="normal_sfpro_text__16__purple_6B14A6" parent="sfpro_text__text_view">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/colorPrimary</item>
     </style>
 
     <!-- RATING BAR -->

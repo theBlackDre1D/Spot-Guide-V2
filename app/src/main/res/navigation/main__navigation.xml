@@ -13,6 +13,9 @@
         <action
             android:id="@+id/action__mapFragment_to_spotDetailFragment"
             app:destination="@id/spotDetailBottomSheetFragment" />
+        <action
+            android:id="@+id/action__mapFragment_to_filterSpotsBottomSheet"
+            app:destination="@id/filterSpotsBottomSheet" />
     </fragment>
 
     <fragment
@@ -36,6 +39,16 @@
         <action
             android:id="@+id/action__spot_detail_to_imagesPreview"
             app:destination="@id/imagesPreviewFragment" />
+    </dialog>
+
+    <dialog
+        android:id="@+id/filterSpotsBottomSheet"
+        android:name="com.g3.spot_guide.screens.map.FilterSpotsBottomSheet"
+        android:label="FilterSpotsBottomSheet"
+        tools:layout="@layout/filter_spot__bottom_sheet">
+        <argument
+            android:name="arguments"
+            app:argType="com.g3.spot_guide.screens.map.FilterSpotsBottomSheetArguments" />
     </dialog>
 
 </navigation>

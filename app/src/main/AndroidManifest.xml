@@ -23,14 +23,12 @@
     <application
         android:name=".Session"
         android:allowBackup="true"
+        android:hardwareAccelerated="true"
         android:icon="@drawable/ic_app_icon"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity
-            android:name=".screens.addSpot.AddSpotActivity"
-            android:screenOrientation="portrait" />
         <activity
             android:name=".screens.splash.SplashActivity"
             android:screenOrientation="portrait"
@@ -42,7 +40,17 @@
             </intent-filter>
         </activity>
         <activity
+            android:name=".screens.onBoarding.OnBoardingActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/OnBoardingTheme" />
+        <activity
+            android:name=".screens.addSpot.AddSpotActivity"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".screens.map.MapActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".screens.login.LogInActivity"
             android:screenOrientation="portrait" />
 
         <meta-data

@@ -13,6 +13,7 @@ import android.view.LayoutInflater
 import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import com.araujo.jordan.excuseme.ExcuseMe
 import com.g3.spot_guide.R
@@ -20,8 +21,10 @@ import com.g3.spot_guide.base.BaseFragment
 import com.g3.spot_guide.base.BaseFragmentHandler
 import com.g3.spot_guide.base.Either
 import com.g3.spot_guide.databinding.MapFragmentBinding
+import com.g3.spot_guide.enums.SpotType
 import com.g3.spot_guide.extensions.onClick
 import com.g3.spot_guide.models.Spot
+import com.g3.spot_guide.views.AppBarView
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.MapView
@@ -63,17 +66,13 @@ class MapFragment : BaseFragment<MapFragmentBinding, MapFragmentHandler>(), Goog
         setupLoading()
         handlePermissions()
         setupObservers()
-
-        binding.addSpotB.onClick {
-            mapFragmentViewModel.lastKnownLocation?.let { location ->
-                val latLng = LatLng(location.latitude, location.longitude)
-                handler.openAddSpotScreen(latLng)
-            }
-        }
+        setupButtonsListeners()
+        setupAppBarView()
     }
 
     override fun onFragmentResumed() {
         super.onFragmentResumed()
+        mapFragmentViewModel.mostRecentOpenedSpot?.let { handler.openSpotDetailScreen(it) }
         mapFragmentViewModel.getAllSpots()
     }
 
@@ -96,6 +95,17 @@ class MapFragment : BaseFragment<MapFragmentBinding, MapFragmentHandler>(), Goog
         }
     }
 
+    private fun setupButtonsListeners() {
+        binding.addSpotB.onClick {
+            mapFragmentViewModel.lastKnownLocation?.let { location ->
+                val latLng = LatLng(location.latitude, location.longitude)
+                handler.openAddSpotScreen(latLng)
+            }
+        }
+
+        binding.filterSpotsFAB.onClick { handler.openSpotsFilterSheet() }
+    }
+
     private fun setupLoading() {
         binding.loadingV.isBlurVisible = false
     }
@@ -104,18 +114,32 @@ class MapFragment : BaseFragment<MapFragmentBinding, MapFragmentHandler>(), Goog
         mapFragmentViewModel.spots.observe(this, Observer { spots ->
             when (spots) {
                 is Either.Error -> showSnackBar(binding.root, R.string.error__spots_load)
-                is Either.Success -> {
-                    spots.value.forEach { spot ->
-                        val marker = MarkerOptions().position(spot.location)
-                        val pinIcon = bitmapDescriptorFromVector(R.drawable.ic_pin)
-                        marker.icon(pinIcon)
-                        val addedMarker = googleMap?.addMarker(marker)
-                        addedMarker?.tag = spot
-                    }
-                }
+                is Either.Success -> spots.value.forEach { spot -> createMarkerAtLocation(spot) }
             }
             binding.loadingV.isVisible = false
         })
+
+        val filtersLiveData = handler.getFiltersLiveData()
+        filtersLiveData.observe(this, Observer { filters ->
+            val loadedSpots = mapFragmentViewModel.spots.value
+            if (loadedSpots is Either.Success) {
+                googleMap?.clear() // delete all markers
+                loadedSpots.value.forEach { spot ->
+                    if (filters.isEmpty()) createMarkerAtLocation(spot)
+                    else {
+                        if (filters.contains(spot.spotTypeEnum)) createMarkerAtLocation(spot)
+                    }
+                }
+            }
+        })
+    }
+
+    private fun createMarkerAtLocation(spot: Spot) {
+        val marker = MarkerOptions().position(spot.location)
+        val pinIcon = bitmapDescriptorFromVector(R.drawable.ic_pin)
+        marker.icon(pinIcon)
+        val addedMarker = googleMap?.addMarker(marker)
+        addedMarker?.tag = spot
     }
 
     private fun bitmapDescriptorFromVector(vectorResId: Int): BitmapDescriptor? {
@@ -153,16 +177,20 @@ class MapFragment : BaseFragment<MapFragmentBinding, MapFragmentHandler>(), Goog
         locationManager?.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000, 0f, locationListener)
     }
 
+    private fun setupAppBarView() {
+        val configuration = AppBarView.AppBarViewConfiguration(R.string.app_name, false, false, null)
+        binding.appBarV.configuration = configuration
+    }
+
     override fun onMapLongClick(latLng: LatLng?) {
-        latLng?.let {
-            handler.openAddSpotScreen(latLng)
-        }
+        latLng?.let { handler.openAddSpotScreen(latLng) }
     }
 
     override fun onMarkerClick(marker: Marker?): Boolean {
         marker?.let {
             val spot = marker.tag as? Spot
             spot?.let {
+                mapFragmentViewModel.mostRecentOpenedSpot = spot
                 handler.openSpotDetailScreen(spot)
             }
             return true
@@ -174,4 +202,6 @@ class MapFragment : BaseFragment<MapFragmentBinding, MapFragmentHandler>(), Goog
 interface MapFragmentHandler : BaseFragmentHandler {
     fun openSpotDetailScreen(spot: Spot)
     fun openAddSpotScreen(latLng: LatLng)
+    fun openSpotsFilterSheet()
+    fun getFiltersLiveData(): MutableLiveData<MutableList<SpotType>>
 }

@@ -75,7 +75,7 @@ class GalleryFragment : BaseFragment<GalleryFragmentBinding, GalleryFragmentHand
     }
 
     private fun setupAppBar() {
-        val configuration = AppBarView.AppBarViewConfiguration(R.string.gallery__screen_title, true, this)
+        val configuration = AppBarView.AppBarViewConfiguration(R.string.gallery__screen_title, true, false, this)
         binding.appBarV.configuration = configuration
     }
 

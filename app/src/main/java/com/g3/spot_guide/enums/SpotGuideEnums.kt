@@ -8,6 +8,7 @@ enum class SpotType(val spotName: String) {
     STAIRS("Stairs"),
     HANDRAIL("Handrail"),
     DIY("DIY"),
+    INDOOR("Indoor"),
     OTHER("Other")
 }
 
@@ -20,5 +21,5 @@ enum class GroundType(val typeName: String) {
 }
 
 enum class FirestoreEntityName(val collectionName: String) {
-    SPOTS("spots")
+    SPOTS("spots"), USERS("users")
 }
