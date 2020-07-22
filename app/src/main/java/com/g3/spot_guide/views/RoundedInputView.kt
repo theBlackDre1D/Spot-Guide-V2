@@ -1,7 +1,7 @@
 package com.g3.spot_guide.views
 
 import android.content.Context
-import android.text.InputType
+import android.text.method.PasswordTransformationMethod
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import androidx.annotation.StringRes
@@ -28,7 +28,8 @@ class RoundedInputView : ConstraintLayout {
         binding.inputET.setText(configuration.inputText)
 
         if (configuration.secureInput) {
-            binding.inputET.inputType = InputType.TYPE_TEXT_VARIATION_PASSWORD
+//            binding.inputET.inputType = InputType.TYPE_TEXT_VARIATION_PASSWORD
+            binding.inputET.transformationMethod = PasswordTransformationMethod.getInstance()
         }
 
         binding.inputET.afterTextChanged { configuration.listener.onTextChanged(it) }

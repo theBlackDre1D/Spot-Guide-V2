@@ -8,19 +8,20 @@ import com.g3.spot_guide.repositories.UserRepository
 import com.google.firebase.auth.FirebaseUser
 import kotlinx.coroutines.launch
 
-class LoginFragmentViewModel(
+class RegisterFragmentViewModel(
     private val repository: UserRepository
 ) : ViewModel() {
 
+    var userName: String = ""
     var email: String = ""
     var password: String = ""
 
-    val loggedInUser = MutableLiveData<Either<FirebaseUser>>()
+    val registerResult = MutableLiveData<Either<FirebaseUser>>()
 
-    fun logIn() {
+    fun registerUser() {
         viewModelScope.launch {
-            val result = repository.loginUserWithFirebase(email, password)
-            loggedInUser.postValue(result)
+            val result = repository.registerUserWithFirebase(email, password)
+            registerResult.postValue(result)
         }
     }
 }

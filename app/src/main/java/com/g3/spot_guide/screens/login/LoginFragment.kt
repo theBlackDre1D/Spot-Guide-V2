@@ -4,7 +4,6 @@ import android.content.Context
 import android.view.LayoutInflater
 import androidx.lifecycle.Observer
 import com.g3.spot_guide.R
-import com.g3.spot_guide.Session
 import com.g3.spot_guide.base.BaseFragment
 import com.g3.spot_guide.base.BaseFragmentHandler
 import com.g3.spot_guide.base.Either
@@ -23,12 +22,14 @@ class LoginFragment : BaseFragment<LoginFragmentBinding, LoginFragmentHandler>()
         setupPasswordField()
         setupLoginButton()
         setupNavigationToRegister()
+        checkAllFields()
     }
 
     private fun setupEmailField() {
         val listener = object : RoundedInputView.RoundedInputViewListener {
             override fun onTextChanged(text: String) {
                 loginFragmentViewModel.email = text
+                checkAllFields()
             }
         }
         val configuration = RoundedInputView.RoundedInputViewConfiguration(R.string.login__email, loginFragmentViewModel.email, false, listener)
@@ -40,9 +41,10 @@ class LoginFragment : BaseFragment<LoginFragmentBinding, LoginFragmentHandler>()
         val listener = object : RoundedInputView.RoundedInputViewListener {
             override fun onTextChanged(text: String) {
                 loginFragmentViewModel.password = text
+                checkAllFields()
             }
         }
-        val configuration = RoundedInputView.RoundedInputViewConfiguration(R.string.login__password, loginFragmentViewModel.email, true, listener)
+        val configuration = RoundedInputView.RoundedInputViewConfiguration(R.string.login__password, loginFragmentViewModel.password, true, listener)
 
         binding.passwordRIV.configuration = configuration
     }
@@ -53,10 +55,7 @@ class LoginFragment : BaseFragment<LoginFragmentBinding, LoginFragmentHandler>()
         loginFragmentViewModel.loggedInUser.observe(this, Observer { result ->
             when (result) {
                 is Either.Error -> showSnackBar(binding.root, R.string.error__log_in, true)
-                is Either.Success -> {
-                    Session.saveAndSetLoggedInUser(result.value)
-                    handler.openMapScreen()
-                }
+                is Either.Success -> handler.openMapScreen()
             }
         })
 
@@ -66,9 +65,15 @@ class LoginFragment : BaseFragment<LoginFragmentBinding, LoginFragmentHandler>()
     private fun setupNavigationToRegister() {
         val configuration = TwoColorsTextView.TwoColorsTextViewConfiguration(R.string.login__no_account, R.string.login__register)
         binding.toRegisterTV.configuration = configuration
+        binding.toRegisterTV.onClick { handler.openRegisterScreen() }
+    }
+
+    private fun checkAllFields() {
+        binding.loginB.isEnabled = loginFragmentViewModel.email.isNotBlank() && loginFragmentViewModel.password.isNotBlank()
     }
 }
 
 interface LoginFragmentHandler : BaseFragmentHandler {
     fun openMapScreen()
+    fun openRegisterScreen()
 }

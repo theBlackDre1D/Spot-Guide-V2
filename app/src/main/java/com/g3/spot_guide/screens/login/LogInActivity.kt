@@ -5,8 +5,9 @@ import com.g3.spot_guide.R
 import com.g3.spot_guide.Session
 import com.g3.spot_guide.base.BaseActivity
 import com.g3.spot_guide.databinding.LogInActivityBinding
+import com.g3.spot_guide.extensions.navigateSafe
 
-class LogInActivity : BaseActivity<LogInActivityBinding, Nothing>(), LoginFragmentHandler {
+class LogInActivity : BaseActivity<LogInActivityBinding, Nothing>(), LoginFragmentHandler, RegisterFragmentHandler {
 
     override fun setNavigationGraph() = R.id.loginNavigationContainer
     override fun setBinding(layoutInflater: LayoutInflater): LogInActivityBinding = LogInActivityBinding.inflate(layoutInflater)
@@ -15,4 +16,10 @@ class LogInActivity : BaseActivity<LogInActivityBinding, Nothing>(), LoginFragme
     override fun openMapScreen() {
         Session.application.coordinator.startMapActivity(this)
     }
+
+    override fun openRegisterScreen() {
+        navController?.navigateSafe(LoginFragmentDirections.actionLoginFragmentToRegisterFragment())
+    }
+
+    override fun navigateBack() = super.onBackPressed()
 }

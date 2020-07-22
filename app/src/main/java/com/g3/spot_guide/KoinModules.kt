@@ -9,6 +9,7 @@ import com.g3.spot_guide.screens.addSpot.AddSpotActivityViewModel
 import com.g3.spot_guide.screens.addSpot.AddSpotFragmentViewModel
 import com.g3.spot_guide.screens.gallery.GalleryFragmentViewModel
 import com.g3.spot_guide.screens.login.LoginFragmentViewModel
+import com.g3.spot_guide.screens.login.RegisterFragmentViewModel
 import com.g3.spot_guide.screens.map.MapActivityViewModel
 import com.g3.spot_guide.screens.map.MapFragmentViewModel
 import com.g3.spot_guide.screens.spotDetail.SpotDetailFragmentViewModel
@@ -25,6 +26,7 @@ val appModules = module {
     viewModel { GalleryFragmentViewModel( get() ) }
     viewModel { MapActivityViewModel() }
     viewModel { LoginFragmentViewModel( get() ) }
+    viewModel { RegisterFragmentViewModel( get() ) }
 
     // Repositories
     single { SpotRepository( get() ) }

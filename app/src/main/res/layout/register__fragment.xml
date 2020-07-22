@@ -22,13 +22,22 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <com.g3.spot_guide.views.RoundedInputView
-            android:id="@+id/emailRIV"
+            android:id="@+id/userNameRIV"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="48dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/titleTV" />
+
+        <com.g3.spot_guide.views.RoundedInputView
+            android:id="@+id/emailRIV"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/userNameRIV" />
 
         <com.g3.spot_guide.views.RoundedInputView
             android:id="@+id/passwordRIV"
@@ -40,30 +49,30 @@
             app:layout_constraintTop_toBottomOf="@id/emailRIV" />
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/loginB"
+            android:id="@+id/registerB"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="32dp"
-            android:text="@string/login__login"
+            android:text="@string/login__register"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/passwordRIV" />
 
         <com.g3.spot_guide.views.TwoColorsTextView
-            android:id="@+id/toRegisterTV"
+            android:id="@+id/toLoginV"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="50dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/loginB" />
+            app:layout_constraintTop_toBottomOf="@id/registerB" />
 
         <Space
             android:layout_width="0dp"
             android:layout_height="20dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/toRegisterTV" />
+            app:layout_constraintTop_toBottomOf="@id/toLoginV" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

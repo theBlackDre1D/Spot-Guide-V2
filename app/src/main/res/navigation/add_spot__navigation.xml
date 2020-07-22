@@ -28,6 +28,6 @@
         android:id="@+id/chooseSpotTypeBottomSheet"
         android:name="com.g3.spot_guide.screens.addSpot.ChooseSpotTypeBottomSheet"
         android:label="ChooseSpotTypeBottomSheet"
-        tools:layout="@layout/choose_spot_type__dialog_fragment" />
+        tools:layout="@layout/choose_spot_type__bottom_sheet" />
 
 </navigation>

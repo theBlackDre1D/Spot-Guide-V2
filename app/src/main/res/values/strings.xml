@@ -42,9 +42,11 @@
     <!--  Login  -->
     <string name="login__title">Spot Guide</string>
     <string name="login__login">Log In</string>
+    <string name="login__username">Username</string>
     <string name="login__email">E-mail</string>
     <string name="login__password">Password</string>
     <string name="login__no_account">Don\'t have an account?</string>
     <string name="login__register">Register</string>
+    <string name="login__existing_account">Already have an account?</string>
 
 </resources>

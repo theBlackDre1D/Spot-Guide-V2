@@ -9,6 +9,16 @@
         android:id="@+id/loginFragment"
         android:name="com.g3.spot_guide.screens.login.LoginFragment"
         android:label="LoginFragment"
-        tools:layout="@layout/login__fragment" />
+        tools:layout="@layout/login__fragment">
+        <action
+            android:id="@+id/action__loginFragment_to_registerFragment"
+            app:destination="@id/registerFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/registerFragment"
+        android:name="com.g3.spot_guide.screens.login.RegisterFragment"
+        android:label="RegisterFragment"
+        tools:layout="@layout/register__fragment" />
 
 </navigation>

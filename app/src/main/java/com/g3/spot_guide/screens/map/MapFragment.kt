@@ -72,7 +72,8 @@ class MapFragment : BaseFragment<MapFragmentBinding, MapFragmentHandler>(), Goog
 
     override fun onFragmentResumed() {
         super.onFragmentResumed()
-        mapFragmentViewModel.mostRecentOpenedSpot?.let { handler.openSpotDetailScreen(it) }
+        // TODO Thing about better implementation
+//        mapFragmentViewModel.mostRecentOpenedSpot?.let { handler.openSpotDetailScreen(it) }
         mapFragmentViewModel.getAllSpots()
     }
 

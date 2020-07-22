@@ -13,8 +13,9 @@ class SplashActivity : AppCompatActivity() {
         if (Prefs.getBoolean(SHOW_ON_BOARDING__PREFS_KEY, true)) {
             Session.application.coordinator.startOnBoardingActivity(this)
         } else {
-            if (Session.loggedInUser != null) Session.application.coordinator.startMapActivity(this)
-            else Session.application.coordinator.startLoginActivity(this)
+//            if (Session.loggedInUser != null) Session.application.coordinator.startMapActivity(this)
+//            else
+            Session.application.coordinator.startLoginActivity(this)
         }
     }
 }
