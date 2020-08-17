@@ -49,4 +49,8 @@
     <string name="login__register">Register</string>
     <string name="login__existing_account">Already have an account?</string>
 
+    <!--  Navigation Drawer  -->
+    <string name="drawer__open">Open</string>
+    <string name="drawer__close">Close</string>
+
 </resources>

@@ -2,6 +2,8 @@ package com.g3.spot_guide.screens.map
 
 import android.net.Uri
 import android.view.LayoutInflater
+import androidx.appcompat.app.ActionBarDrawerToggle
+import androidx.core.view.GravityCompat
 import androidx.lifecycle.MutableLiveData
 import com.g3.spot_guide.R
 import com.g3.spot_guide.Session
@@ -17,13 +19,17 @@ import com.g3.spot_guide.screens.spotDetail.SpotDetailFragmentHandler
 import com.google.android.gms.maps.model.LatLng
 import org.koin.android.viewmodel.ext.android.viewModel
 
+private const val DRAWER_GRAVITY = GravityCompat.START
 
 class MapActivity : BaseActivity<MainActivityBinding, Nothing>(), MapFragmentHandler, SpotDetailFragmentHandler, FilterSpotsBottomSheetHandler {
 
     private val mapActivityViewModel: MapActivityViewModel by viewModel()
     override fun setNavigationGraph() = R.id.mainNavigationContainer
     override fun setBinding(layoutInflater: LayoutInflater): MainActivityBinding = MainActivityBinding.inflate(layoutInflater)
-    override fun onActivityLoadingFinished(binding: MainActivityBinding) {}
+    override fun onActivityLoadingFinished(binding: MainActivityBinding) {
+        setupDrawer()
+        setupNavigationView()
+    }
 
     override fun openSpotDetailScreen(spot: Spot) {
         navController?.navigateSafe(MapFragmentDirections.actionMapFragmentToSpotDetailFragment(spot))
@@ -56,5 +62,26 @@ class MapActivity : BaseActivity<MainActivityBinding, Nothing>(), MapFragmentHan
             }
         }
         mapActivityViewModel.spotsFilters.postValue(currentFiltersValue)
+    }
+
+    private fun setupDrawer() {
+        val toggle = ActionBarDrawerToggle(this, binding.drawerLayout, R.string.drawer__open, R.string.drawer__close)
+        binding.drawerLayout.addDrawerListener(toggle)
+        toggle.syncState()
+    }
+
+    private fun setupNavigationView() {
+           binding.navigationView.setNavigationItemSelectedListener { menuItem ->
+                menuItem
+               true
+           }
+    }
+
+    override fun onBackPressed() {
+        if (binding.drawerLayout.isDrawerOpen(DRAWER_GRAVITY)) {
+            binding.drawerLayout.closeDrawer(DRAWER_GRAVITY)
+        } else {
+            super.onBackPressed()
+        }
     }
 }
