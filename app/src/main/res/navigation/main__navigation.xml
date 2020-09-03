@@ -16,6 +16,9 @@
         <action
             android:id="@+id/action__mapFragment_to_filterSpotsBottomSheet"
             app:destination="@id/filterSpotsBottomSheet" />
+        <action
+            android:id="@+id/action__mapFragment_to_profileFragment"
+            app:destination="@id/profileFragment" />
     </fragment>
 
     <fragment
@@ -27,6 +30,14 @@
             android:name="args"
             app:argType="com.g3.spot_guide.screens.spotDetail.ImagesPreviewFragmentArguments" />
     </fragment>
+
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="com.g3.spot_guide.screens.profile.ProfileFragment"
+        android:label="ProfileFragment"
+        tools:layout="@layout/profile__fragment" />
+
+    <!--  Dialogs  -->
 
     <dialog
         android:id="@+id/spotDetailBottomSheetFragment"

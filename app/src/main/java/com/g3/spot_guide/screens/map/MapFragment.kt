@@ -12,7 +12,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import androidx.core.content.ContextCompat
-import androidx.core.view.isVisible
+import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import com.araujo.jordan.excuseme.ExcuseMe
@@ -22,7 +22,6 @@ import com.g3.spot_guide.base.BaseFragmentHandler
 import com.g3.spot_guide.base.Either
 import com.g3.spot_guide.databinding.MapFragmentBinding
 import com.g3.spot_guide.enums.SpotType
-import com.g3.spot_guide.extensions.onClick
 import com.g3.spot_guide.models.Spot
 import com.g3.spot_guide.views.AppBarView
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -179,7 +178,13 @@ class MapFragment : BaseFragment<MapFragmentBinding, MapFragmentHandler>(), Goog
     }
 
     private fun setupAppBarView() {
-        val configuration = AppBarView.AppBarViewConfiguration(R.string.app_name, false, false, null)
+        val appBarViewHandler = object : AppBarView.AppBarViewHandler {
+            override fun onLeftIconClick() {
+                handler.getDrawer().open()
+            }
+        }
+
+        val configuration = AppBarView.AppBarViewConfiguration(R.string.app_name, false, false, R.drawable.ic_drawer, appBarViewHandler)
         binding.appBarV.configuration = configuration
     }
 
@@ -205,4 +210,5 @@ interface MapFragmentHandler : BaseFragmentHandler {
     fun openAddSpotScreen(latLng: LatLng)
     fun openSpotsFilterSheet()
     fun getFiltersLiveData(): MutableLiveData<MutableList<SpotType>>
+    fun getDrawer(): DrawerLayout
 }

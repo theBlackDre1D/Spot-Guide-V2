@@ -4,17 +4,17 @@
     <group android:checkableBehavior="single">
 
         <item
-            android:id="@+id/profile"
+            android:id="@+id/menuProfile"
             android:icon="@drawable/ic_pin"
             android:title="Profile" />
 
         <item
-            android:id="@+id/settings"
+            android:id="@+id/menuSettings"
             android:icon="@drawable/ic_pin"
             android:title="Settings" />
 
         <item
-            android:id="@+id/logOut"
+            android:id="@+id/menuLogOut"
             android:icon="@drawable/ic_pin"
             android:title="Log Out" />
 

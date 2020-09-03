@@ -3,11 +3,10 @@ package com.g3.spot_guide.views
 import android.content.Context
 import android.util.AttributeSet
 import android.view.LayoutInflater
+import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.view.isVisible
 import com.g3.spot_guide.databinding.AppBarViewBinding
-import com.g3.spot_guide.extensions.onClick
 
 class AppBarView : ConstraintLayout {
 
@@ -27,11 +26,15 @@ class AppBarView : ConstraintLayout {
 
     private fun setupView(configuration: AppBarViewConfiguration) {
         binding.middleTV.setText(configuration.middleText)
-        binding.backArrowIV.isVisible = configuration.backArrowVisible
+        binding.leftIconIV.isVisible = configuration.leftIcon != null
         binding.dividerV.isVisible = configuration.showDivider
 
-        binding.backArrowIV.onClick {
-            configuration.handler?.onBackArrowClick()
+        binding.leftIconIV.onClick {
+            configuration.handler?.onLeftIconClick()
+        }
+
+        configuration.leftIcon?.let { drawableResId ->
+            binding.leftIconIV.setImageResource(drawableResId)
         }
     }
 
@@ -39,10 +42,11 @@ class AppBarView : ConstraintLayout {
         @StringRes val middleText: Int,
         val backArrowVisible: Boolean,
         val showDivider: Boolean = false,
+        @DrawableRes val leftIcon: Int?,
         val handler: AppBarViewHandler?
     )
 
     interface AppBarViewHandler{
-        fun onBackArrowClick()
+        fun onLeftIconClick()
     }
 }

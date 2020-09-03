@@ -9,14 +9,6 @@
     tools:context=".screens.map.MapActivity"
     tools:openDrawer="left">
 
-    <com.google.android.material.navigation.NavigationView
-        android:id="@+id/navigationView"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_gravity="start"
-        app:headerLayout="@layout/drawer_header__view"
-        app:menu="@menu/drawer__menu" />
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -34,5 +26,13 @@
             app:navGraph="@navigation/main__navigation" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <com.google.android.material.navigation.NavigationView
+        android:id="@+id/navigationView"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        app:headerLayout="@layout/drawer_header__view"
+        app:menu="@menu/drawer__menu" />
 
 </androidx.drawerlayout.widget.DrawerLayout>

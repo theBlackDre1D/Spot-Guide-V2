@@ -47,6 +47,8 @@ class MapActivity : BaseActivity<MainActivityBinding, Nothing>(), MapFragmentHan
 
     override fun getFiltersLiveData(): MutableLiveData<MutableList<SpotType>> = mapActivityViewModel.spotsFilters
 
+    override fun getDrawer() = binding.drawerLayout
+
     override fun openImagesGallery(images: List<Uri>, position: Int) {
         val params = ImagesPreviewFragmentArguments(images, position)
         navController?.navigateSafe(SpotDetailFragmentDirections.actionSpotDetailToImagesPreview(params))
@@ -71,10 +73,17 @@ class MapActivity : BaseActivity<MainActivityBinding, Nothing>(), MapFragmentHan
     }
 
     private fun setupNavigationView() {
-           binding.navigationView.setNavigationItemSelectedListener { menuItem ->
-                menuItem
-               true
+       binding.navigationView.setNavigationItemSelectedListener { menuItem ->
+           when (menuItem.itemId) {
+               R.id.menuProfile -> {
+                   navController?.navigateSafe(MapFragmentDirections.actionMapFragmentToProfileFragment())
+               }
+               R.id.menuSettings -> {}
+               R.id.menuLogOut -> {}
            }
+           binding.drawerLayout.closeDrawer(DRAWER_GRAVITY)
+           true
+       }
     }
 
     override fun onBackPressed() {
