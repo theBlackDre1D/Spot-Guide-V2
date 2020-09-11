@@ -1,4 +1,4 @@
-package com.g3.spot_guide.base
+package com.g3.base.routing
 
 import android.app.Activity
 import android.content.Intent
@@ -9,7 +9,6 @@ abstract class BaseCoordinator {
         this.startActivity(activity, intent, false)
     }
 
-    @Suppress("MemberVisibilityCanBePrivate", "SameParameterValue")
     protected fun startActivity(activity: Activity, intent: Intent, finishStarterActivity: Boolean = false) {
         activity.startActivity(intent)
         if (finishStarterActivity) {

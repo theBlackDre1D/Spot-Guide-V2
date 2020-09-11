@@ -6,7 +6,9 @@ import android.view.LayoutInflater
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.view.isVisible
 import com.g3.spot_guide.databinding.AppBarViewBinding
+import com.g3.spot_guide.extensions.onClick
 
 class AppBarView : ConstraintLayout {
 

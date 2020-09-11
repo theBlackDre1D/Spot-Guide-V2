@@ -1,4 +1,4 @@
-package com.g3.spot_guide.base
+package com.g3.base.recyclerView
 
 import android.view.View
 import android.view.ViewGroup

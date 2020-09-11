@@ -3,9 +3,9 @@ package com.g3.spot_guide.screens.addSpot
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.view.isVisible
-import com.g3.spot_guide.base.BaseAdapterItem
-import com.g3.spot_guide.base.BaseRecyclerViewAdapter
-import com.g3.spot_guide.base.BaseViewHolder
+import com.g3.base.recyclerView.BaseAdapterItem
+import com.g3.base.recyclerView.BaseRecyclerViewAdapter
+import com.g3.base.recyclerView.BaseViewHolder
 import com.g3.spot_guide.databinding.SpotTypeItemBinding
 import com.g3.spot_guide.enums.SpotType
 import com.g3.spot_guide.extensions.onClick
@@ -31,7 +31,7 @@ class ChooseSpotTypeAdapter(
         holder.binding.typeCHB.isChecked = adapterItem.isPicked
     }
 
-    inner class ChooseSpotTypeAdapterViewHolder(val binding: SpotTypeItemBinding) : BaseViewHolder(binding.root)
+    class ChooseSpotTypeAdapterViewHolder(val binding: SpotTypeItemBinding) : BaseViewHolder(binding.root)
     data class ChooseSpotTypeAdapterItem(val spotType: SpotType, val isPicked: Boolean) : BaseAdapterItem()
 
     enum class Mode {

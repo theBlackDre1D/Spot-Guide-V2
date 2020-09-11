@@ -6,10 +6,10 @@ import android.view.LayoutInflater
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
 import com.araujo.jordan.excuseme.ExcuseMe
+import com.g3.base.either.Either
+import com.g3.base.screens.fragment.BaseFragment
+import com.g3.base.screens.fragment.BaseFragmentHandler
 import com.g3.spot_guide.R
-import com.g3.spot_guide.base.BaseFragment
-import com.g3.spot_guide.base.BaseFragmentHandler
-import com.g3.spot_guide.base.Either
 import com.g3.spot_guide.databinding.GalleryFragmentBinding
 import com.g3.spot_guide.models.ImageModel
 import com.g3.spot_guide.views.AppBarView
@@ -39,7 +39,7 @@ class GalleryFragment : BaseFragment<GalleryFragmentBinding, GalleryFragmentHand
         galleryFragmentViewModel.images.observe(this, Observer { images ->
             when (images) {
                 is Either.Error -> showSnackBar(binding.root, R.string.error__images_load)
-                is Either.Success -> showImagesInRV(images.value)
+                is Either.Success<List<ImageModel>> -> showImagesInRV(images.value)
             }
         })
     }

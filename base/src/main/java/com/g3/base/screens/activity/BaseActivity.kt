@@ -1,4 +1,4 @@
-package com.g3.spot_guide.base
+package com.g3.base.screens.activity
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -10,7 +10,8 @@ import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.viewbinding.ViewBinding
 
-abstract class BaseActivity<BINDING: ViewBinding, PARAMETERS : BaseParameters> : AppCompatActivity(), LifecycleObserver {
+abstract class BaseActivity<BINDING: ViewBinding, PARAMETERS : BaseParameters> : AppCompatActivity(),
+    LifecycleObserver {
 
     protected lateinit var binding: BINDING
     protected var navController: NavController? = null

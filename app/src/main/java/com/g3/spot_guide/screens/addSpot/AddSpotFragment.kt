@@ -3,18 +3,22 @@ package com.g3.spot_guide.screens.addSpot
 import GeoCoderUtils
 import android.content.Context
 import android.view.LayoutInflater
+import androidx.core.view.isInvisible
+import androidx.core.view.isVisible
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import com.azoft.carousellayoutmanager.CarouselLayoutManager
 import com.azoft.carousellayoutmanager.CarouselZoomPostLayoutListener
 import com.azoft.carousellayoutmanager.CenterScrollListener
+import com.g3.base.either.Either
+import com.g3.base.screens.fragment.BaseFragment
+import com.g3.base.screens.fragment.BaseFragmentHandler
 import com.g3.spot_guide.R
-import com.g3.spot_guide.base.BaseFragment
-import com.g3.spot_guide.base.BaseFragmentHandler
-import com.g3.spot_guide.base.Either
 import com.g3.spot_guide.databinding.AddSpotFragmentBinding
 import com.g3.spot_guide.enums.GroundType
 import com.g3.spot_guide.enums.SpotType
+import com.g3.spot_guide.extensions.afterTextChanged
+import com.g3.spot_guide.extensions.onClick
 import com.g3.spot_guide.models.ImageModel
 import com.g3.spot_guide.views.AppBarView
 import com.g3.spot_guide.views.BottomButtonsView
@@ -58,7 +62,7 @@ class AddSpotFragment : BaseFragment<AddSpotFragmentBinding, AddSpotFragmentHand
                             showSnackBar(binding.root, R.string.error__spot_upload)
                             handler.showLoading(false)
                         }
-                        is Either.Success -> handler.navigateBack()
+                        is Either.Success<*> -> handler.navigateBack()
                     }
                 })
 

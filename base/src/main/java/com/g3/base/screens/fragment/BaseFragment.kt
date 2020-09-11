@@ -1,4 +1,4 @@
-package com.g3.spot_guide.base
+package com.g3.base.screens.fragment
 
 import android.content.Context
 import android.os.Bundle
@@ -6,15 +6,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.StringRes
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.OnLifecycleEvent
 import androidx.viewbinding.ViewBinding
-import com.g3.spot_guide.R
-import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.snackbar.Snackbar
 
-abstract class BaseBottomSheet<BINDING: ViewBinding, HANDLER: BaseFragmentHandler> : BottomSheetDialogFragment(), LifecycleObserver {
+abstract class BaseFragment<BINDING: ViewBinding, HANDLER: BaseFragmentHandler> : Fragment(),
+    LifecycleObserver {
 
     protected lateinit var binding: BINDING
     protected lateinit var handler: HANDLER
@@ -24,10 +24,7 @@ abstract class BaseBottomSheet<BINDING: ViewBinding, HANDLER: BaseFragmentHandle
         this.lifecycle.addObserver(this)
     }
 
-    override fun getTheme() = R.style.BottomSheetDialogTheme
-
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        super.onCreateView(inflater, container, savedInstanceState)
         this.binding = this.setBinding(inflater)
         return this.binding.root
     }
@@ -40,8 +37,8 @@ abstract class BaseBottomSheet<BINDING: ViewBinding, HANDLER: BaseFragmentHandle
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        this@BaseBottomSheet.context?.let {
-            this.onFragmentLoadingFinished(this@BaseBottomSheet.binding, it)
+        this@BaseFragment.context?.let {
+            this.onFragmentLoadingFinished(this@BaseFragment.binding, it)
         }
     }
 
@@ -77,6 +74,12 @@ abstract class BaseBottomSheet<BINDING: ViewBinding, HANDLER: BaseFragmentHandle
 
     protected fun showSnackBar(rootView: View, @StringRes text: Int, longDuration: Boolean = false) {
         Snackbar.make(rootView, text, if (longDuration) Snackbar.LENGTH_LONG else Snackbar.LENGTH_SHORT).show()
+    }
+
+    protected fun showSnackBar(rootView: View, text: String?, longDuration: Boolean = false) {
+        text?.let {
+            Snackbar.make(rootView, text, if (longDuration) Snackbar.LENGTH_LONG else Snackbar.LENGTH_SHORT).show()
+        }
     }
 
     protected abstract fun setBinding(layoutInflater: LayoutInflater): BINDING

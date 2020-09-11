@@ -5,7 +5,7 @@ import android.net.Uri
 import android.view.LayoutInflater
 import androidx.fragment.app.FragmentStatePagerAdapter
 import androidx.navigation.fragment.navArgs
-import com.g3.spot_guide.base.BaseFragment
+import com.g3.base.screens.fragment.BaseFragment
 import com.g3.spot_guide.databinding.ImagesPreviewFragmentBinding
 import java.io.Serializable
 

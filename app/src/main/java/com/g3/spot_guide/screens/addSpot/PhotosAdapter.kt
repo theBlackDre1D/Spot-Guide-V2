@@ -2,9 +2,9 @@ package com.g3.spot_guide.screens.addSpot
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import com.g3.spot_guide.base.BaseAdapterItem
-import com.g3.spot_guide.base.BaseRecyclerViewAdapter
-import com.g3.spot_guide.base.BaseViewHolder
+import com.g3.base.recyclerView.BaseAdapterItem
+import com.g3.base.recyclerView.BaseRecyclerViewAdapter
+import com.g3.base.recyclerView.BaseViewHolder
 import com.g3.spot_guide.databinding.SpotPhotoItemBinding
 import com.g3.spot_guide.extensions.loadImageFromUri
 import com.g3.spot_guide.extensions.onClick

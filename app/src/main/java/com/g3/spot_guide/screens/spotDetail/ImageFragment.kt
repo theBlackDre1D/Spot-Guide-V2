@@ -3,7 +3,7 @@ package com.g3.spot_guide.screens.spotDetail
 import android.content.Context
 import android.net.Uri
 import android.view.LayoutInflater
-import com.g3.spot_guide.base.BaseFragment
+import com.g3.base.screens.fragment.BaseFragment
 import com.g3.spot_guide.databinding.ImagePreviewFragmentBinding
 import com.g3.spot_guide.extensions.loadImageFromUri
 

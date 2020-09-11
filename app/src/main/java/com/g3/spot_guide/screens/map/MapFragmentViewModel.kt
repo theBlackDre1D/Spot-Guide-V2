@@ -4,7 +4,7 @@ import android.location.Location
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.g3.spot_guide.base.Either
+import com.g3.base.either.Either
 import com.g3.spot_guide.models.Spot
 import com.g3.spot_guide.repositories.SpotRepository
 import kotlinx.coroutines.Dispatchers

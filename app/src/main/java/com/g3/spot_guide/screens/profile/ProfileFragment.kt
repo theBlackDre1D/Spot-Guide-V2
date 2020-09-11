@@ -2,8 +2,8 @@ package com.g3.spot_guide.screens.profile
 
 import android.content.Context
 import android.view.LayoutInflater
-import com.g3.spot_guide.base.BaseFragment
-import com.g3.spot_guide.base.BaseFragmentHandler
+import com.g3.base.screens.fragment.BaseFragment
+import com.g3.base.screens.fragment.BaseFragmentHandler
 import com.g3.spot_guide.databinding.ProfileFragmentBinding
 import com.google.firebase.auth.FirebaseAuth
 

@@ -4,8 +4,8 @@ import android.content.Context
 import android.view.LayoutInflater
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
-import com.g3.spot_guide.base.BaseFragment
-import com.g3.spot_guide.base.BaseFragmentHandler
+import com.g3.base.screens.fragment.BaseFragment
+import com.g3.base.screens.fragment.BaseFragmentHandler
 import com.g3.spot_guide.databinding.OnBoardingPagerFragmentBinding
 
 class OnBoardingPagerFragment(@DrawableRes val image: Int, @StringRes val text: Int) : BaseFragment<OnBoardingPagerFragmentBinding, OnBoardingPagerFragmentHandler>() {

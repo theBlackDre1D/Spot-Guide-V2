@@ -4,9 +4,9 @@ import android.net.Uri
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.view.isVisible
-import com.g3.spot_guide.base.BaseAdapterItem
-import com.g3.spot_guide.base.BaseRecyclerViewAdapter
-import com.g3.spot_guide.base.BaseViewHolder
+import com.g3.base.recyclerView.BaseAdapterItem
+import com.g3.base.recyclerView.BaseRecyclerViewAdapter
+import com.g3.base.recyclerView.BaseViewHolder
 import com.g3.spot_guide.databinding.SpotPhotoItemBinding
 import com.g3.spot_guide.extensions.loadImageFromUri
 import com.g3.spot_guide.extensions.onClick
@@ -28,7 +28,7 @@ class SpotDetailPhotosAdapter(
         }
     }
 
-    inner class SpotDetailPhotosAdapterViewHolder(val binding: SpotPhotoItemBinding) : BaseViewHolder(binding.root)
+    class SpotDetailPhotosAdapterViewHolder(val binding: SpotPhotoItemBinding) : BaseViewHolder(binding.root)
     data class SpotDetailPhotosAdapterItem(val photoUri: Uri) : BaseAdapterItem()
 
     interface SpotDetailPhotosAdapterHandler {

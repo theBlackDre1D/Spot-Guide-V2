@@ -2,8 +2,8 @@ package com.g3.spot_guide.screens.addSpot
 
 import android.content.Context
 import android.view.LayoutInflater
-import com.g3.spot_guide.base.BaseBottomSheet
-import com.g3.spot_guide.base.BaseFragmentHandler
+import com.g3.base.screens.dialogs.BaseBottomSheet
+import com.g3.base.screens.fragment.BaseFragmentHandler
 import com.g3.spot_guide.databinding.ChooseSpotTypeBottomSheetBinding
 import com.g3.spot_guide.enums.SpotType
 

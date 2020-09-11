@@ -2,8 +2,8 @@ package com.g3.spot_guide.repositories
 
 import android.net.Uri
 import android.provider.MediaStore
+import com.g3.base.either.Either
 import com.g3.spot_guide.Session
-import com.g3.spot_guide.base.Either
 import com.g3.spot_guide.models.ImageModel
 import java.util.*
 

@@ -10,8 +10,8 @@ import androidx.navigation.fragment.navArgs
 import com.azoft.carousellayoutmanager.CarouselLayoutManager
 import com.azoft.carousellayoutmanager.CarouselZoomPostLayoutListener
 import com.azoft.carousellayoutmanager.CenterScrollListener
-import com.g3.spot_guide.base.BaseBottomSheet
-import com.g3.spot_guide.base.BaseFragmentHandler
+import com.g3.base.screens.dialogs.BaseBottomSheet
+import com.g3.base.screens.fragment.BaseFragmentHandler
 import com.g3.spot_guide.databinding.SpotDetailFragmentBinding
 import org.koin.android.viewmodel.ext.android.viewModel
 

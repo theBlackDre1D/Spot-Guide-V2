@@ -3,8 +3,8 @@ package com.g3.spot_guide.screens.map
 import android.content.Context
 import android.view.LayoutInflater
 import androidx.navigation.fragment.navArgs
-import com.g3.spot_guide.base.BaseBottomSheet
-import com.g3.spot_guide.base.BaseFragmentHandler
+import com.g3.base.screens.dialogs.BaseBottomSheet
+import com.g3.base.screens.fragment.BaseFragmentHandler
 import com.g3.spot_guide.databinding.FilterSpotBottomSheetBinding
 import com.g3.spot_guide.enums.SpotType
 import com.g3.spot_guide.screens.addSpot.ChooseSpotTypeAdapter

@@ -1,9 +1,9 @@
 package com.g3.spot_guide.screens.onBoarding
 
 import android.view.LayoutInflater
+import com.g3.base.screens.activity.BaseActivity
 import com.g3.spot_guide.R
 import com.g3.spot_guide.Session
-import com.g3.spot_guide.base.BaseActivity
 import com.g3.spot_guide.databinding.OnBoardingActivityBinding
 import com.pixplicity.easyprefs.library.Prefs
 

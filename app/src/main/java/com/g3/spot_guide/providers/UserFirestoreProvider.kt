@@ -1,6 +1,6 @@
 package com.g3.spot_guide.providers
 
-import com.g3.spot_guide.base.Either
+import com.g3.base.either.Either
 import com.g3.spot_guide.enums.FirestoreEntityName
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser

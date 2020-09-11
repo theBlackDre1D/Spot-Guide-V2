@@ -1,7 +1,7 @@
 package com.g3.spot_guide.providers
 
 import android.net.Uri
-import com.g3.spot_guide.base.Either
+import com.g3.base.either.Either
 import com.g3.spot_guide.enums.FirestoreEntityName
 import com.g3.spot_guide.models.Spot
 import kotlinx.coroutines.tasks.await

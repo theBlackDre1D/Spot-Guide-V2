@@ -5,9 +5,9 @@ import android.view.LayoutInflater
 import androidx.core.view.isVisible
 import androidx.fragment.app.FragmentStatePagerAdapter
 import androidx.viewpager.widget.ViewPager
+import com.g3.base.screens.fragment.BaseFragment
+import com.g3.base.screens.fragment.BaseFragmentHandler
 import com.g3.spot_guide.R
-import com.g3.spot_guide.base.BaseFragment
-import com.g3.spot_guide.base.BaseFragmentHandler
 import com.g3.spot_guide.databinding.OnBoardingFragmentBinding
 import com.g3.spot_guide.extensions.onClick
 

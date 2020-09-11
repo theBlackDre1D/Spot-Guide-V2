@@ -1,4 +1,4 @@
-package com.g3.spot_guide.base
+package com.g3.base.screens.dialogs
 
 import android.content.Context
 import android.os.Bundle
@@ -6,14 +6,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.StringRes
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.OnLifecycleEvent
 import androidx.viewbinding.ViewBinding
+import com.g3.base.R
+import com.g3.base.screens.fragment.BaseFragmentHandler
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.snackbar.Snackbar
 
-abstract class BaseFragment<BINDING: ViewBinding, HANDLER: BaseFragmentHandler> : Fragment(), LifecycleObserver {
+abstract class BaseBottomSheet<BINDING: ViewBinding, HANDLER: BaseFragmentHandler> : BottomSheetDialogFragment(), LifecycleObserver {
 
     protected lateinit var binding: BINDING
     protected lateinit var handler: HANDLER
@@ -23,7 +25,10 @@ abstract class BaseFragment<BINDING: ViewBinding, HANDLER: BaseFragmentHandler> 
         this.lifecycle.addObserver(this)
     }
 
+    override fun getTheme() = R.style.BottomSheetDialogTheme
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        super.onCreateView(inflater, container, savedInstanceState)
         this.binding = this.setBinding(inflater)
         return this.binding.root
     }
@@ -36,8 +41,8 @@ abstract class BaseFragment<BINDING: ViewBinding, HANDLER: BaseFragmentHandler> 
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        this@BaseFragment.context?.let {
-            this.onFragmentLoadingFinished(this@BaseFragment.binding, it)
+        this@BaseBottomSheet.context?.let {
+            this.onFragmentLoadingFinished(this@BaseBottomSheet.binding, it)
         }
     }
 

@@ -4,9 +4,9 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import androidx.core.view.isVisible
 import androidx.lifecycle.MutableLiveData
+import com.g3.base.screens.activity.BaseActivity
+import com.g3.base.screens.activity.BaseParameters
 import com.g3.spot_guide.R
-import com.g3.spot_guide.base.BaseActivity
-import com.g3.spot_guide.base.BaseParameters
 import com.g3.spot_guide.databinding.AddSpotActivityBinding
 import com.g3.spot_guide.enums.SpotType
 import com.g3.spot_guide.extensions.navigateSafe

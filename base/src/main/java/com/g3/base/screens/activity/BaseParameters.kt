@@ -1,4 +1,4 @@
-package com.g3.spot_guide.base
+package com.g3.base.screens.activity
 
 import android.os.Bundle
 

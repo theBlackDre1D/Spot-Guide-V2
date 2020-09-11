@@ -5,9 +5,9 @@ import android.view.LayoutInflater
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.core.view.GravityCompat
 import androidx.lifecycle.MutableLiveData
+import com.g3.base.screens.activity.BaseActivity
 import com.g3.spot_guide.R
 import com.g3.spot_guide.Session
-import com.g3.spot_guide.base.BaseActivity
 import com.g3.spot_guide.databinding.MainActivityBinding
 import com.g3.spot_guide.enums.SpotType
 import com.g3.spot_guide.extensions.navigateSafe
