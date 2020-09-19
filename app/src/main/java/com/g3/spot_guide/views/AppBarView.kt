@@ -29,7 +29,6 @@ class AppBarView : ConstraintLayout {
     private fun setupView(configuration: AppBarViewConfiguration) {
         binding.middleTV.setText(configuration.middleText)
         binding.leftIconIV.isVisible = configuration.leftIcon != null
-        binding.dividerV.isVisible = configuration.showDivider
 
         binding.leftIconIV.onClick {
             configuration.handler?.onLeftIconClick()
@@ -43,7 +42,6 @@ class AppBarView : ConstraintLayout {
     data class AppBarViewConfiguration(
         @StringRes val middleText: Int,
         val backArrowVisible: Boolean,
-        val showDivider: Boolean = false,
         @DrawableRes val leftIcon: Int?,
         val handler: AppBarViewHandler?
     )

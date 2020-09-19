@@ -13,7 +13,6 @@ import android.view.LayoutInflater
 import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
-import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import com.araujo.jordan.excuseme.ExcuseMe
@@ -181,12 +180,10 @@ class MapFragment : BaseFragment<MapFragmentBinding, MapFragmentHandler>(), Goog
 
     private fun setupAppBarView() {
         val appBarViewHandler = object : AppBarView.AppBarViewHandler {
-            override fun onLeftIconClick() {
-                handler.getDrawer().open()
-            }
+            override fun onLeftIconClick() {}
         }
 
-        val configuration = AppBarView.AppBarViewConfiguration(R.string.app_name, false, false, R.drawable.ic_drawer, appBarViewHandler)
+        val configuration = AppBarView.AppBarViewConfiguration(R.string.app_name, false, R.drawable.ic_drawer, appBarViewHandler)
         binding.appBarV.configuration = configuration
     }
 
@@ -212,5 +209,4 @@ interface MapFragmentHandler : BaseFragmentHandler {
     fun openAddSpotScreen(latLng: LatLng)
     fun openSpotsFilterSheet()
     fun getFiltersLiveData(): MutableLiveData<MutableList<SpotType>>
-    fun getDrawer(): DrawerLayout
 }

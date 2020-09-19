@@ -57,4 +57,15 @@ class SpotFirestoreProvider : BaseFirestoreProvider(FirestoreEntityName.SPOTS) {
             Either.Error(null)
         }
     }
+
+    suspend fun getUsersSpots(userId: String): Either<List<Spot>> {
+        return try {
+            val result = collectionReference.whereEqualTo("authorId", userId).get().await()
+            val spots = result.toObjects(Spot::class.java)
+            result.documents.forEachIndexed { index, documentSnapshot ->
+                spots[index].id = documentSnapshot.id
+            }
+            Either.Success(spots)
+        } catch (e: Exception) { Either.Error(null) }
+    }
 }

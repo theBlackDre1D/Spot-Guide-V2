@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/edit_profile__navigation"
+    app:startDestination="@id/editProfileFragment">
+
+    <fragment
+        android:id="@+id/editProfileFragment"
+        android:name="com.g3.spot_guide.screens.profile.editProfile.EditProfileFragment"
+        android:label="EditProfileFragment"
+        tools:layout="@layout/edit_profile__fragment" />
+
+</navigation>

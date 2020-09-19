@@ -3,16 +3,31 @@ package com.g3.spot_guide.models
 import com.g3.spot_guide.base.IHasUploadModel
 
 data class User(
-    val username: String = "",
+    var id: String = "",
+    val nick: String = "",
     val email: String = "",
-    val password: String = ""
+    val aboutMe: String = "",
+    val firstName: String = "",
+    val lastName: String = "",
+    val friends: List<String> = listOf(),
+    val instagramUrl: String = "",
+    val sponsors: String = "",
+    val stance: String = "",
+    val profilePictureUrl: String = ""
 ) : IHasUploadModel {
 
     override fun toUploadModel(): HashMap<String, Any?> {
         return hashMapOf(
-            "username" to username,
+            "nick" to nick,
             "email" to email,
-            "password" to password
+            "aboutMe" to aboutMe,
+            "firstName" to firstName,
+            "lastName" to lastName,
+            "friends" to friends,
+            "instagramUrl" to instagramUrl,
+            "sponsors" to sponsors,
+            "stance" to stance,
+            "profilePictureUrl" to profilePictureUrl
         )
     }
 }

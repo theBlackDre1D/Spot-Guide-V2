@@ -124,6 +124,16 @@
         <item name="android:textColor">@color/black_333333</item>
     </style>
 
+    <style name="bold_sfpro_text__18__black_333333" parent="sfpro_display_bold__text_view">
+        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">@color/black_333333</item>
+    </style>
+
+    <style name="bold_sfpro_text__16__black_333333" parent="sfpro_display_bold__text_view">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/black_333333</item>
+    </style>
+
     <style name="bold_sfpro_text__24__black_333333" parent="sfpro_display_bold__text_view">
         <item name="android:textSize">24sp</item>
         <item name="android:textColor">@color/black_333333</item>
@@ -144,8 +154,18 @@
         <item name="android:textColor">@color/grey_8A8A8A</item>
     </style>
 
+    <style name="normal_sfpro_text__14__grey_8A8A8A" parent="sfpro_text__text_view">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/grey_8A8A8A</item>
+    </style>
+
     <style name="normal_sfpro_text__16__black_333333" parent="sfpro_text__text_view">
         <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/black_333333</item>
+    </style>
+
+    <style name="normal_sfpro_text__14__black_333333" parent="sfpro_text__text_view">
+        <item name="android:textSize">14sp</item>
         <item name="android:textColor">@color/black_333333</item>
     </style>
 
@@ -162,8 +182,7 @@
     <!--  SHAPABLE IMAGE VIEW  -->
 
     <style name="circleImageView" parent="">
-        <item name="cornerFamily">rounded</item>
-        <item name="cornerRadius">15dp</item>
+        <item name="cornerSize">50%</item>
     </style>
 
 </resources>

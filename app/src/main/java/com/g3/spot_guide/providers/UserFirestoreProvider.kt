@@ -2,6 +2,7 @@ package com.g3.spot_guide.providers
 
 import com.g3.base.either.Either
 import com.g3.spot_guide.enums.FirestoreEntityName
+import com.g3.spot_guide.models.User
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import kotlinx.coroutines.tasks.await
@@ -23,6 +24,21 @@ class UserFirestoreProvider : BaseFirestoreProvider(FirestoreEntityName.USERS) {
             val result = firebaseAuth.createUserWithEmailAndPassword(email, password).await()
             val firebaseUser = result.user
             return if (firebaseUser != null) Either.Success(firebaseUser) else Either.Error(null)
+        } catch (e: Exception) { Either.Error(null) }
+    }
+
+    suspend fun getUserByEmail(email: String): Either<User?> {
+        return try {
+            val result = collectionReference.whereEqualTo("email", email).get().await()
+            val users = result.toObjects(User::class.java)
+            result.documents.forEachIndexed { index, documentSnapshot ->
+                users[index].id = documentSnapshot.id
+            }
+            if (users.isNotEmpty()) {
+                Either.Success(users.first())
+            } else {
+                Either.Error(null)
+            }
         } catch (e: Exception) { Either.Error(null) }
     }
 }

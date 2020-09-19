@@ -48,7 +48,7 @@ class AddSpotFragment : BaseFragment<AddSpotFragmentBinding, AddSpotFragmentHand
     }
 
     private fun setupAppBar() {
-        val configuration = AppBarView.AppBarViewConfiguration(R.string.add_spot__header, true, false ,null, this)
+        val configuration = AppBarView.AppBarViewConfiguration(R.string.add_spot__header, true,null, this)
         binding.appBarV.configuration = configuration
     }
 

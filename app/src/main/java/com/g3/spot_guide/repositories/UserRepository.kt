@@ -8,5 +8,6 @@ class UserRepository (
 
     suspend fun loginUserWithFirebase(email: String, password: String) = provider.loginUserWithFirebase(email, password)
     suspend fun registerUserWithFirebase(email: String, password: String) = provider.registerUserWithFirebase(email, password)
+    suspend fun getUserByEmail(email: String) = provider.getUserByEmail(email)
 }
 
