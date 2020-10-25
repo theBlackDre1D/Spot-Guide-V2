@@ -10,7 +10,7 @@ data class User(
     val firstName: String = "",
     val lastName: String = "",
     val friends: List<String> = listOf(),
-    val instagramUrl: String = "",
+    val instagramNick: String = "",
     val sponsors: String = "",
     val stance: String = "",
     val profilePictureUrl: String = ""
@@ -24,7 +24,7 @@ data class User(
             "firstName" to firstName,
             "lastName" to lastName,
             "friends" to friends,
-            "instagramUrl" to instagramUrl,
+            "instagramUrl" to instagramNick,
             "sponsors" to sponsors,
             "stance" to stance,
             "profilePictureUrl" to profilePictureUrl

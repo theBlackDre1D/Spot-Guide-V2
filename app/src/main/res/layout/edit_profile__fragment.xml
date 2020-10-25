@@ -45,7 +45,7 @@
                 app:layout_constraintStart_toEndOf="@id/profilePictureIV"
                 app:layout_constraintTop_toTopOf="@id/profilePictureIV" />
 
-            <com.g3.spot_guide.views.HeaderWithEditTextOutlinedView
+            <com.g3.spot_guide.views.HeaderWithEditTextView
                 android:id="@+id/usernameV"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -55,7 +55,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/profilePictureIV" />
 
-            <com.g3.spot_guide.views.HeaderWithEditTextOutlinedView
+            <com.g3.spot_guide.views.HeaderWithEditTextView
                 android:id="@+id/fullNameV"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -64,7 +64,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/usernameV" />
 
-            <com.g3.spot_guide.views.HeaderWithEditTextOutlinedView
+            <com.g3.spot_guide.views.HeaderWithEditTextView
                 android:id="@+id/stanceV"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -73,7 +73,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/fullNameV" />
 
-            <com.g3.spot_guide.views.HeaderWithEditTextOutlinedView
+            <com.g3.spot_guide.views.HeaderWithEditTextView
                 android:id="@+id/aboutMeV"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -82,7 +82,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/stanceV" />
 
-            <com.g3.spot_guide.views.HeaderWithEditTextOutlinedView
+            <com.g3.spot_guide.views.HeaderWithEditTextView
                 android:id="@+id/sponsorsV"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -91,7 +91,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/aboutMeV" />
 
-            <com.g3.spot_guide.views.HeaderWithEditTextOutlinedView
+            <com.g3.spot_guide.views.HeaderWithEditTextView
                 android:id="@+id/instagramV"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"

@@ -18,6 +18,6 @@ class EditProfileFragmentViewModel : ViewModel() {
         stance = user.stance
         aboutMe = user.aboutMe
         sponsors = user.sponsors
-        instagramUrl = user.instagramUrl
+        instagramUrl = user.instagramNick
     }
 }

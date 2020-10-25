@@ -23,12 +23,12 @@ class HeaderWithEditTextView : ConstraintLayout {
         }
 
     private fun setupView(configuration: HeaderWithEditTextViewConfiguration) {
-        binding.inputTIET.afterTextChanged { input ->
+        binding.inputET.afterTextChanged { input ->
             configuration.handler.onInputTextChanged(input)
         }
 
         binding.headerTV.setText(configuration.headerText)
-        binding.inputTIET.setText(configuration.inputText)
+        binding.inputET.setText(configuration.inputText)
     }
 
     data class HeaderWithEditTextViewConfiguration(

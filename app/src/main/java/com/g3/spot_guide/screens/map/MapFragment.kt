@@ -12,7 +12,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import androidx.core.content.ContextCompat
-import androidx.core.view.isVisible
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import com.araujo.jordan.excuseme.ExcuseMe
@@ -63,17 +62,17 @@ class MapFragment : BaseFragment<MapFragmentBinding, MapFragmentHandler>(), Goog
     private val mapFragmentViewModel: MapFragmentViewModel by viewModel()
     override fun setBinding(layoutInflater: LayoutInflater): MapFragmentBinding = MapFragmentBinding.inflate(layoutInflater)
     override fun onFragmentLoadingFinished(binding: MapFragmentBinding, context: Context) {
-        setupLoading()
+        setupAppBar()
         handlePermissions()
         setupObservers()
         setupButtonsListeners()
-        setupAppBarView()
     }
 
     override fun onFragmentResumed() {
         super.onFragmentResumed()
         // TODO Thing about better implementation
 //        mapFragmentViewModel.mostRecentOpenedSpot?.let { handler.openSpotDetailScreen(it) }
+        binding.appBarV.showLoading(true)
         mapFragmentViewModel.getAllSpots()
     }
 
@@ -96,28 +95,36 @@ class MapFragment : BaseFragment<MapFragmentBinding, MapFragmentHandler>(), Goog
         }
     }
 
+    private fun setupAppBar() {
+        binding.appBarV.configuration = AppBarView.AppBarViewConfiguration(R.string.app_name, false, null, null)
+    }
+
     private fun setupButtonsListeners() {
         binding.addSpotB.onClick {
-            mapFragmentViewModel.lastKnownLocation?.let { location ->
-                val latLng = LatLng(location.latitude, location.longitude)
+            if (mapFragmentViewModel.lastKnownLocation != null) {
+                val location = mapFragmentViewModel.lastKnownLocation
+                val latLng = LatLng(location!!.latitude, location.longitude)
                 handler.openAddSpotScreen(latLng)
+            } else {
+                showSnackBar(binding.root, R.string.error__location_not_available)
             }
         }
 
         binding.filterSpotsFAB.onClick { handler.openSpotsFilterSheet() }
     }
 
-    private fun setupLoading() {
-        binding.loadingV.isBlurVisible = false
-    }
-
     private fun setupObservers() {
-        mapFragmentViewModel.spots.observe(this, Observer { spots ->
+        mapFragmentViewModel.spots.observe(this, { spots ->
             when (spots) {
-                is Either.Error -> showSnackBar(binding.root, R.string.error__spots_load)
-                is Either.Success -> spots.value.forEach { spot -> createMarkerAtLocation(spot) }
+                is Either.Error -> {
+                    showSnackBar(binding.root, R.string.error__spots_load)
+                    binding.appBarV.showLoading(false)
+                }
+                is Either.Success -> {
+                    binding.appBarV.showLoading(spots.value.isEmpty())
+                    spots.value.forEach { spot -> createMarkerAtLocation(spot) }
+                }
             }
-            binding.loadingV.isVisible = false
         })
 
         val filtersLiveData = handler.getFiltersLiveData()
@@ -176,15 +183,6 @@ class MapFragment : BaseFragment<MapFragmentBinding, MapFragmentHandler>(), Goog
         }
 
         locationManager?.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000, 0f, locationListener)
-    }
-
-    private fun setupAppBarView() {
-        val appBarViewHandler = object : AppBarView.AppBarViewHandler {
-            override fun onLeftIconClick() {}
-        }
-
-        val configuration = AppBarView.AppBarViewConfiguration(R.string.app_name, false, R.drawable.ic_drawer, appBarViewHandler)
-        binding.appBarV.configuration = configuration
     }
 
     override fun onMapLongClick(latLng: LatLng?) {

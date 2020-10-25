@@ -58,6 +58,7 @@
 
     <style name="Button.Full" parent="AppButton">
         <item name="android:layout_width">match_parent</item>
+        <item name="fontFamily">@font/montserrat_medium</item>
     </style>
 
     <style name="Button.Middle" parent="AppButton">
@@ -96,57 +97,79 @@
 
     <!-- TEXT VIEW - PARENTS -->
     <style name="sfpro_text__text_view" parent="Widget.MaterialComponents.TextView">
-        <item name="android:fontFamily">@font/roboto_light</item>
+        <item name="android:fontFamily">@font/montserrat_light</item>
     </style>
 
     <style name="sfpro_text_bold__text_view" parent="Widget.MaterialComponents.TextView">
-        <item name="android:fontFamily">@font/roboto_bold</item>
+        <item name="android:fontFamily">@font/montserrat_medium</item>
+        <item name="android:textColor">@color/colorAccent</item>
     </style>
 
     <style name="sfpro_text_italic__text_view" parent="Widget.MaterialComponents.TextView">
-        <item name="android:fontFamily">@font/roboto_light</item>
+        <item name="android:fontFamily">@font/montserrat_light</item>
         <item name="android:textStyle">italic</item>
     </style>
 
     <style name="sfpro_display__text_view" parent="Widget.MaterialComponents.TextView">
-        <item name="android:fontFamily">@font/roboto_light</item>
+        <item name="android:fontFamily">@font/montserrat_light</item>
     </style>
 
     <style name="sfpro_display_bold__text_view" parent="Widget.MaterialComponents.TextView">
-        <item name="android:fontFamily">@font/roboto_bold</item>
+        <item name="android:fontFamily">@font/montserrat_medium</item>
         <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/colorAccent</item>
     </style>
 
 
     <!-- TEXT VIEW - CHILD -->
     <style name="bold_sfpro_text__36__black_333333" parent="sfpro_display_bold__text_view">
         <item name="android:textSize">36sp</item>
-        <item name="android:textColor">@color/black_333333</item>
+<!--        <item name="android:textColor">@color/black_333333</item>-->
+    </style>
+
+    <style name="bold_sfpro_text__20__black_333333" parent="sfpro_display_bold__text_view">
+        <item name="android:textSize">20sp</item>
+<!--        <item name="android:textColor">@color/black_333333</item>-->
     </style>
 
     <style name="bold_sfpro_text__18__black_333333" parent="sfpro_display_bold__text_view">
         <item name="android:textSize">18sp</item>
-        <item name="android:textColor">@color/black_333333</item>
+<!--        <item name="android:textColor">@color/black_333333</item>-->
     </style>
 
     <style name="bold_sfpro_text__16__black_333333" parent="sfpro_display_bold__text_view">
         <item name="android:textSize">16sp</item>
-        <item name="android:textColor">@color/black_333333</item>
+<!--        <item name="android:textColor">@color/black_333333</item>-->
     </style>
 
     <style name="bold_sfpro_text__24__black_333333" parent="sfpro_display_bold__text_view">
         <item name="android:textSize">24sp</item>
-        <item name="android:textColor">@color/black_333333</item>
+<!--        <item name="android:textColor">@color/black_333333</item>-->
     </style>
 
-    <style name="normal_sfpro_text__16__grey_BFBFBF" parent="sfpro_text__text_view">
+    <style name="normal_sfpro_text__16__grey_272637" parent="sfpro_text__text_view">
         <item name="android:textSize">16sp</item>
-        <item name="android:textColor">@color/grey_BFBFBF</item>
+        <item name="android:textColor">@color/grey_272637</item>
+    </style>
+
+    <style name="normal_sfpro_text__14__grey_272637" parent="sfpro_text__text_view">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/grey_272637</item>
+    </style>
+
+    <style name="bold_sfpro_text__14__grey_272637" parent="sfpro_display_bold__text_view">
+        <item name="android:textSize">14sp</item>
+<!--        <item name="android:textColor">@color/grey_272637</item>-->
+    </style>
+
+    <style name="bold_sfpro_text__16__grey_272637" parent="sfpro_display_bold__text_view">
+        <item name="android:textSize">16sp</item>
+<!--        <item name="android:textColor">@color/grey_272637</item>-->
     </style>
 
     <style name="bold_sfpro_text__16__grey_899191" parent="sfpro_display_bold__text_view">
         <item name="android:textSize">16sp</item>
-        <item name="android:textColor">@color/grey_899191</item>
+<!--        <item name="android:textColor">@color/grey_899191</item>-->
     </style>
 
     <style name="normal_sfpro_text__16__grey_8A8A8A" parent="sfpro_text__text_view">
@@ -171,6 +194,11 @@
 
     <style name="normal_sfpro_text__16__purple_6B14A6" parent="sfpro_text__text_view">
         <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/colorPrimary</item>
+    </style>
+
+    <style name="normal_sfpro_text__14__purple_6B14A6" parent="sfpro_text__text_view">
+        <item name="android:textSize">14sp</item>
         <item name="android:textColor">@color/colorPrimary</item>
     </style>
 

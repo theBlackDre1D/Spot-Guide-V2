@@ -60,16 +60,44 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/spotNameET" />
 
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/parkingIV"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginTop="25dp"
+                android:src="@drawable/ic_parking"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/ratingV" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/parkingTV"
+                style="@style/normal_sfpro_text__16__grey_272637"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/spot_detail__parking"
+                app:layout_constraintBottom_toBottomOf="@id/parkingIV"
+                app:layout_constraintStart_toEndOf="@id/parkingIV"
+                app:layout_constraintTop_toTopOf="@id/parkingIV" />
+
+            <com.google.android.material.switchmaterial.SwitchMaterial
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                app:layout_constraintBottom_toBottomOf="@id/parkingIV"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/parkingIV" />
+
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/categoryTV"
-                style="@style/normal_sfpro_text__16__grey_8A8A8A"
+                style="@style/bold_sfpro_text__16__black_333333"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
                 android:text="@string/add_spot__category"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/ratingV" />
+                app:layout_constraintTop_toBottomOf="@id/parkingIV" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/chooseTypeB"
@@ -95,12 +123,13 @@
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/groundQualityTV"
-                style="@style/normal_sfpro_text__16__grey_8A8A8A"
+                style="@style/bold_sfpro_text__16__black_333333"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
                 android:text="@string/add_spot__ground_quality"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.498"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/choosedTypeB" />
 
@@ -115,7 +144,7 @@
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/photosTV"
-                style="@style/normal_sfpro_text__16__grey_8A8A8A"
+                style="@style/bold_sfpro_text__16__black_333333"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
@@ -149,7 +178,7 @@
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/descriptionTV"
-                style="@style/normal_sfpro_text__16__grey_8A8A8A"
+                style="@style/bold_sfpro_text__16__black_333333"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"

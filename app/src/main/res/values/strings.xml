@@ -9,6 +9,7 @@
     <string name="error__spot_upload">Spot upload failed.</string>
     <string name="error__log_in">Unable to log in. Check username and password and try again.</string>
     <string name="error__user_loading">Unable to load user with this email.</string>
+    <string name="error__location_not_available">Current location is not available.</string>
 
     <!--  On boarding  -->
     <string name="on_boarding__community_spots">Spots are created by community - riders from all corners of world. If you saw good spot share it with community as they shared theirs with you.</string>
@@ -22,6 +23,9 @@
     <string name="map__description">Description</string>
     <string name="map__add_review">Add review</string>
     <string name="map__unknown_location">Unknown location</string>
+
+    <!--  Spot detail  -->
+    <string name="spot_detail__parking">Parking</string>
 
     <!--  Add spot  -->
     <string name="add_spot__header">Add spot</string>
@@ -71,7 +75,7 @@
     <string name="profile__full_name">Full name</string>
     <string name="profile__stance">Stance</string>
     <string name="profile__edit_header">Edit profile</string>
-    <string name="profile__change_profile_picture">Change profile picture</string>
+    <string name="profile__change_profile_picture">Change</string>
     <string name="profile__save">Save</string>
 
 </resources>

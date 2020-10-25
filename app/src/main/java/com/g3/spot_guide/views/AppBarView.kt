@@ -28,7 +28,7 @@ class AppBarView : ConstraintLayout {
 
     private fun setupView(configuration: AppBarViewConfiguration) {
         binding.middleTV.setText(configuration.middleText)
-        binding.leftIconIV.isVisible = configuration.leftIcon != null
+        binding.leftIconIV.isVisible = false
 
         binding.leftIconIV.onClick {
             configuration.handler?.onLeftIconClick()
@@ -37,6 +37,10 @@ class AppBarView : ConstraintLayout {
         configuration.leftIcon?.let { drawableResId ->
             binding.leftIconIV.setImageResource(drawableResId)
         }
+    }
+
+    fun showLoading(show: Boolean) {
+        binding.loadingV.isVisible = show
     }
 
     data class AppBarViewConfiguration(

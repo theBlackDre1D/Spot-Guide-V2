@@ -1,14 +1,17 @@
 package com.g3.spot_guide.screens.profile
 
+import android.content.ActivityNotFoundException
 import android.content.Context
+import android.content.Intent
+import android.net.Uri
 import android.view.LayoutInflater
-import androidx.lifecycle.Observer
 import com.g3.base.either.Either
 import com.g3.base.screens.fragment.BaseFragment
 import com.g3.base.screens.fragment.BaseFragmentHandler
 import com.g3.spot_guide.R
 import com.g3.spot_guide.databinding.ProfileFragmentBinding
 import com.g3.spot_guide.extensions.loadImageFromFirebase
+import com.g3.spot_guide.extensions.onClick
 import com.g3.spot_guide.models.Spot
 import com.g3.spot_guide.models.User
 import com.g3.spot_guide.views.AppBarView
@@ -23,7 +26,9 @@ class ProfileFragment : BaseFragment<ProfileFragmentBinding, ProfileFragmentHand
     private val spotsAdapter: SpotsAdapter by lazy { SpotsAdapter(this) }
 
     private val profileFragmentViewModel: ProfileFragmentViewModel by viewModel()
-    override fun setBinding(layoutInflater: LayoutInflater): ProfileFragmentBinding = ProfileFragmentBinding.inflate(layoutInflater)
+    override fun setBinding(layoutInflater: LayoutInflater): ProfileFragmentBinding = ProfileFragmentBinding.inflate(
+        layoutInflater
+    )
     override fun onFragmentLoadingFinished(binding: ProfileFragmentBinding, context: Context) {
         setupLiveDataObservers()
 
@@ -53,29 +58,36 @@ class ProfileFragment : BaseFragment<ProfileFragmentBinding, ProfileFragmentHand
                 }
             }
         }
-        binding.bottomButtonV.configuration = BottomButtonView.BottomButtonViewConfiguration(R.string.profile__edit, handler)
+        binding.bottomButtonV.configuration = BottomButtonView.BottomButtonViewConfiguration(
+            R.string.profile__edit,
+            handler
+        )
     }
 
     private fun setupAppBar() {
-        binding.appBarV.configuration = AppBarView.AppBarViewConfiguration(R.string.bar_menu_profile, false, null, null)
+        binding.appBarV.configuration = AppBarView.AppBarViewConfiguration(
+            R.string.bar_menu_profile,
+            false,
+            null,
+            null
+        )
     }
 
     private fun setupLiveDataObservers() {
-        profileFragmentViewModel.userLiveData.observe(this, Observer { user ->
+        profileFragmentViewModel.userLiveData.observe(this, { user ->
             when (user) {
                 is Either.Error -> showSnackBar(binding.root, R.string.error__user_loading)
                 is Either.Success -> handleUserLoadRespond(user.value)
             }
         })
 
-        profileFragmentViewModel.userSpots.observe(this, Observer { spots ->
+        profileFragmentViewModel.userSpots.observe(this, { spots ->
             when (spots) {
-                is Either.Error -> {}
+                is Either.Error -> {
+                }
                 is Either.Success -> handleSpotsLoaded(spots.value)
             }
         })
-
-
     }
 
     private fun handleSpotsLoaded(spots: List<Spot>) {
@@ -104,16 +116,30 @@ class ProfileFragment : BaseFragment<ProfileFragmentBinding, ProfileFragmentHand
         binding.nickTV.text = user.nick
         binding.nameTV.text = "${user.firstName} ${user.lastName}"
         binding.stanceTV.text = user.stance
-        binding.aboutMeV.configuration = HeaderWithTextView.HeaderWithTextViewConfiguration(R.string.profile__about_me, user.aboutMe)
-        binding.sponsorsV.configuration = HeaderWithTextView.HeaderWithTextViewConfiguration(R.string.profile__sponsors, user.sponsors)
+        binding.aboutMeV.configuration = HeaderWithTextView.HeaderWithTextViewConfiguration(
+            R.string.profile__about_me,
+            user.aboutMe
+        )
+        binding.sponsorsV.configuration = HeaderWithTextView.HeaderWithTextViewConfiguration(
+            R.string.profile__sponsors,
+            user.sponsors
+        )
 
-        val instagramHandler = object : HeaderWithTextView.HeaderWithTextViewHandler {
-            override fun onTextClicked() {
-                // TODO open isntagram
+        binding.instagramNickTV.text = user.instagramNick
+        binding.instagramNickTV.onClick {
+            val uriString = "http://instagram.com/_u/${user.instagramNick}"
+            val uri = Uri.parse(uriString)
+            val likeIng = Intent(Intent.ACTION_VIEW, uri)
+
+            likeIng.setPackage("com.instagram.android")
+
+            try {
+                startActivity(likeIng)
+            } catch (e: ActivityNotFoundException) {
+                startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(uriString)))
             }
-
         }
-        binding.instagramV.configuration = HeaderWithTextView.HeaderWithTextViewConfiguration(R.string.profile__instagram, user.instagramUrl, R.color.blue_6C63FF, instagramHandler)
+
         binding.spotsRV.adapter = spotsAdapter
 
         profileFragmentViewModel.getUsersSpots(user.id)

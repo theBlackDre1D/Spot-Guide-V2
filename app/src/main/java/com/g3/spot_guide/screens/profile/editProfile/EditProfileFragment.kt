@@ -10,7 +10,7 @@ import com.g3.spot_guide.extensions.loadImageFromFirebase
 import com.g3.spot_guide.models.User
 import com.g3.spot_guide.views.AppBarView
 import com.g3.spot_guide.views.BottomButtonView
-import com.g3.spot_guide.views.HeaderWithEditTextOutlinedView
+import com.g3.spot_guide.views.HeaderWithEditTextView
 import org.koin.android.viewmodel.ext.android.viewModel
 
 class EditProfileFragment : BaseFragment<EditProfileFragmentBinding, EditProfileFragmentHandler>() {
@@ -36,47 +36,47 @@ class EditProfileFragment : BaseFragment<EditProfileFragmentBinding, EditProfile
     private fun setupCurrentUserInfo() {
         binding.profilePictureIV.loadImageFromFirebase(user.profilePictureUrl)
 
-        val userNameHandler = object : HeaderWithEditTextOutlinedView.HeaderWithEditTextOutlinedViewHandler {
+        val userNameHandler = object : HeaderWithEditTextView.HeaderWithEditTextViewHandler {
             override fun onInputTextChanged(input: String) {
                 editProfileFragmentViewModel.userName = input
             }
         }
-        binding.usernameV.configuration = HeaderWithEditTextOutlinedView.HeaderWithEditTextOutlinedViewConfiguration(R.string.profile__username, editProfileFragmentViewModel.userName, userNameHandler)
+        binding.usernameV.configuration = HeaderWithEditTextView.HeaderWithEditTextViewConfiguration(R.string.profile__username, editProfileFragmentViewModel.userName, userNameHandler)
 
-        val fullNameHandler = object : HeaderWithEditTextOutlinedView.HeaderWithEditTextOutlinedViewHandler {
+        val fullNameHandler = object : HeaderWithEditTextView.HeaderWithEditTextViewHandler {
             override fun onInputTextChanged(input: String) {
                 editProfileFragmentViewModel.fullName = input
             }
         }
-        binding.fullNameV.configuration = HeaderWithEditTextOutlinedView.HeaderWithEditTextOutlinedViewConfiguration(R.string.profile__full_name, editProfileFragmentViewModel.fullName, fullNameHandler)
+        binding.fullNameV.configuration = HeaderWithEditTextView.HeaderWithEditTextViewConfiguration(R.string.profile__full_name, editProfileFragmentViewModel.fullName, fullNameHandler)
 
-        val stanceHandler = object : HeaderWithEditTextOutlinedView.HeaderWithEditTextOutlinedViewHandler {
+        val stanceHandler = object : HeaderWithEditTextView.HeaderWithEditTextViewHandler {
             override fun onInputTextChanged(input: String) {
                 editProfileFragmentViewModel.stance = input
             }
         }
-        binding.stanceV.configuration = HeaderWithEditTextOutlinedView.HeaderWithEditTextOutlinedViewConfiguration(R.string.profile__stance, editProfileFragmentViewModel.stance, stanceHandler)
+        binding.stanceV.configuration = HeaderWithEditTextView.HeaderWithEditTextViewConfiguration(R.string.profile__stance, editProfileFragmentViewModel.stance, stanceHandler)
 
-        val aboutMeHandler = object : HeaderWithEditTextOutlinedView.HeaderWithEditTextOutlinedViewHandler {
+        val aboutMeHandler = object : HeaderWithEditTextView.HeaderWithEditTextViewHandler {
             override fun onInputTextChanged(input: String) {
                 editProfileFragmentViewModel.aboutMe = input
             }
         }
-        binding.aboutMeV.configuration = HeaderWithEditTextOutlinedView.HeaderWithEditTextOutlinedViewConfiguration(R.string.profile__about_me, editProfileFragmentViewModel.aboutMe, aboutMeHandler)
+        binding.aboutMeV.configuration = HeaderWithEditTextView.HeaderWithEditTextViewConfiguration(R.string.profile__about_me, editProfileFragmentViewModel.aboutMe, aboutMeHandler)
 
-        val sponsorsHandler = object : HeaderWithEditTextOutlinedView.HeaderWithEditTextOutlinedViewHandler {
+        val sponsorsHandler = object : HeaderWithEditTextView.HeaderWithEditTextViewHandler {
             override fun onInputTextChanged(input: String) {
                 editProfileFragmentViewModel.sponsors = input
             }
         }
-        binding.sponsorsV.configuration = HeaderWithEditTextOutlinedView.HeaderWithEditTextOutlinedViewConfiguration(R.string.profile__sponsors, editProfileFragmentViewModel.sponsors, sponsorsHandler)
+        binding.sponsorsV.configuration = HeaderWithEditTextView.HeaderWithEditTextViewConfiguration(R.string.profile__sponsors, editProfileFragmentViewModel.sponsors, sponsorsHandler)
 
-        val instagramHandler = object : HeaderWithEditTextOutlinedView.HeaderWithEditTextOutlinedViewHandler {
+        val instagramHandler = object : HeaderWithEditTextView.HeaderWithEditTextViewHandler {
             override fun onInputTextChanged(input: String) {
                 editProfileFragmentViewModel.instagramUrl = input
             }
         }
-        binding.instagramV.configuration = HeaderWithEditTextOutlinedView.HeaderWithEditTextOutlinedViewConfiguration(R.string.profile__instagram, editProfileFragmentViewModel.instagramUrl, instagramHandler)
+        binding.instagramV.configuration = HeaderWithEditTextView.HeaderWithEditTextViewConfiguration(R.string.profile__instagram, editProfileFragmentViewModel.instagramUrl, instagramHandler)
     }
 
     private fun setupBottomButton() {
@@ -86,6 +86,10 @@ class EditProfileFragment : BaseFragment<EditProfileFragmentBinding, EditProfile
             }
         }
         binding.bottomButtonV.configuration = BottomButtonView.BottomButtonViewConfiguration(R.string.profile__save, handler)
+    }
+
+    private fun handleNavigationBack() {
+
     }
 }
 
