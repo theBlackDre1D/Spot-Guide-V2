@@ -25,6 +25,7 @@ class OtherUserProfileFragment : BaseFragment<ProfileFragmentBinding, OtherUserP
     override fun setBinding(layoutInflater: LayoutInflater) = ProfileFragmentBinding.inflate(layoutInflater)
     override fun onFragmentLoadingFinished(binding: ProfileFragmentBinding, context: Context) {
         otherUserProfileFragmentViewModel.user.postValue(Either.Success(handler.getUser()))
+        binding.bottomSpacer.isVisible = true
 
         setupObservers()
         setupBottomButton()

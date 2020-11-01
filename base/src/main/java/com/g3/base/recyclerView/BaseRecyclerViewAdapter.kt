@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 @Suppress("UNCHECKED_CAST")
 abstract class BaseRecyclerViewAdapter<VH: BaseViewHolder, ADAPTER_ITEM: BaseAdapterItem> : RecyclerView.Adapter<BaseViewHolder>() {
 
-    protected val adapterItems = mutableListOf<ADAPTER_ITEM>()
+    private val adapterItems = mutableListOf<ADAPTER_ITEM>()
 
     fun injectData(newItems: List<ADAPTER_ITEM>) {
         adapterItems.clear()

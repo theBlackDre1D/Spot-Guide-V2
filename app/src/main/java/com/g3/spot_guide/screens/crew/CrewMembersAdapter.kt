@@ -50,7 +50,6 @@ class CrewMembersAdapter(
         }
 
         handler.itemsLoaded()
-
     }
 
     class CrewMembersAdapterViewHolder(val binding: CrewMemberItemViewBinding) : BaseViewHolder(binding.root) {

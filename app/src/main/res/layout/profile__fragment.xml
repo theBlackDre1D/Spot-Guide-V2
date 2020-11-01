@@ -151,6 +151,15 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/spotsRV" />
 
+            <Space
+                android:id="@+id/bottomSpacer"
+                android:layout_width="0dp"
+                android:layout_height="15dp"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/spotsRV" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </ScrollView>

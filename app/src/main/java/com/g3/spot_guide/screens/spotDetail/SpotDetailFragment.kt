@@ -85,7 +85,9 @@ class SpotDetailFragment : BaseBottomSheet<SpotDetailFragmentBinding, SpotDetail
             binding.photosLoadingV.isVisible = imageUris.isEmpty()
         })
 
-        spotDetailFragmentViewModel.loadImages(arguments.spotArguments.spot?.images ?: listOf())
+        if (spotDetailFragmentViewModel.imagesUris.value?.isEmpty() == true) {
+            spotDetailFragmentViewModel.loadImages(arguments.spotArguments.spot?.images ?: listOf())
+        }
     }
 
     private fun setupButtons() {
@@ -109,4 +111,5 @@ class SpotDetailFragment : BaseBottomSheet<SpotDetailFragmentBinding, SpotDetail
 interface SpotDetailFragmentHandler : BaseFragmentHandler {
     fun openImagesGallery(images: List<Uri>, position: Int)
     fun openSpotInMaps(spot: Spot)
+    fun openAddReviewBottomSheet(spot: Spot)
 }

@@ -61,4 +61,8 @@ class OtherUserProfileActivity : BaseActivity<OtherUserProfileActivityBinding, O
     override fun openSpotInMaps(spot: Spot) {
         OpenMapsUtils.openMapOnLocation(this, spot)
     }
+
+    override fun openAddReviewBottomSheet(spot: Spot) {
+//        TODO("Not yet implemented")
+    }
 }

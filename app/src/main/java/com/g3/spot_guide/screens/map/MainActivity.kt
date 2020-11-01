@@ -64,6 +64,10 @@ class MainActivity : BaseActivity<MainActivityNavBarBinding, Nothing>(), MapFrag
         OpenMapsUtils.openMapOnLocation(this, spot)
     }
 
+    override fun openAddReviewBottomSheet(spot: Spot) {
+//        TODO("Not yet implemented")
+    }
+
     override fun onSpotTypeCLick(spotType: SpotType) {
         val currentFiltersValue = mapActivityViewModel.spotsFilters.value
         if (currentFiltersValue != null) {
