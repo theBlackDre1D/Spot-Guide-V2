@@ -7,14 +7,18 @@ import com.g3.spot_guide.repositories.SpotRepository
 import com.g3.spot_guide.repositories.UserRepository
 import com.g3.spot_guide.screens.addSpot.AddSpotActivityViewModel
 import com.g3.spot_guide.screens.addSpot.AddSpotFragmentViewModel
+import com.g3.spot_guide.screens.crew.CrewFragmentViewModel
 import com.g3.spot_guide.screens.gallery.GalleryFragmentViewModel
 import com.g3.spot_guide.screens.login.LoginFragmentViewModel
 import com.g3.spot_guide.screens.login.RegisterFragmentViewModel
 import com.g3.spot_guide.screens.map.MapActivityViewModel
 import com.g3.spot_guide.screens.map.MapFragmentViewModel
-import com.g3.spot_guide.screens.profile.ProfileFragmentViewModel
 import com.g3.spot_guide.screens.profile.editProfile.EditProfileActivityViewModel
 import com.g3.spot_guide.screens.profile.editProfile.EditProfileFragmentViewModel
+import com.g3.spot_guide.screens.profile.myProfile.MyProfileFragmentViewModel
+import com.g3.spot_guide.screens.profile.otherUserProfile.OtherUserProfileActivityViewModel
+import com.g3.spot_guide.screens.profile.otherUserProfile.OtherUserProfileFragmentViewModel
+import com.g3.spot_guide.screens.splash.SplashActivityViewModel
 import com.g3.spot_guide.screens.spotDetail.SpotDetailFragmentViewModel
 import org.koin.android.viewmodel.dsl.viewModel
 import org.koin.dsl.module
@@ -30,9 +34,13 @@ val appModules = module {
     viewModel { MapActivityViewModel() }
     viewModel { LoginFragmentViewModel( get() ) }
     viewModel { RegisterFragmentViewModel( get() ) }
-    viewModel { ProfileFragmentViewModel( get(), get() ) }
+    viewModel { MyProfileFragmentViewModel( get(), get() ) }
     viewModel { EditProfileActivityViewModel() }
     viewModel { EditProfileFragmentViewModel() }
+    viewModel { CrewFragmentViewModel( get() ) }
+    viewModel { SplashActivityViewModel( get() ) }
+    viewModel { OtherUserProfileActivityViewModel() }
+    viewModel { OtherUserProfileFragmentViewModel( get(), get() ) }
 
     // Repositories
     single { SpotRepository( get() ) }

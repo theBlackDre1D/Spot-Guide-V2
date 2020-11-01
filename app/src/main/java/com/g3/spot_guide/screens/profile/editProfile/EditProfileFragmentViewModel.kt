@@ -10,7 +10,7 @@ class EditProfileFragmentViewModel : ViewModel() {
     var stance: String = ""
     var aboutMe: String = ""
     var sponsors: String = ""
-    var instagramUrl: String = ""
+    var instagramNick: String? = null
 
     fun fillAttributesWithValues(user: User) {
         userName = user.nick
@@ -18,6 +18,6 @@ class EditProfileFragmentViewModel : ViewModel() {
         stance = user.stance
         aboutMe = user.aboutMe
         sponsors = user.sponsors
-        instagramUrl = user.instagramNick
+        instagramNick = user.instagramNick
     }
 }

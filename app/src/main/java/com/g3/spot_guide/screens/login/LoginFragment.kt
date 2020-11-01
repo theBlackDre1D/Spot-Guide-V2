@@ -2,7 +2,6 @@ package com.g3.spot_guide.screens.login
 
 import android.content.Context
 import android.view.LayoutInflater
-import androidx.lifecycle.Observer
 import com.g3.base.either.Either
 import com.g3.base.screens.fragment.BaseFragment
 import com.g3.base.screens.fragment.BaseFragmentHandler
@@ -52,7 +51,7 @@ class LoginFragment : BaseFragment<LoginFragmentBinding, LoginFragmentHandler>()
     private fun setupLoginButton() = binding.loginB.onClick { logIn() }
 
     private fun logIn() {
-        loginFragmentViewModel.loggedInUser.observe(this, Observer { result ->
+        loginFragmentViewModel.loggedInUser.observe(this, { result ->
             when (result) {
                 is Either.Error -> showSnackBar(binding.root, R.string.error__log_in, true)
                 is Either.Success -> handler.openMapScreen()

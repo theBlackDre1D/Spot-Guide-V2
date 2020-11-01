@@ -5,16 +5,24 @@ import android.content.Context
 import android.net.Uri
 import android.view.LayoutInflater
 import androidx.core.view.isVisible
-import androidx.lifecycle.Observer
 import androidx.navigation.fragment.navArgs
 import com.azoft.carousellayoutmanager.CarouselLayoutManager
 import com.azoft.carousellayoutmanager.CarouselZoomPostLayoutListener
 import com.azoft.carousellayoutmanager.CenterScrollListener
+import com.g3.base.either.Either
 import com.g3.base.screens.dialogs.BaseBottomSheet
 import com.g3.base.screens.fragment.BaseFragmentHandler
+import com.g3.spot_guide.R
 import com.g3.spot_guide.databinding.SpotDetailFragmentBinding
+import com.g3.spot_guide.extensions.onClick
+import com.g3.spot_guide.models.Spot
 import org.koin.android.viewmodel.ext.android.viewModel
+import java.io.Serializable
 
+data class SpotDetailFragmentArguments(
+    val spot: Spot?,
+    val spotId: String?
+) : Serializable
 
 class SpotDetailFragment : BaseBottomSheet<SpotDetailFragmentBinding, SpotDetailFragmentHandler>(), SpotDetailPhotosAdapter.SpotDetailPhotosAdapterHandler {
 
@@ -25,18 +33,37 @@ class SpotDetailFragment : BaseBottomSheet<SpotDetailFragmentBinding, SpotDetail
     private val spotDetailFragmentViewModel: SpotDetailFragmentViewModel by viewModel()
     override fun setBinding(layoutInflater: LayoutInflater): SpotDetailFragmentBinding = SpotDetailFragmentBinding.inflate(layoutInflater)
     override fun onFragmentLoadingFinished(binding: SpotDetailFragmentBinding, context: Context) {
+        setupSpotObserver()
         setupSpotData()
         setupImagesRV()
         downloadImages()
+        setupButtons()
     }
 
     private fun setupSpotData() {
-        val spot = arguments.args
+        val spot = arguments.spotArguments.spot
 
-        binding.spotNameTV.text = spot.name
-        binding.spotLocationTV.text = GeoCoderUtils.getNameFromLocation(requireContext(), spot.location)
-        binding.descriptionContentTV.text = spot.description
-        binding.spotTypeTV.text = spot.spotType
+        if (spot != null) {
+            spotDetailFragmentViewModel.spot.postValue(Either.Success(spot))
+        } else {
+            arguments.spotArguments.spotId?.let { spotId ->
+                spotDetailFragmentViewModel.getSpot(spotId)
+            }
+        }
+    }
+
+    private fun setupSpotObserver() {
+        spotDetailFragmentViewModel.spot.observe(this, { spotEither ->
+            val spotValue = spotEither.getValueOrNull()
+            if (spotValue != null) {
+                binding.spotNameTV.text = spotValue.name
+                binding.spotLocationTV.text = GeoCoderUtils.getNameFromLocation(requireContext(), spotValue.location)
+                binding.descriptionContentTV.text = spotValue.description
+                binding.spotTypeTV.text = spotValue.spotType
+            } else {
+                showSnackBar(binding.root, R.string.error__spots_load)
+            }
+        })
     }
 
     private fun setupImagesRV() {
@@ -49,7 +76,7 @@ class SpotDetailFragment : BaseBottomSheet<SpotDetailFragmentBinding, SpotDetail
     }
 
     private fun downloadImages() {
-        spotDetailFragmentViewModel.imagesUris.observe(this, Observer { imageUris ->
+        spotDetailFragmentViewModel.imagesUris.observe(this, { imageUris ->
             val adapterItems = mutableListOf<SpotDetailPhotosAdapter.SpotDetailPhotosAdapterItem>()
             imageUris.forEach {
                 adapterItems.add(SpotDetailPhotosAdapter.SpotDetailPhotosAdapterItem(it))
@@ -58,7 +85,20 @@ class SpotDetailFragment : BaseBottomSheet<SpotDetailFragmentBinding, SpotDetail
             binding.photosLoadingV.isVisible = imageUris.isEmpty()
         })
 
-        spotDetailFragmentViewModel.loadImages(arguments.args.images)
+        spotDetailFragmentViewModel.loadImages(arguments.spotArguments.spot?.images ?: listOf())
+    }
+
+    private fun setupButtons() {
+        binding.navigateB.onClick {
+            val spot = spotDetailFragmentViewModel.spot.value?.getValueOrNull()
+            spot?.let { nonNullSpot ->
+                handler.openSpotInMaps(nonNullSpot)
+            }
+        }
+
+        binding.addReviewB.onClick {
+            // TODO open add review bottom sheet fragment
+        }
     }
 
     override fun onPhotoClick(position: Int) {
@@ -68,4 +108,5 @@ class SpotDetailFragment : BaseBottomSheet<SpotDetailFragmentBinding, SpotDetail
 
 interface SpotDetailFragmentHandler : BaseFragmentHandler {
     fun openImagesGallery(images: List<Uri>, position: Int)
+    fun openSpotInMaps(spot: Spot)
 }

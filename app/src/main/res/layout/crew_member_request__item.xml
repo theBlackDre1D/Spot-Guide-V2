@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/profilePictureIV"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_margin="20dp"
+        android:scaleType="centerCrop"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:shapeAppearanceOverlay="@style/circleImageView" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/informationContainer"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/profilePictureIV"
+        app:layout_constraintTop_toTopOf="@id/profilePictureIV">
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/nickTV"
+            style="@style/bold_sfpro_text__16__black_333333"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="20dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="theBlackDre1D" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/nameTV"
+            style="@style/normal_sfpro_text__12__grey_272637"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="20dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/nickTV"
+            tools:text="Michal Gaborik" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/stanceTV"
+            style="@style/normal_sfpro_text__12__grey_272637"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="20dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/nameTV"
+            tools:text="Regular" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/instagramIV"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginBottom="20dp"
+        android:src="@drawable/ic_instagram"
+        app:layout_constraintStart_toStartOf="@id/informationContainer"
+        app:layout_constraintTop_toBottomOf="@id/informationContainer" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/instagramNickTV"
+        style="@style/normal_sfpro_text__14__purple_6B14A6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        app:layout_constraintBottom_toBottomOf="@id/instagramIV"
+        app:layout_constraintStart_toEndOf="@id/instagramIV"
+        app:layout_constraintTop_toTopOf="@id/instagramIV"
+        tools:text="michalkooo" />
+
+    <com.g3.spot_guide.views.BottomButtonsView
+        android:id="@+id/buttonsV"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/instagramIV" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

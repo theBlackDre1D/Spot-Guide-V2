@@ -57,7 +57,7 @@ class Session : Application() {
         val userJson = Prefs.getString(LOGGED_IN_USER__PREFS_KEY, "")
         try {
             val user = Gson().fromJson(userJson, User::class.java)
-            Session.loggedInUser = user
+            loggedInUser = user
         } catch (e: Exception) {}
     }
 }

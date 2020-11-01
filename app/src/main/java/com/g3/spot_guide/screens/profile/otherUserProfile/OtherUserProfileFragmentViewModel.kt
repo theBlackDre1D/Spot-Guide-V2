@@ -1,34 +1,31 @@
-package com.g3.spot_guide.screens.profile
+package com.g3.spot_guide.screens.profile.otherUserProfile
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import com.g3.base.either.Either
+import com.g3.spot_guide.extensions.doInCoroutine
 import com.g3.spot_guide.models.Spot
 import com.g3.spot_guide.models.User
 import com.g3.spot_guide.repositories.SpotRepository
 import com.g3.spot_guide.repositories.UserRepository
-import kotlinx.coroutines.launch
 
-class ProfileFragmentViewModel(
+class OtherUserProfileFragmentViewModel(
     private val userRepository: UserRepository,
     private val spotRepository: SpotRepository
 ) : ViewModel() {
 
-    var userEmail: String? = null
-
-    val userLiveData = MutableLiveData<Either<User?>>()
+    val user = MutableLiveData<Either<User>>()
     val userSpots = MutableLiveData<Either<List<Spot>>>()
 
-    fun getUserByEmail(email: String) {
-        viewModelScope.launch {
-            val user = userRepository.getUserByEmail(email)
-            userLiveData.postValue(user)
+    fun getUserById(userId: String) {
+        doInCoroutine {
+            val result = userRepository.getUserById(userId)
+            user.postValue(result)
         }
     }
 
     fun getUsersSpots(userId: String) {
-        viewModelScope.launch {
+        doInCoroutine {
             val spots = spotRepository.getUsersSpots(userId)
             userSpots.postValue(spots)
         }

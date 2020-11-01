@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.g3.base.either.Either
+import com.g3.spot_guide.extensions.doInCoroutine
 import com.g3.spot_guide.models.Spot
 import com.g3.spot_guide.repositories.SpotRepository
 import kotlinx.coroutines.Dispatchers
@@ -22,9 +23,11 @@ class MapFragmentViewModel(
     val spots = MutableLiveData<Either<List<Spot>>>()
 
     fun getAllSpots() {
-        viewModelScope.launch(Dispatchers.IO + SupervisorJob()) {
-            val result = repository.getAllSpots()
-            spots.postValue(result)
+        doInCoroutine {
+            viewModelScope.launch(Dispatchers.IO + SupervisorJob()) {
+                val result = repository.getAllSpots()
+                spots.postValue(result)
+            }
         }
     }
 }

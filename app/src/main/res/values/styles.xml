@@ -6,6 +6,7 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="bottomSheetDialogTheme">@style/BottomSheetDialogTheme</item>
 <!--        <item name="android:windowAnimationStyle">@style/Animation.SpotGuide.Activity.FromBottom</item>-->
         <item name="materialButtonStyle">@style/AppButton</item>
     </style>
@@ -41,6 +42,7 @@
         <item name="cornerRadius">20dp</item>
         <item name="textAllCaps">false</item>
         <item name="android:fontFamily">@font/roboto_medium</item>
+        <item name="fontFamily">@font/montserrat_medium</item>
     </style>
 
     <style name="Button.Outlined" parent="Widget.MaterialComponents.Button.OutlinedButton">
@@ -87,11 +89,18 @@
         <item name="android:windowSoftInputMode">adjustResize</item>
     </style>
 
-    <style name="BottomSheetDialogTheme" parent="BaseBottomSheetDialog" />
+    <style name="BottomSheetDialogTheme" parent="BaseBottomSheetDialog">
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimary</item>
+    </style>
 
     <style name="CustomDialogTheme" parent="@style/ThemeOverlay.MaterialComponents.Dialog">
         <item name="android:windowMinWidthMajor">90%</item>
         <item name="android:windowMinWidthMinor">90%</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
     </style>
 
 
@@ -154,6 +163,11 @@
 
     <style name="normal_sfpro_text__14__grey_272637" parent="sfpro_text__text_view">
         <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/grey_272637</item>
+    </style>
+
+    <style name="normal_sfpro_text__12__grey_272637" parent="sfpro_text__text_view">
+        <item name="android:textSize">12sp</item>
         <item name="android:textColor">@color/grey_272637</item>
     </style>
 

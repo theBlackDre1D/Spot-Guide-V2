@@ -1,9 +1,6 @@
-package com.g3.spot_guide.screens.profile
+package com.g3.spot_guide.screens.profile.myProfile
 
-import android.content.ActivityNotFoundException
 import android.content.Context
-import android.content.Intent
-import android.net.Uri
 import android.view.LayoutInflater
 import com.g3.base.either.Either
 import com.g3.base.screens.fragment.BaseFragment
@@ -14,21 +11,19 @@ import com.g3.spot_guide.extensions.loadImageFromFirebase
 import com.g3.spot_guide.extensions.onClick
 import com.g3.spot_guide.models.Spot
 import com.g3.spot_guide.models.User
+import com.g3.spot_guide.screens.profile.UserSpotsAdapter
 import com.g3.spot_guide.views.AppBarView
 import com.g3.spot_guide.views.BottomButtonView
 import com.g3.spot_guide.views.HeaderWithTextView
 import com.google.firebase.auth.FirebaseAuth
 import org.koin.android.viewmodel.ext.android.viewModel
 
+class MyProfileFragment : BaseFragment<ProfileFragmentBinding, ProfileFragmentHandler>(), UserSpotsAdapter.SpotsAdapterHandler {
 
-class ProfileFragment : BaseFragment<ProfileFragmentBinding, ProfileFragmentHandler>(), SpotsAdapter.SpotsAdapterHandler {
+    private val userSpotsAdapter: UserSpotsAdapter by lazy { UserSpotsAdapter(this) }
 
-    private val spotsAdapter: SpotsAdapter by lazy { SpotsAdapter(this) }
-
-    private val profileFragmentViewModel: ProfileFragmentViewModel by viewModel()
-    override fun setBinding(layoutInflater: LayoutInflater): ProfileFragmentBinding = ProfileFragmentBinding.inflate(
-        layoutInflater
-    )
+    private val myProfileFragmentViewModel: MyProfileFragmentViewModel by viewModel()
+    override fun setBinding(layoutInflater: LayoutInflater): ProfileFragmentBinding = ProfileFragmentBinding.inflate(layoutInflater)
     override fun onFragmentLoadingFinished(binding: ProfileFragmentBinding, context: Context) {
         setupLiveDataObservers()
 
@@ -41,8 +36,8 @@ class ProfileFragment : BaseFragment<ProfileFragmentBinding, ProfileFragmentHand
         val currentFirebaseUser = FirebaseAuth.getInstance().currentUser
         currentFirebaseUser?.let { user ->
             user.email?.let { email ->
-                profileFragmentViewModel.userEmail = email
-                profileFragmentViewModel.getUserByEmail(email)
+                myProfileFragmentViewModel.userEmail = email
+                myProfileFragmentViewModel.getUserByEmail(email)
             }
         }
     }
@@ -50,7 +45,7 @@ class ProfileFragment : BaseFragment<ProfileFragmentBinding, ProfileFragmentHand
     private fun setupBottomButton() {
         val handler = object : BottomButtonView.BottomButtonViewHandler {
             override fun onButtonClick() {
-                val user = profileFragmentViewModel.userLiveData.value
+                val user = myProfileFragmentViewModel.userLiveData.value
                 if (user is Either.Success) {
                     user.value?.let {
                         handler.openEditProfileScreen(it)
@@ -65,52 +60,40 @@ class ProfileFragment : BaseFragment<ProfileFragmentBinding, ProfileFragmentHand
     }
 
     private fun setupAppBar() {
-        binding.appBarV.configuration = AppBarView.AppBarViewConfiguration(
-            R.string.bar_menu_profile,
-            false,
-            null,
-            null
-        )
+        binding.appBarV.configuration = AppBarView.AppBarViewConfiguration(R.string.bar_menu_profile, false, null, null)
     }
 
     private fun setupLiveDataObservers() {
-        profileFragmentViewModel.userLiveData.observe(this, { user ->
-            when (user) {
-                is Either.Error -> showSnackBar(binding.root, R.string.error__user_loading)
-                is Either.Success -> handleUserLoadRespond(user.value)
+        myProfileFragmentViewModel.userLiveData.observe(this, { user ->
+            val userValue = user.getValueOrNull()
+            if (userValue != null) {
+                setupUser(userValue)
+                binding.appBarV.showLoading(false)
+            } else {
+                binding.appBarV.showLoading(false)
+                showSnackBar(binding.root, R.string.error__user_loading)
             }
         })
 
-        profileFragmentViewModel.userSpots.observe(this, { spots ->
-            when (spots) {
-                is Either.Error -> {
-                }
-                is Either.Success -> handleSpotsLoaded(spots.value)
+        myProfileFragmentViewModel.userSpots.observe(this, { spots ->
+            val value = spots.getValueOrNull()
+            if (value != null) {
+                handleSpotsLoaded(value)
+            } else {
+                // TODO spot loading failure
             }
         })
     }
 
     private fun handleSpotsLoaded(spots: List<Spot>) {
-        val items = mutableListOf<SpotsAdapter.SpotsAdapterItem>()
+        val items = mutableListOf<UserSpotsAdapter.UserSpotsAdapterItem>()
         spots.forEach { spot ->
-            items.add(SpotsAdapter.SpotsAdapterItem(spot))
+            items.add(UserSpotsAdapter.UserSpotsAdapterItem(spot))
         }
-        spotsAdapter.injectData(items)
-    }
-
-    private fun handleUserLoadRespond(user: User?) {
-        if (user != null) {
-            setupUser(user)
-        } else {
-            profileFragmentViewModel.userEmail?.let { email ->
-                handler.openEditProfileScreen(User(email = email))
-            }
-        }
+        userSpotsAdapter.injectData(items)
     }
 
     private fun setupUser(user: User) {
-        // TODO friends loading
-
         binding.profilePictureIV.loadImageFromFirebase(user.profilePictureUrl)
 
         binding.nickTV.text = user.nick
@@ -127,22 +110,14 @@ class ProfileFragment : BaseFragment<ProfileFragmentBinding, ProfileFragmentHand
 
         binding.instagramNickTV.text = user.instagramNick
         binding.instagramNickTV.onClick {
-            val uriString = "http://instagram.com/_u/${user.instagramNick}"
-            val uri = Uri.parse(uriString)
-            val likeIng = Intent(Intent.ACTION_VIEW, uri)
-
-            likeIng.setPackage("com.instagram.android")
-
-            try {
-                startActivity(likeIng)
-            } catch (e: ActivityNotFoundException) {
-                startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(uriString)))
+            user.instagramNick?.let { nick ->
+                handler.openInstagramAccount(nick)
             }
         }
 
-        binding.spotsRV.adapter = spotsAdapter
+        binding.spotsRV.adapter = userSpotsAdapter
 
-        profileFragmentViewModel.getUsersSpots(user.id)
+        myProfileFragmentViewModel.getUsersSpots(user.id)
     }
 
     override fun onSpotClick(spot: Spot) = handler.openSpotDetail(spot)
@@ -152,4 +127,5 @@ interface ProfileFragmentHandler : BaseFragmentHandler {
     fun openEditProfileScreen(user: User)
     fun openProfileFragment(user: User)
     fun openSpotDetail(spot: Spot)
+    fun openInstagramAccount(instagramNick: String)
 }

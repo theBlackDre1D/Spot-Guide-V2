@@ -3,10 +3,11 @@ package com.g3.spot_guide.models
 import com.g3.spot_guide.base.IHasUploadModel
 import com.g3.spot_guide.enums.SpotType
 import com.google.android.gms.maps.model.LatLng
+import com.google.firebase.firestore.DocumentId
 import java.io.Serializable
 
 data class Spot(
-    var id: String = "",
+    @DocumentId val id: String = "",
     val description: String = "",
     val latitude: Double = 0.0,
     val longitude: Double = 0.0,

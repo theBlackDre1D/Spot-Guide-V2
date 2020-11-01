@@ -73,10 +73,10 @@ class EditProfileFragment : BaseFragment<EditProfileFragmentBinding, EditProfile
 
         val instagramHandler = object : HeaderWithEditTextView.HeaderWithEditTextViewHandler {
             override fun onInputTextChanged(input: String) {
-                editProfileFragmentViewModel.instagramUrl = input
+                editProfileFragmentViewModel.instagramNick = input
             }
         }
-        binding.instagramV.configuration = HeaderWithEditTextView.HeaderWithEditTextViewConfiguration(R.string.profile__instagram, editProfileFragmentViewModel.instagramUrl, instagramHandler)
+        binding.instagramV.configuration = HeaderWithEditTextView.HeaderWithEditTextViewConfiguration(R.string.profile__instagram, editProfileFragmentViewModel.instagramNick ?: "", instagramHandler)
     }
 
     private fun setupBottomButton() {
@@ -88,7 +88,7 @@ class EditProfileFragment : BaseFragment<EditProfileFragmentBinding, EditProfile
         binding.bottomButtonV.configuration = BottomButtonView.BottomButtonViewConfiguration(R.string.profile__save, handler)
     }
 
-    private fun handleNavigationBack() {
+    private fun validateAllFields() {
 
     }
 }

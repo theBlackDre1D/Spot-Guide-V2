@@ -14,9 +14,6 @@ class SpotFirestoreProvider : BaseFirestoreProvider(FirestoreEntityName.SPOTS) {
         return try {
             val result = collectionReference.get().await()
             val spots = result.toObjects(Spot::class.java)
-            result.documents.forEachIndexed { index, documentSnapshot ->
-                spots[index].id = documentSnapshot.id
-            }
             Either.Success(spots)
         } catch (e: Exception) {
             Either.Error(null)
@@ -62,10 +59,19 @@ class SpotFirestoreProvider : BaseFirestoreProvider(FirestoreEntityName.SPOTS) {
         return try {
             val result = collectionReference.whereEqualTo("authorId", userId).get().await()
             val spots = result.toObjects(Spot::class.java)
-            result.documents.forEachIndexed { index, documentSnapshot ->
-                spots[index].id = documentSnapshot.id
-            }
             Either.Success(spots)
+        } catch (e: Exception) { Either.Error(null) }
+    }
+
+    suspend fun getSpotById(spotId: String): Either<Spot> {
+        return try {
+            val result = collectionReference.document(spotId).get().await()
+            val spot = result.toObject(Spot::class.java)
+            if (spot != null) {
+                Either.Success(spot)
+            } else {
+                Either.Error(null)
+            }
         } catch (e: Exception) { Either.Error(null) }
     }
 }

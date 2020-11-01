@@ -2,11 +2,10 @@ package com.g3.spot_guide.screens.login
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import com.g3.base.either.Either
+import com.g3.spot_guide.extensions.doInCoroutine
 import com.g3.spot_guide.repositories.UserRepository
 import com.google.firebase.auth.FirebaseUser
-import kotlinx.coroutines.launch
 
 class RegisterFragmentViewModel(
     private val repository: UserRepository
@@ -19,7 +18,7 @@ class RegisterFragmentViewModel(
     val registerResult = MutableLiveData<Either<FirebaseUser>>()
 
     fun registerUser() {
-        viewModelScope.launch {
+        doInCoroutine {
             val result = repository.registerUserWithFirebase(email, password)
             registerResult.postValue(result)
         }

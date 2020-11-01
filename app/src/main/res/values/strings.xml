@@ -78,4 +78,11 @@
     <string name="profile__change_profile_picture">Change</string>
     <string name="profile__save">Save</string>
 
+    <!--  Crew  -->
+    <string name="crew__screen_header">Crew</string>
+    <string name="crew__members">Members</string>
+    <string name="crew__requests">Requests</string>
+    <string name="crew__accept">Accept</string>
+    <string name="crew_decline">Decline</string>
+
 </resources>

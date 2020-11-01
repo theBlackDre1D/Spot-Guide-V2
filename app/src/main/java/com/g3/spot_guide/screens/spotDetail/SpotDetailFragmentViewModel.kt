@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.g3.base.either.Either
 import com.g3.spot_guide.extensions.doInCoroutine
+import com.g3.spot_guide.models.Spot
 import com.g3.spot_guide.repositories.SpotRepository
 
 
@@ -13,6 +14,7 @@ class SpotDetailFragmentViewModel(
 ) : ViewModel() {
 
     val imagesUris = MutableLiveData<MutableList<Uri>>(mutableListOf())
+    val spot = MutableLiveData<Either<Spot>>()
 
     fun loadImages(imagesPaths: List<String>) {
         doInCoroutine {
@@ -24,6 +26,13 @@ class SpotDetailFragmentViewModel(
                     imagesUris.postValue(currentImages)
                 }
             }
+        }
+    }
+
+    fun getSpot(spotId: String) {
+        doInCoroutine {
+            val spotResult = repository.getSpotById(spotId)
+            spot.postValue(spotResult)
         }
     }
 }

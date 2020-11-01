@@ -27,18 +27,29 @@ class UserFirestoreProvider : BaseFirestoreProvider(FirestoreEntityName.USERS) {
         } catch (e: Exception) { Either.Error(null) }
     }
 
-    suspend fun getUserByEmail(email: String): Either<User?> {
+    suspend fun getUserByEmail(email: String): Either<User> {
         return try {
             val result = collectionReference.whereEqualTo("email", email).get().await()
             val users = result.toObjects(User::class.java)
-            result.documents.forEachIndexed { index, documentSnapshot ->
-                users[index].id = documentSnapshot.id
-            }
             if (users.isNotEmpty()) {
                 Either.Success(users.first())
             } else {
                 Either.Error(null)
             }
         } catch (e: Exception) { Either.Error(null) }
+    }
+
+    suspend fun getUserById(userId: String): Either<User> {
+        return try {
+            val result = collectionReference.document(userId).get().await()
+            val user = result.toObject(User::class.java)
+            if (user != null) {
+                Either.Success(user)
+            } else {
+                Either.Error(null)
+            }
+        } catch (e: Exception) {
+            Either.Error(e.message)
+        }
     }
 }

@@ -2,7 +2,7 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main__navigation"
+    android:id="@+id/bottom_nav_navigation"
     app:startDestination="@id/mapFragment">
 
     <fragment
@@ -11,14 +11,44 @@
         android:label="MapFragment"
         tools:layout="@layout/map__fragment">
         <action
-            android:id="@+id/action__mapFragment_to_spotDetailFragment"
-            app:destination="@id/spotDetailBottomSheetFragment" />
-        <action
-            android:id="@+id/action__mapFragment_to_filterSpotsBottomSheet"
+            android:id="@+id/action__open_filterSpotsBottomSheet"
             app:destination="@id/filterSpotsBottomSheet" />
         <action
-            android:id="@+id/action__mapFragment_to_profileFragment"
+            android:id="@+id/action__open_spotBottomSheet"
+            app:destination="@id/spotDetailBottomSheetFragment"/>
+    </fragment>
+
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="com.g3.spot_guide.screens.profile.myProfile.MyProfileFragment"
+        android:label="ProfileFragment"
+        tools:layout="@layout/profile__fragment">
+        <action
+            android:id="@+id/action__open_spot_detail"
+            app:destination="@id/spotDetailFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/crewFragment"
+        android:name="com.g3.spot_guide.screens.crew.CrewFragment"
+        android:label="CrewFragment"
+        tools:layout="@layout/crew__fragment">
+        <action
+            android:id="@+id/action__crewFragment_to_profileFragment"
             app:destination="@id/profileFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/spotDetailFragment"
+        android:name="com.g3.spot_guide.screens.spotDetail.SpotDetailFragment"
+        android:label="SpotDetailFragment"
+        tools:layout="@layout/spot_detail__fragment">
+        <argument
+            android:name="spotArguments"
+            app:argType="com.g3.spot_guide.screens.spotDetail.SpotDetailFragmentArguments" />
+        <action
+            android:id="@+id/action__spot_detail_to_imagesPreview"
+            app:destination="@id/imagesPreviewFragment" />
     </fragment>
 
     <fragment
@@ -31,22 +61,14 @@
             app:argType="com.g3.spot_guide.screens.spotDetail.ImagesPreviewFragmentArguments" />
     </fragment>
 
-    <fragment
-        android:id="@+id/profileFragment"
-        android:name="com.g3.spot_guide.screens.profile.ProfileFragment"
-        android:label="ProfileFragment"
-        tools:layout="@layout/profile__fragment" />
-
-    <!--  Dialogs  -->
-
     <dialog
         android:id="@+id/spotDetailBottomSheetFragment"
         android:name="com.g3.spot_guide.screens.spotDetail.SpotDetailFragment"
         android:label="SpotDetailFragment"
         tools:layout="@layout/spot_detail__fragment">
         <argument
-            android:name="args"
-            app:argType="com.g3.spot_guide.models.Spot" />
+            android:name="spotArguments"
+            app:argType="com.g3.spot_guide.screens.spotDetail.SpotDetailFragmentArguments" />
         <action
             android:id="@+id/action__spot_detail_to_imagesPreview"
             app:destination="@id/imagesPreviewFragment" />

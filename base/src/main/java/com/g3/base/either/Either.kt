@@ -10,4 +10,11 @@ sealed class Either<out T> {
             is Success -> onSuccess(this)
         }
     }
+
+    fun getValueOrNull(): T? {
+        return when (this) {
+            is Error -> null
+            is Success -> this.value
+        }
+    }
 }

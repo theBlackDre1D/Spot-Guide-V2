@@ -9,6 +9,7 @@ class SpotRepository(
 ) {
 
     suspend fun getAllSpots() = provider.getAllSpots()
+    suspend fun getSpotById(spotId: String) = provider.getSpotById(spotId)
     suspend fun uploadImages(images: List<File>)= provider.uploadImages(images)
     suspend fun uploadSpot(spot: Spot) = provider.uploadSpot(spot)
     suspend fun downloadImage(imagePath: String) = provider.downloadImage(imagePath)

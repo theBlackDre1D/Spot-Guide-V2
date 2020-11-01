@@ -29,7 +29,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".screens.profile.editProfile.EditProfileActivity"></activity>
+        <activity android:name=".screens.profile.otherUserProfile.OtherUserProfileActivity" />
+        <activity android:name=".screens.profile.editProfile.EditProfileActivity" />
         <activity
             android:name=".screens.splash.SplashActivity"
             android:screenOrientation="portrait"

@@ -39,7 +39,7 @@
         android:layout_margin="20dp"
         android:backgroundTint="@color/colorPrimary"
         android:src="@drawable/ic_filter"
-        android:tint="@color/white_FFFFFF"
+        app:tint="@color/white_FFFFFF"
         app:borderWidth="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />

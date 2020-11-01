@@ -104,29 +104,6 @@
                 app:layout_constraintTop_toTopOf="@id/instagramIV"
                 tools:text="michalkooo" />
 
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/friendsTV"
-                style="@style/bold_sfpro_text__16__black_333333"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="20dp"
-                android:layout_marginTop="30dp"
-                android:text="@string/profile__friends"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/instagramIV" />
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/friendsRV"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:orientation="horizontal"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/friendsTV"
-                tools:listitem="@layout/friend__item" />
-
             <com.g3.spot_guide.views.HeaderWithTextView
                 android:id="@+id/aboutMeV"
                 android:layout_width="0dp"
@@ -134,7 +111,7 @@
                 android:layout_marginTop="20dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/friendsRV" />
+                app:layout_constraintTop_toBottomOf="@id/instagramIV" />
 
             <com.g3.spot_guide.views.HeaderWithTextView
                 android:id="@+id/sponsorsV"
