@@ -15,7 +15,7 @@
             app:destination="@id/filterSpotsBottomSheet" />
         <action
             android:id="@+id/action__open_spotBottomSheet"
-            app:destination="@id/spotDetailBottomSheetFragment"/>
+            app:destination="@id/spotDetailBottomSheetFragment" />
     </fragment>
 
     <fragment
@@ -36,7 +36,15 @@
         <action
             android:id="@+id/action__crewFragment_to_profileFragment"
             app:destination="@id/profileFragment" />
+        <action
+            android:id="@+id/action__crewFragment_to_spotDetailBottomSheet"
+            app:destination="@id/spotDetailBottomSheetFragment" />
+        <action
+            android:id="@+id/action__crewFragment_to_todaySpotBottomSheet"
+            app:destination="@id/todaySpotBottomSheet" />
     </fragment>
+
+    <!--  End of bottom nav bar fragments  -->
 
     <fragment
         android:id="@+id/spotDetailFragment"
@@ -82,6 +90,19 @@
         <argument
             android:name="arguments"
             app:argType="com.g3.spot_guide.screens.map.FilterSpotsBottomSheetArguments" />
+    </dialog>
+
+    <dialog
+        android:id="@+id/todaySpotBottomSheet"
+        android:name="com.g3.spot_guide.screens.todaySpot.TodaySpotBottomSheetFragment"
+        android:label="TodaySpotBottomSheetFragment"
+        tools:layout="@layout/today_spot__bottom_sheet_fragment">
+        <argument
+            android:name="args"
+            app:argType="com.g3.spot_guide.models.TodaySpot" />
+        <action
+            android:id="@+id/action__todaySpotBottomSheet_to_spotDetailFragment"
+            app:destination="@id/spotDetailFragment" />
     </dialog>
 
 </navigation>

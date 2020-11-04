@@ -13,6 +13,7 @@ import com.g3.base.either.Either
 import com.g3.base.screens.dialogs.BaseBottomSheet
 import com.g3.base.screens.fragment.BaseFragmentHandler
 import com.g3.spot_guide.R
+import com.g3.spot_guide.Session
 import com.g3.spot_guide.databinding.SpotDetailFragmentBinding
 import com.g3.spot_guide.extensions.onClick
 import com.g3.spot_guide.models.Spot
@@ -33,7 +34,7 @@ class SpotDetailFragment : BaseBottomSheet<SpotDetailFragmentBinding, SpotDetail
     private val spotDetailFragmentViewModel: SpotDetailFragmentViewModel by viewModel()
     override fun setBinding(layoutInflater: LayoutInflater): SpotDetailFragmentBinding = SpotDetailFragmentBinding.inflate(layoutInflater)
     override fun onFragmentLoadingFinished(binding: SpotDetailFragmentBinding, context: Context) {
-        setupSpotObserver()
+        setupObservers()
         setupSpotData()
         setupImagesRV()
         downloadImages()
@@ -52,17 +53,28 @@ class SpotDetailFragment : BaseBottomSheet<SpotDetailFragmentBinding, SpotDetail
         }
     }
 
-    private fun setupSpotObserver() {
+    private fun setupObservers() {
         spotDetailFragmentViewModel.spot.observe(this, { spotEither ->
             val spotValue = spotEither.getValueOrNull()
             if (spotValue != null) {
+                downloadImages()
                 binding.spotNameTV.text = spotValue.name
                 binding.spotLocationTV.text = GeoCoderUtils.getNameFromLocation(requireContext(), spotValue.location)
                 binding.descriptionContentTV.text = spotValue.description
                 binding.spotTypeTV.text = spotValue.spotType
+                binding.addReviewB.isVisible = spotValue.authorId != Session.loggedInUser?.id
             } else {
                 showSnackBar(binding.root, R.string.error__spots_load)
             }
+        })
+
+        spotDetailFragmentViewModel.imagesUris.observe(this, { imageUris ->
+            val adapterItems = mutableListOf<SpotDetailPhotosAdapter.SpotDetailPhotosAdapterItem>()
+            imageUris.forEach {
+                adapterItems.add(SpotDetailPhotosAdapter.SpotDetailPhotosAdapterItem(it))
+            }
+            photosAdapter.injectData(adapterItems)
+            binding.photosLoadingV.isVisible = imageUris.isEmpty()
         })
     }
 
@@ -76,17 +88,11 @@ class SpotDetailFragment : BaseBottomSheet<SpotDetailFragmentBinding, SpotDetail
     }
 
     private fun downloadImages() {
-        spotDetailFragmentViewModel.imagesUris.observe(this, { imageUris ->
-            val adapterItems = mutableListOf<SpotDetailPhotosAdapter.SpotDetailPhotosAdapterItem>()
-            imageUris.forEach {
-                adapterItems.add(SpotDetailPhotosAdapter.SpotDetailPhotosAdapterItem(it))
-            }
-            photosAdapter.injectData(adapterItems)
-            binding.photosLoadingV.isVisible = imageUris.isEmpty()
-        })
-
         if (spotDetailFragmentViewModel.imagesUris.value?.isEmpty() == true) {
-            spotDetailFragmentViewModel.loadImages(arguments.spotArguments.spot?.images ?: listOf())
+            val spot = spotDetailFragmentViewModel.spot.value?.getValueOrNull()
+            spot?.let {
+                spotDetailFragmentViewModel.loadImages(spot.images)
+            }
         }
     }
 

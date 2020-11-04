@@ -11,8 +11,10 @@ import com.g3.spot_guide.databinding.MainActivityNavBarBinding
 import com.g3.spot_guide.enums.SpotType
 import com.g3.spot_guide.extensions.navigateSafe
 import com.g3.spot_guide.models.Spot
+import com.g3.spot_guide.models.TodaySpot
 import com.g3.spot_guide.models.User
 import com.g3.spot_guide.screens.addSpot.AddSpotActivity
+import com.g3.spot_guide.screens.crew.CrewFragmentDirections
 import com.g3.spot_guide.screens.crew.CrewFragmentHandler
 import com.g3.spot_guide.screens.profile.editProfile.EditProfileActivity
 import com.g3.spot_guide.screens.profile.myProfile.MyProfileFragmentDirections
@@ -22,6 +24,8 @@ import com.g3.spot_guide.screens.spotDetail.ImagesPreviewFragmentArguments
 import com.g3.spot_guide.screens.spotDetail.SpotDetailFragmentArguments
 import com.g3.spot_guide.screens.spotDetail.SpotDetailFragmentDirections
 import com.g3.spot_guide.screens.spotDetail.SpotDetailFragmentHandler
+import com.g3.spot_guide.screens.todaySpot.TodaySpotBottomSheetFragmentDirections
+import com.g3.spot_guide.screens.todaySpot.TodaySpotBottomSheetFragmentHandler
 import com.g3.spot_guide.utils.InstagramUtils
 import com.g3.spot_guide.utils.OpenMapsUtils
 import com.google.android.gms.maps.model.LatLng
@@ -29,7 +33,8 @@ import org.koin.android.viewmodel.ext.android.viewModel
 
 
 class MainActivity : BaseActivity<MainActivityNavBarBinding, Nothing>(), MapFragmentHandler,
-    SpotDetailFragmentHandler, FilterSpotsBottomSheetHandler, ProfileFragmentHandler, CrewFragmentHandler {
+    SpotDetailFragmentHandler, FilterSpotsBottomSheetHandler, ProfileFragmentHandler, CrewFragmentHandler,
+    TodaySpotBottomSheetFragmentHandler {
 
     private val mapActivityViewModel: MapActivityViewModel by viewModel()
     override fun setNavigationGraph() = R.id.mainNavigationContainer
@@ -94,6 +99,10 @@ class MainActivity : BaseActivity<MainActivityNavBarBinding, Nothing>(), MapFrag
     override fun openProfileFragment(user: User) = openOtherProfileActivity(user)
     override fun onCrewMemberClick(member: User) = openOtherProfileActivity(member)
 
+    override fun openTodaySpotBottomSheet(todaySpot: TodaySpot) {
+        navController?.navigateSafe(CrewFragmentDirections.actionCrewFragmentToTodaySpotBottomSheet(todaySpot))
+    }
+
     override fun openEditProfileScreen(user: User) {
         val coordinator = Session.application.coordinator
         coordinator.startEditProfileActivity(this, EditProfileActivity.Parameters(user))
@@ -104,13 +113,12 @@ class MainActivity : BaseActivity<MainActivityNavBarBinding, Nothing>(), MapFrag
         navController?.navigateSafe(MyProfileFragmentDirections.actionOpenSpotDetail(arguments))
     }
 
-
-    override fun onSpotClick(spotId: String) {
-        val arguments = SpotDetailFragmentArguments(null, spotId)
-        navController?.navigateSafe(MapFragmentDirections.actionOpenSpotBottomSheet(arguments))
-    }
-
     override fun openInstagramAccount(instagramNick: String) {
         InstagramUtils.openInstagramProfile(this, instagramNick)
+    }
+
+    override fun openSpotDetailFromTodaySpotBottomSheet(spotId: String) {
+        val arguments = SpotDetailFragmentArguments(null, spotId)
+        navController?.navigateSafe(TodaySpotBottomSheetFragmentDirections.actionTodaySpotBottomSheetToSpotDetailFragment(arguments))
     }
 }

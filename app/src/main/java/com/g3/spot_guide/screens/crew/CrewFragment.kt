@@ -6,6 +6,7 @@ import com.g3.base.screens.fragment.BaseFragment
 import com.g3.base.screens.fragment.BaseFragmentHandler
 import com.g3.spot_guide.R
 import com.g3.spot_guide.databinding.CrewFragmentBinding
+import com.g3.spot_guide.models.TodaySpot
 import com.g3.spot_guide.models.User
 import com.g3.spot_guide.views.AppBarView
 import com.google.android.material.tabs.TabLayout
@@ -83,8 +84,8 @@ class CrewFragment : BaseFragment<CrewFragmentBinding, CrewFragmentHandler>(), C
         profileFragmentViewModel.getCrewMemberRequests()
     }
 
-    override fun onSpotClick(spotId: String) {
-        handler.onSpotClick(spotId)
+    override fun onTodaySpotClick(todaySpot: TodaySpot) {
+        handler.openTodaySpotBottomSheet(todaySpot)
     }
 
     override fun onCrewMemberClick(member: User) {
@@ -106,6 +107,6 @@ class CrewFragment : BaseFragment<CrewFragmentBinding, CrewFragmentHandler>(), C
 
 interface CrewFragmentHandler : BaseFragmentHandler {
     fun onCrewMemberClick(member: User)
-    fun onSpotClick(spotId: String)
+    fun openTodaySpotBottomSheet(todaySpot: TodaySpot)
     fun openInstagramAccount(instagramNick: String)
 }

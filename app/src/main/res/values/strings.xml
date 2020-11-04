@@ -85,4 +85,7 @@
     <string name="crew__accept">Accept</string>
     <string name="crew_decline">Decline</string>
 
+    <!--  Today spot  -->
+    <string name="today_spot__skate_session">Today session at:</string>
+
 </resources>

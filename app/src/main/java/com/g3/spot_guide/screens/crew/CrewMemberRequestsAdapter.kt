@@ -18,7 +18,7 @@ class CrewMemberRequestsAdapter(
 ): BaseRecyclerViewAdapter<CrewMemberRequestsAdapter.CrewMemberRequestsAdapterViewHolder, CrewMemberRequestsAdapter.CrewMemberRequestsAdapterItem>() {
 
     override fun createAdapterViewHolder(parent: ViewGroup, viewType: Int): CrewMemberRequestsAdapterViewHolder {
-        return CrewMemberRequestsAdapterViewHolder(CrewMemberRequestItemBinding.inflate(LayoutInflater.from(parent.context)))
+        return CrewMemberRequestsAdapterViewHolder(CrewMemberRequestItemBinding.inflate(LayoutInflater.from(parent.context), parent, false))
     }
 
     override fun bindAdapterViewHolder(holder: CrewMemberRequestsAdapterViewHolder, adapterItem: CrewMemberRequestsAdapterItem, position: Int) {

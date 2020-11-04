@@ -87,8 +87,8 @@
             android:id="@+id/parkingAllowedIV"
             android:layout_width="24dp"
             android:layout_height="24dp"
-            android:src="@drawable/ic_check"
             android:layout_marginHorizontal="20dp"
+            android:src="@drawable/ic_check"
             app:layout_constraintBottom_toBottomOf="@id/parkingIV"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@id/parkingIV" />
@@ -151,6 +151,14 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/addReviewB" />
+
+        <Space
+            android:id="@+id/spacer"
+            android:layout_width="0dp"
+            android:layout_height="20dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/reviewsRV" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

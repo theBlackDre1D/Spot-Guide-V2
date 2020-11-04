@@ -15,7 +15,7 @@ data class User(
     val sponsors: String = "",
     val stance: String = "",
     val profilePictureUrl: String = "",
-    val todaySpot: TodaySpot? = null,
+    val todaySpot: List<String>? = null,
     val memberRequests: List<String> = listOf()
 ) : IHasUploadModel {
 
@@ -31,10 +31,21 @@ data class User(
             "sponsors" to sponsors,
             "stance" to stance,
             "profilePictureUrl" to profilePictureUrl,
-            "todaySpot" to todaySpot?.toUploadModel()
+            "todaySpot" to todaySpot
         )
     }
 
     val fullName: String
         get() = "$firstName $lastName"
+
+    val todaySpotObject: TodaySpot?
+        get() {
+            return if (todaySpot != null && todaySpot.size == 4) {
+                val id = todaySpot[0]
+                val name = todaySpot[1]
+                val date = todaySpot[2]
+                val time = todaySpot[3]
+                TodaySpot(id, name, date, time)
+            } else { null }
+        }
 }

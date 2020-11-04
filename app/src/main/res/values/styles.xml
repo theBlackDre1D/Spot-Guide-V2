@@ -216,6 +216,11 @@
         <item name="android:textColor">@color/colorPrimary</item>
     </style>
 
+    <style name="normal_sfpro_text__32__purple_6B14A6" parent="sfpro_text__text_view">
+        <item name="android:textSize">32sp</item>
+        <item name="android:textColor">@color/colorPrimary</item>
+    </style>
+
     <!-- RATING BAR -->
     <style name="RatingBar" parent="Theme.AppCompat">
         <item name="colorControlActivated">@color/yellow__FFEC00</item>

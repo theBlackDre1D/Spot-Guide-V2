@@ -15,7 +15,8 @@ data class Spot(
     val rating: Int = 1,
     val images: List<String> = listOf(),
     val groundType: String = "",
-    val spotType: String = ""
+    val spotType: String = "",
+    val authorId: String = ""
 ) : Serializable, IHasUploadModel {
 
     override fun toUploadModel(): HashMap<String, Any?> {

@@ -9,6 +9,7 @@ import com.g3.base.recyclerView.BaseViewHolder
 import com.g3.spot_guide.databinding.CrewMemberItemViewBinding
 import com.g3.spot_guide.extensions.loadImageFromFirebase
 import com.g3.spot_guide.extensions.onClick
+import com.g3.spot_guide.models.TodaySpot
 import com.g3.spot_guide.models.User
 import com.g3.spot_guide.utils.SpotUtils
 
@@ -17,7 +18,7 @@ class CrewMembersAdapter(
 ) : BaseRecyclerViewAdapter<CrewMembersAdapter.CrewMembersAdapterViewHolder, CrewMembersAdapter.CrewMembersAdapterItem>() {
 
     override fun createAdapterViewHolder(parent: ViewGroup, viewType: Int): CrewMembersAdapterViewHolder {
-        return CrewMembersAdapterViewHolder(CrewMemberItemViewBinding.inflate(LayoutInflater.from(parent.context)))
+        return CrewMembersAdapterViewHolder(CrewMemberItemViewBinding.inflate(LayoutInflater.from(parent.context), parent, false))
     }
 
     override fun bindAdapterViewHolder(holder: CrewMembersAdapterViewHolder, adapterItem: CrewMembersAdapterItem, position: Int) {
@@ -26,17 +27,18 @@ class CrewMembersAdapter(
         holder.realName.text = adapterItem.user.fullName
         holder.stance.text = adapterItem.user.stance
         holder.instagramNick.text = adapterItem.user.instagramNick
-        holder.spotName.text = adapterItem.user.todaySpot?.spotName
+        holder.spotName.text = adapterItem.user.todaySpotObject?.spotName
 
-        holder.spotName.isVisible = SpotUtils.isTodaySpotValid(adapterItem.user.todaySpot)
+        holder.spotName.isVisible = SpotUtils.isTodaySpotValid(adapterItem.user.todaySpotObject)
 
         holder.binding.root.onClick {
             handler.onCrewMemberClick(adapterItem.user)
         }
 
+        holder.binding.spotBubbleBL.isVisible = adapterItem.user.todaySpot != null
         holder.binding.spotBubbleBL.onClick {
-            adapterItem.user.todaySpot?.spotID?.let { id ->
-                handler.onSpotClick(id)
+            adapterItem.user.todaySpotObject?.let { todaySpot ->
+                handler.onTodaySpotClick(todaySpot)
             }
         }
 
@@ -65,7 +67,7 @@ class CrewMembersAdapter(
     data class CrewMembersAdapterItem(val user: User) : BaseAdapterItem()
 
     interface CrewMembersAdapterHandler {
-        fun onSpotClick(spotId: String)
+        fun onTodaySpotClick(todaySpot: TodaySpot)
         fun onCrewMemberClick(member: User)
         fun onInstagramClick(instagramNick: String)
         fun itemsLoaded()
