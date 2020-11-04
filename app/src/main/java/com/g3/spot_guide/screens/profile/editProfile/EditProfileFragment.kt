@@ -11,6 +11,7 @@ import com.g3.spot_guide.models.User
 import com.g3.spot_guide.views.AppBarView
 import com.g3.spot_guide.views.BottomButtonView
 import com.g3.spot_guide.views.HeaderWithEditTextView
+import com.wajahatkarim3.easyvalidation.core.view_ktx.validator
 import org.koin.android.viewmodel.ext.android.viewModel
 
 class EditProfileFragment : BaseFragment<EditProfileFragmentBinding, EditProfileFragmentHandler>() {
@@ -82,14 +83,31 @@ class EditProfileFragment : BaseFragment<EditProfileFragmentBinding, EditProfile
     private fun setupBottomButton() {
         val handler = object : BottomButtonView.BottomButtonViewHandler {
             override fun onButtonClick() {
-                // TODO save
+                val canSave = validateAllFields()
+                if (canSave) {
+                    // TODO save
+                }
             }
         }
         binding.bottomButtonV.configuration = BottomButtonView.BottomButtonViewConfiguration(R.string.profile__save, handler)
     }
 
-    private fun validateAllFields() {
+    private fun validateAllFields(): Boolean {
+        var fieldsAreValid = true
+        val allFields = listOf(binding.usernameV, binding.fullNameV, binding.stanceV, binding.aboutMeV, binding.sponsorsV, binding.instagramV)
+        allFields.forEach { field ->
+            val isValid = field.binding.inputET.validator()
+                .nonEmpty()
+                .addErrorCallback { errorText ->
+                    field.binding.inputET.error = errorText
+                }
+                .check()
+            if (!isValid) {
+                fieldsAreValid = false
+            }
+        }
 
+        return fieldsAreValid
     }
 }
 

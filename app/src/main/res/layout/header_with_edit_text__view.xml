@@ -17,12 +17,13 @@
 
     <androidx.appcompat.widget.AppCompatEditText
         android:id="@+id/inputET"
-        style="@style/normal_sfpro_text__14__grey_8A8A8A"
+        style="@style/normal_sfpro_text__14__grey_272637"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/headerTV" />
+        app:layout_constraintTop_toBottomOf="@id/headerTV"
+        tools:text="sfasfasfasf" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

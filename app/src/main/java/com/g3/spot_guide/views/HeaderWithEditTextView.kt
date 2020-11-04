@@ -14,7 +14,7 @@ class HeaderWithEditTextView : ConstraintLayout {
     constructor(context: Context, attrs: AttributeSet?) : this(context, attrs, 0)
     constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : super(context, attrs, defStyleAttr)
 
-    private val binding = HeaderWithEditTextViewBinding.inflate(LayoutInflater.from(context), this, true)
+    val binding = HeaderWithEditTextViewBinding.inflate(LayoutInflater.from(context), this, true)
 
     var configuration: HeaderWithEditTextViewConfiguration? = null
         set(value) {
