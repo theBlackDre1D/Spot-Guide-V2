@@ -36,7 +36,9 @@ class UserFirestoreProvider : BaseFirestoreProvider(FirestoreEntityName.USERS) {
             } else {
                 Either.Error(null)
             }
-        } catch (e: Exception) { Either.Error(null) }
+        } catch (e: Exception) {
+            Either.Error(null)
+        }
     }
 
     suspend fun getUserById(userId: String): Either<User> {
@@ -51,5 +53,12 @@ class UserFirestoreProvider : BaseFirestoreProvider(FirestoreEntityName.USERS) {
         } catch (e: Exception) {
             Either.Error(e.message)
         }
+    }
+
+    suspend fun saveUser(user: User): Either<User> {
+        return try {
+            collectionReference.document(user.id).set(user).await()
+            Either.Success(user)
+        } catch (e: Exception) { Either.Error(null) }
     }
 }

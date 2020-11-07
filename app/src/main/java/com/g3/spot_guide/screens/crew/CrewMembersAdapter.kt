@@ -27,9 +27,9 @@ class CrewMembersAdapter(
         holder.realName.text = adapterItem.user.fullName
         holder.stance.text = adapterItem.user.stance
         holder.instagramNick.text = adapterItem.user.instagramNick
-        holder.spotName.text = adapterItem.user.todaySpotObject?.spotName
+        holder.spotName.text = adapterItem.user.todaySpot?.spotName
 
-        holder.spotName.isVisible = SpotUtils.isTodaySpotValid(adapterItem.user.todaySpotObject)
+        holder.spotName.isVisible = SpotUtils.isTodaySpotValid(adapterItem.user.todaySpot)
 
         holder.binding.root.onClick {
             handler.onCrewMemberClick(adapterItem.user)
@@ -37,7 +37,7 @@ class CrewMembersAdapter(
 
         holder.binding.spotBubbleBL.isVisible = adapterItem.user.todaySpot != null
         holder.binding.spotBubbleBL.onClick {
-            adapterItem.user.todaySpotObject?.let { todaySpot ->
+            adapterItem.user.todaySpot?.let { todaySpot ->
                 handler.onTodaySpotClick(todaySpot)
             }
         }

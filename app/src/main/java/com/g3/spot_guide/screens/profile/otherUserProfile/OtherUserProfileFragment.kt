@@ -68,7 +68,7 @@ class OtherUserProfileFragment : BaseFragment<ProfileFragmentBinding, OtherUserP
         binding.profilePictureIV.loadImageFromFirebase(user.profilePictureUrl)
 
         binding.nickTV.text = user.nick
-        binding.nameTV.text = "${user.firstName} ${user.lastName}"
+        binding.nameTV.text = user.fullName
         binding.stanceTV.text = user.stance
         binding.aboutMeV.configuration = HeaderWithTextView.HeaderWithTextViewConfiguration(
             R.string.profile__about_me,

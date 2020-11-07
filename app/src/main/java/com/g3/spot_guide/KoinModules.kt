@@ -36,7 +36,7 @@ val appModules = module {
     viewModel { RegisterFragmentViewModel( get() ) }
     viewModel { MyProfileFragmentViewModel( get(), get() ) }
     viewModel { EditProfileActivityViewModel() }
-    viewModel { EditProfileFragmentViewModel() }
+    viewModel { EditProfileFragmentViewModel( get() ) }
     viewModel { CrewFragmentViewModel( get() ) }
     viewModel { SplashActivityViewModel( get() ) }
     viewModel { OtherUserProfileActivityViewModel() }

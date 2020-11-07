@@ -10,6 +10,7 @@
     <string name="error__log_in">Unable to log in. Check username and password and try again.</string>
     <string name="error__user_loading">Unable to load user with this email.</string>
     <string name="error__location_not_available">Current location is not available.</string>
+    <string name="error__user_not_saved">Unable to update information right now.</string>
 
     <!--  On boarding  -->
     <string name="on_boarding__community_spots">Spots are created by community - riders from all corners of world. If you saw good spot share it with community as they shared theirs with you.</string>
@@ -77,6 +78,7 @@
     <string name="profile__edit_header">Edit profile</string>
     <string name="profile__change_profile_picture">Change</string>
     <string name="profile__save">Save</string>
+    <string name="profile__user_saved">Information successfully updated</string>
 
     <!--  Crew  -->
     <string name="crew__screen_header">Crew</string>

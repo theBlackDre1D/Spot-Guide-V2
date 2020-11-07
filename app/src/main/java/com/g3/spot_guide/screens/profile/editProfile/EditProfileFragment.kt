@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import com.g3.base.screens.fragment.BaseFragment
 import com.g3.base.screens.fragment.BaseFragmentHandler
 import com.g3.spot_guide.R
+import com.g3.spot_guide.Session
 import com.g3.spot_guide.databinding.EditProfileFragmentBinding
 import com.g3.spot_guide.extensions.loadImageFromFirebase
 import com.g3.spot_guide.models.User
@@ -25,6 +26,7 @@ class EditProfileFragment : BaseFragment<EditProfileFragmentBinding, EditProfile
         setupAppBar()
         setupCurrentUserInfo()
         setupBottomButton()
+        setupUserSavedObserver()
     }
 
     private fun setupAppBar() {
@@ -39,10 +41,10 @@ class EditProfileFragment : BaseFragment<EditProfileFragmentBinding, EditProfile
 
         val userNameHandler = object : HeaderWithEditTextView.HeaderWithEditTextViewHandler {
             override fun onInputTextChanged(input: String) {
-                editProfileFragmentViewModel.userName = input
+                editProfileFragmentViewModel.nick = input
             }
         }
-        binding.usernameV.configuration = HeaderWithEditTextView.HeaderWithEditTextViewConfiguration(R.string.profile__username, editProfileFragmentViewModel.userName, userNameHandler)
+        binding.usernameV.configuration = HeaderWithEditTextView.HeaderWithEditTextViewConfiguration(R.string.profile__username, editProfileFragmentViewModel.nick, userNameHandler)
 
         val fullNameHandler = object : HeaderWithEditTextView.HeaderWithEditTextViewHandler {
             override fun onInputTextChanged(input: String) {
@@ -85,7 +87,7 @@ class EditProfileFragment : BaseFragment<EditProfileFragmentBinding, EditProfile
             override fun onButtonClick() {
                 val canSave = validateAllFields()
                 if (canSave) {
-                    // TODO save
+                    editProfileFragmentViewModel.saveUser()
                 }
             }
         }
@@ -108,6 +110,19 @@ class EditProfileFragment : BaseFragment<EditProfileFragmentBinding, EditProfile
         }
 
         return fieldsAreValid
+    }
+
+    private fun setupUserSavedObserver() {
+        editProfileFragmentViewModel.userSaved.observe(this, { userEither ->
+            val user = userEither.getValueOrNull()
+            if (user != null) {
+                Session.saveAndSetLoggedInUser(user)
+                showSnackBar(binding.root, R.string.profile__user_saved)
+
+            } else {
+                showSnackBar(binding.root, R.string.error__user_not_saved)
+            }
+        })
     }
 }
 
