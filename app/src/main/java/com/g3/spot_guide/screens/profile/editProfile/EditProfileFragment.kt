@@ -86,6 +86,7 @@ class EditProfileFragment : BaseFragment<EditProfileFragmentBinding, EditProfile
         val handler = object : BottomButtonView.BottomButtonViewHandler {
             override fun onButtonClick() {
                 val canSave = validateAllFields()
+                binding.appBarV.showLoading(canSave)
                 if (canSave) {
                     editProfileFragmentViewModel.saveUser()
                 }
@@ -114,11 +115,11 @@ class EditProfileFragment : BaseFragment<EditProfileFragmentBinding, EditProfile
 
     private fun setupUserSavedObserver() {
         editProfileFragmentViewModel.userSaved.observe(this, { userEither ->
+            binding.appBarV.showLoading(false)
             val user = userEither.getValueOrNull()
             if (user != null) {
                 Session.saveAndSetLoggedInUser(user)
                 showSnackBar(binding.root, R.string.profile__user_saved)
-
             } else {
                 showSnackBar(binding.root, R.string.error__user_not_saved)
             }
