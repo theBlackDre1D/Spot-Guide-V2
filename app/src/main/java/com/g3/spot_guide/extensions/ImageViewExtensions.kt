@@ -4,6 +4,7 @@ import android.graphics.BitmapFactory
 import android.net.Uri
 import android.widget.ImageView
 import com.bumptech.glide.Glide
+import com.g3.spot_guide.models.ImageModel
 import com.google.firebase.storage.FirebaseStorage
 
 fun ImageView.loadImageFromUri(uri: Uri?) {
@@ -29,4 +30,18 @@ fun ImageView.loadImageFromFirebase(path: String?, placeholder: Int? = null, aft
             }
         }
     } catch (e: Exception) {}
+}
+
+fun ImageView.loadImageFromImageModel(imageModel: ImageModel) {
+    if (imageModel.bitmap != null) {
+        Glide.with(this)
+            .load(imageModel.bitmap).
+            into(this)
+    }
+
+    if (imageModel.uri != null) {
+        Glide.with(this)
+            .load(imageModel.uri).
+            into(this)
+    }
 }

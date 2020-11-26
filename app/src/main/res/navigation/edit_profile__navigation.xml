@@ -9,6 +9,16 @@
         android:id="@+id/editProfileFragment"
         android:name="com.g3.spot_guide.screens.profile.editProfile.EditProfileFragment"
         android:label="EditProfileFragment"
-        tools:layout="@layout/edit_profile__fragment" />
+        tools:layout="@layout/edit_profile__fragment">
+        <action
+            android:id="@+id/action__editProfileFragment_to_galleryFragment"
+            app:destination="@id/galleryFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/galleryFragment"
+        android:name="com.g3.spot_guide.screens.gallery.GalleryFragment"
+        android:label="GalleryFragment"
+        tools:layout="@layout/gallery__fragment" />
 
 </navigation>

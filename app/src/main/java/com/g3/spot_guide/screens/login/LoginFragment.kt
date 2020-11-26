@@ -2,6 +2,7 @@ package com.g3.spot_guide.screens.login
 
 import android.content.Context
 import android.view.LayoutInflater
+import androidx.core.view.isVisible
 import com.g3.base.either.Either
 import com.g3.base.screens.fragment.BaseFragment
 import com.g3.base.screens.fragment.BaseFragmentHandler
@@ -56,8 +57,12 @@ class LoginFragment : BaseFragment<LoginFragmentBinding, LoginFragmentHandler>()
                 is Either.Error -> showSnackBar(binding.root, R.string.error__log_in, true)
                 is Either.Success -> handler.openMapScreen()
             }
+
+            binding.loadingV.isVisible = false
         })
 
+        binding.loadingV.isBlurVisible = true
+        binding.loadingV.isVisible = true
         loginFragmentViewModel.logIn()
     }
 

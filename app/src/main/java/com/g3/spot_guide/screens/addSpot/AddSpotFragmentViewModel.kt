@@ -38,7 +38,7 @@ class AddSpotFragmentViewModel(
 
     fun uploadSpot(context: Context, imageModels: List<ImageModel>) {
         doInCoroutine {
-            val compressedImages = compressImage(context, imageModels)
+            val compressedImages = compressImages(context, imageModels)
             val uploadedImages = repository.uploadImages(compressedImages)
             if (uploadedImages is Either.Success) {
                 val spot = Spot(
@@ -57,9 +57,9 @@ class AddSpotFragmentViewModel(
         }
     }
 
-    private suspend fun compressImage(context: Context, imageModels: List<ImageModel>): MutableList<File> {
+    private suspend fun compressImages(context: Context, imageModels: List<ImageModel>): MutableList<File> {
         val images = mutableListOf<File>()
-        val cachedImages = copyImageToCacheDir(context, imageModels)
+        val cachedImages = copyImagesToCacheDir(context, imageModels)
         cachedImages.forEach { imageFile ->
             val compressedImage = Compressor.compress(context, imageFile) {
                     resolution(1280, 720)
@@ -72,7 +72,7 @@ class AddSpotFragmentViewModel(
         return images
     }
 
-    private fun copyImageToCacheDir(context: Context, imageModels: List<ImageModel>): MutableList<File> {
+    private fun copyImagesToCacheDir(context: Context, imageModels: List<ImageModel>): MutableList<File> {
         val cachedImages = mutableListOf<File>()
         imageModels.forEach { imageModel ->
             imageModel.uri?.let { uri ->

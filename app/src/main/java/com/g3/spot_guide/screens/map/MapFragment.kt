@@ -70,8 +70,6 @@ class MapFragment : BaseFragment<MapFragmentBinding, MapFragmentHandler>(), Goog
 
     override fun onFragmentResumed() {
         super.onFragmentResumed()
-        // TODO Thing about better implementation
-//        mapFragmentViewModel.mostRecentOpenedSpot?.let { handler.openSpotDetailScreen(it) }
         binding.appBarV.showLoading(true)
         mapFragmentViewModel.getAllSpots()
     }
@@ -92,6 +90,11 @@ class MapFragment : BaseFragment<MapFragmentBinding, MapFragmentHandler>(), Goog
             googleMap = map
             googleMap?.setOnMapLongClickListener(this)
             googleMap?.setOnMarkerClickListener(this)
+
+            mapFragmentViewModel.mostRecentOpenedSpot?.let { spot ->
+                handler.openSpotDetailScreen(spot)
+                animateCameraToLocation(spot.location)
+            }
         }
     }
 
@@ -179,10 +182,14 @@ class MapFragment : BaseFragment<MapFragmentBinding, MapFragmentHandler>(), Goog
             mapFragmentViewModel.lastKnownLocation = newLocation
 
             val latLng = LatLng(newLocation.latitude, newLocation.longitude)
-            googleMap?.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, DEFAULT_ZOOM_LEVEL))
+            animateCameraToLocation(latLng)
         }
 
         locationManager?.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000, 0f, locationListener)
+    }
+
+    private fun animateCameraToLocation(location: LatLng) {
+        googleMap?.animateCamera(CameraUpdateFactory.newLatLngZoom(location, DEFAULT_ZOOM_LEVEL))
     }
 
     override fun onMapLongClick(latLng: LatLng?) {

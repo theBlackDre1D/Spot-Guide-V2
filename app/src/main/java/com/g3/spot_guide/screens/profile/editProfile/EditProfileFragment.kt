@@ -2,12 +2,16 @@ package com.g3.spot_guide.screens.profile.editProfile
 
 import android.content.Context
 import android.view.LayoutInflater
+import androidx.lifecycle.LiveData
 import com.g3.base.screens.fragment.BaseFragment
 import com.g3.base.screens.fragment.BaseFragmentHandler
 import com.g3.spot_guide.R
 import com.g3.spot_guide.Session
 import com.g3.spot_guide.databinding.EditProfileFragmentBinding
 import com.g3.spot_guide.extensions.loadImageFromFirebase
+import com.g3.spot_guide.extensions.loadImageFromImageModel
+import com.g3.spot_guide.extensions.onClick
+import com.g3.spot_guide.models.ImageModel
 import com.g3.spot_guide.models.User
 import com.g3.spot_guide.views.AppBarView
 import com.g3.spot_guide.views.BottomButtonView
@@ -27,6 +31,7 @@ class EditProfileFragment : BaseFragment<EditProfileFragmentBinding, EditProfile
         setupCurrentUserInfo()
         setupBottomButton()
         setupUserSavedObserver()
+        setupChangeProfilePicture()
     }
 
     private fun setupAppBar() {
@@ -37,7 +42,9 @@ class EditProfileFragment : BaseFragment<EditProfileFragmentBinding, EditProfile
     }
 
     private fun setupCurrentUserInfo() {
-        binding.profilePictureIV.loadImageFromFirebase(user.profilePictureUrl)
+        if (handler.getProfilePictureLiveData().value == null) {
+            binding.profilePictureIV.loadImageFromFirebase(user.profilePictureUrl)
+        }
 
         val userNameHandler = object : HeaderWithEditTextView.HeaderWithEditTextViewHandler {
             override fun onInputTextChanged(input: String) {
@@ -88,7 +95,9 @@ class EditProfileFragment : BaseFragment<EditProfileFragmentBinding, EditProfile
                 val canSave = validateAllFields()
                 binding.appBarV.showLoading(canSave)
                 if (canSave) {
-                    editProfileFragmentViewModel.saveUser()
+                    context?.let { nonNullContext ->
+                        editProfileFragmentViewModel.saveUser(nonNullContext)
+                    }
                 }
             }
         }
@@ -125,9 +134,25 @@ class EditProfileFragment : BaseFragment<EditProfileFragmentBinding, EditProfile
             }
         })
     }
+
+    private fun setupChangeProfilePicture() {
+        binding.changeProfilePictureB.onClick {
+            handler.fromEditProfileToGallery()
+        }
+
+        val profilePictureLiveData = handler.getProfilePictureLiveData()
+        profilePictureLiveData.observe(this, { imageModel ->
+            editProfileFragmentViewModel.profilePicture = imageModel
+            imageModel?.let {
+                binding.profilePictureIV.loadImageFromImageModel(imageModel)
+            }
+        })
+    }
 }
 
 interface EditProfileFragmentHandler : BaseFragmentHandler {
     fun getUser(): User
     fun navigateBack()
+    fun fromEditProfileToGallery()
+    fun getProfilePictureLiveData(): LiveData<ImageModel?>
 }
