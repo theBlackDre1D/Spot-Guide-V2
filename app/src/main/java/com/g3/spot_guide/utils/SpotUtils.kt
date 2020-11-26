@@ -17,4 +17,9 @@ object SpotUtils {
 
         return false
     }
+
+    fun getTodayDate(): String {
+        val currentDate = Date(Calendar.getInstance().time.time)
+        return dateFormat.format(currentDate)
+    }
 }

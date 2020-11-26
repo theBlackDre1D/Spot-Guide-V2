@@ -57,6 +57,9 @@
         <action
             android:id="@+id/action__spot_detail_to_imagesPreview"
             app:destination="@id/imagesPreviewFragment" />
+        <action
+            android:id="@+id/action__spotDetail_to_addTodaySpot"
+            app:destination="@id/addTodaySpotBottomSheet" />
     </fragment>
 
     <fragment
@@ -80,6 +83,9 @@
         <action
             android:id="@+id/action__spot_detail_to_imagesPreview"
             app:destination="@id/imagesPreviewFragment" />
+        <action
+            android:id="@+id/action__spotDetail_to_addTodaySpot"
+            app:destination="@id/addTodaySpotBottomSheet" />
     </dialog>
 
     <dialog
@@ -103,6 +109,16 @@
         <action
             android:id="@+id/action__todaySpotBottomSheet_to_spotDetailFragment"
             app:destination="@id/spotDetailFragment" />
+    </dialog>
+
+    <dialog
+        android:id="@+id/addTodaySpotBottomSheet"
+        android:name="com.g3.spot_guide.screens.todaySpot.addTodaySpot.AddTodaySpotBottomSheetFragment"
+        android:label="AddTodaySpotBottomSheetFragment"
+        tools:layout="@layout/add_today_spot__bottom_sheet_fragment">
+        <argument
+            android:name="args"
+            app:argType="com.g3.spot_guide.screens.todaySpot.addTodaySpot.AddTodaySpotBottomSheetFragmentArguments" />
     </dialog>
 
 </navigation>

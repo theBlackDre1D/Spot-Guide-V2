@@ -11,6 +11,7 @@
     <string name="error__user_loading">Unable to load user with this email.</string>
     <string name="error__location_not_available">Current location is not available.</string>
     <string name="error__user_not_saved">Unable to update information right now.</string>
+    <string name="error__today_spot_not_saved">Unable to add today spot/</string>
 
     <!--  On boarding  -->
     <string name="on_boarding__community_spots">Spots are created by community - riders from all corners of world. If you saw good spot share it with community as they shared theirs with you.</string>
@@ -27,6 +28,8 @@
 
     <!--  Spot detail  -->
     <string name="spot_detail__parking">Parking</string>
+    <string name="spot_detail__today_spot">I\'ll be here at...</string>
+    <string name="spot_detail__today_spot_with_time">I\'ll be here at %1$s</string>
 
     <!--  Add spot  -->
     <string name="add_spot__header">Add spot</string>
@@ -89,5 +92,6 @@
 
     <!--  Today spot  -->
     <string name="today_spot__skate_session">Today session at:</string>
+    <string name="today_spot__add">Add</string>
 
 </resources>

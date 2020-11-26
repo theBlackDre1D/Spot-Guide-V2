@@ -35,6 +35,7 @@ class AddSpotFragmentViewModel(
     var spotRating: Int? = null
     var groundType: GroundType? = null
     var description: String? = null
+    var parking: Boolean = false
 
     fun uploadSpot(context: Context, imageModels: List<ImageModel>) {
         doInCoroutine {

@@ -2,8 +2,10 @@ package com.g3.spot_guide.providers
 
 import android.content.Context
 import com.g3.base.either.Either
+import com.g3.spot_guide.Session
 import com.g3.spot_guide.enums.FirestoreEntityName
 import com.g3.spot_guide.models.ImageModel
+import com.g3.spot_guide.models.TodaySpot
 import com.g3.spot_guide.models.User
 import com.g3.spot_guide.utils.ImageCompressorUtils
 import com.google.firebase.auth.FirebaseAuth
@@ -83,6 +85,20 @@ class UserFirestoreProvider : BaseFirestoreProvider(FirestoreEntityName.USERS) {
                 }
 
                 return Either.Success(storageReferenceString)
+            }
+            return Either.Error(null)
+        } catch (e: Exception) {
+            return Either.Error(null)
+        }
+    }
+
+    suspend fun addTodaySpotToCurrentUser(newTodaySpot: TodaySpot): Either<TodaySpot> {
+        try {
+            val currentUser = Session.loggedInUser
+            currentUser?.let { user ->
+                val userToUpload = user.copy(todaySpot = newTodaySpot)
+                collectionReference.document(user.id).set(userToUpload).await()
+                return Either.Success(newTodaySpot)
             }
             return Either.Error(null)
         } catch (e: Exception) {

@@ -150,6 +150,10 @@ class AddSpotFragment : BaseFragment<AddSpotFragmentBinding, AddSpotFragmentHand
         binding.ratingV.setOnRatingBarChangeListener { _, rating, _ ->
             addSpotFragmentViewModel.spotRating = rating.toInt()
         }
+
+        binding.parkingS.setOnCheckedChangeListener { _, isChecked ->
+            addSpotFragmentViewModel.parking = isChecked
+        }
     }
 
     override fun onDeletePhoto(imageModel: ImageModel) {

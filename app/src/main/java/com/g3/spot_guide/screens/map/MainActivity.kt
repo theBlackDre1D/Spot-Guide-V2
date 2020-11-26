@@ -2,6 +2,7 @@ package com.g3.spot_guide.screens.map
 
 import android.net.Uri
 import android.view.LayoutInflater
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.navigation.ui.setupWithNavController
 import com.g3.base.screens.activity.BaseActivity
@@ -26,6 +27,8 @@ import com.g3.spot_guide.screens.spotDetail.SpotDetailFragmentDirections
 import com.g3.spot_guide.screens.spotDetail.SpotDetailFragmentHandler
 import com.g3.spot_guide.screens.todaySpot.TodaySpotBottomSheetFragmentDirections
 import com.g3.spot_guide.screens.todaySpot.TodaySpotBottomSheetFragmentHandler
+import com.g3.spot_guide.screens.todaySpot.addTodaySpot.AddTodaySpotBottomSheetFragmentArguments
+import com.g3.spot_guide.screens.todaySpot.addTodaySpot.AddTodaySpotBottomSheetFragmentHandler
 import com.g3.spot_guide.utils.InstagramUtils
 import com.g3.spot_guide.utils.OpenMapsUtils
 import com.google.android.gms.maps.model.LatLng
@@ -34,7 +37,7 @@ import org.koin.android.viewmodel.ext.android.viewModel
 
 class MainActivity : BaseActivity<MainActivityNavBarBinding, Nothing>(), MapFragmentHandler,
     SpotDetailFragmentHandler, FilterSpotsBottomSheetHandler, ProfileFragmentHandler, CrewFragmentHandler,
-    TodaySpotBottomSheetFragmentHandler {
+    TodaySpotBottomSheetFragmentHandler, AddTodaySpotBottomSheetFragmentHandler {
 
     private val mapActivityViewModel: MapActivityViewModel by viewModel()
     override fun setNavigationGraph() = R.id.mainNavigationContainer
@@ -71,6 +74,15 @@ class MainActivity : BaseActivity<MainActivityNavBarBinding, Nothing>(), MapFrag
 
     override fun openAddReviewBottomSheet(spot: Spot) {
 //        TODO("Not yet implemented")
+    }
+
+    override fun fromSpotDetailToAddTodaySpot(spot: Spot, time: String?) {
+        val arguments = AddTodaySpotBottomSheetFragmentArguments(spot, time)
+        navController?.navigateSafe(SpotDetailFragmentDirections.actionSpotDetailToAddTodaySpot(arguments))
+    }
+
+    override fun getTodaySpotLiveData(): LiveData<TodaySpot> {
+        return mapActivityViewModel.todaySpotLiveData
     }
 
     override fun onSpotTypeCLick(spotType: SpotType) {
@@ -120,5 +132,9 @@ class MainActivity : BaseActivity<MainActivityNavBarBinding, Nothing>(), MapFrag
     override fun openSpotDetailFromTodaySpotBottomSheet(spotId: String) {
         val arguments = SpotDetailFragmentArguments(null, spotId)
         navController?.navigateSafe(TodaySpotBottomSheetFragmentDirections.actionTodaySpotBottomSheetToSpotDetailFragment(arguments))
+    }
+
+    override fun saveTodaySpot(newTodaySpot: TodaySpot) {
+        mapActivityViewModel.todaySpotLiveData.postValue(newTodaySpot)
     }
 }

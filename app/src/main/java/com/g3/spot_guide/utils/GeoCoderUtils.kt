@@ -10,7 +10,8 @@ object GeoCoderUtils {
             val geocoder = Geocoder(context)
             val address = geocoder.getFromLocation(location.latitude, location.longitude, 1)?.first()
             if (address != null) {
-                "${address.locality ?: address.subLocality} ${address.premises}, ${address.countryCode}"
+                val result = "${address.locality ?: address.subLocality} ${address.premises}, ${address.countryCode}"
+                result.replace("null", "")
             } else context.getString(R.string.map__unknown_location)
         } catch (e: Exception) {
             context.getString(R.string.map__unknown_location)

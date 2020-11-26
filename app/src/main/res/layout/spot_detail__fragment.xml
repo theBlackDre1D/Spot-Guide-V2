@@ -63,6 +63,28 @@
             app:layout_constraintTop_toTopOf="@id/navigateB"
             tools:text="Stairs" />
 
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/groundQualityGrayTV"
+            style="@style/normal_sfpro_text__16__grey_272637"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginTop="20dp"
+            android:text="@string/add_spot__ground_quality"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/navigateB" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/groundQualityPurpleTV"
+            style="@style/normal_sfpro_text__16__purple_6B14A6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginTop="20dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/navigateB"
+            tools:text="Perfect" />
+
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/parkingIV"
             android:layout_width="24dp"
@@ -71,7 +93,7 @@
             android:layout_marginTop="25dp"
             android:src="@drawable/ic_parking"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/navigateB" />
+            app:layout_constraintTop_toBottomOf="@id/groundQualityGrayTV" />
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/parkingTV"
@@ -133,6 +155,15 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@id/photosRV" />
 
+        <com.g3.spot_guide.views.BottomButtonView
+            android:id="@+id/todaySpotV"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/photosRV" />
+
         <com.google.android.material.button.MaterialButton
             android:id="@+id/addReviewB"
             style="@style/AppButton"
@@ -140,7 +171,7 @@
             android:layout_marginTop="16dp"
             android:text="@string/map__add_review"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/photosRV" />
+            app:layout_constraintTop_toBottomOf="@id/todaySpotV" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/reviewsRV"

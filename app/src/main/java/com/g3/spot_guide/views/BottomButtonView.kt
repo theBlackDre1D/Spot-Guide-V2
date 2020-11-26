@@ -22,13 +22,31 @@ class BottomButtonView  : ConstraintLayout {
             value?.let { setupView(it) }
         }
 
+    var stringConfiguration: BottomButtonViewStringConfiguration? = null
+        set(value) {
+            field = value
+            value?.let {
+                setupViewWithStringConfiguration(it)
+            }
+        }
+
     private fun setupView(configuration: BottomButtonViewConfiguration) {
         binding.buttonB.setText(configuration.buttonText)
         binding.buttonB.onClick { configuration.handler.onButtonClick() }
     }
 
+    private fun setupViewWithStringConfiguration(configuration: BottomButtonViewStringConfiguration) {
+        binding.buttonB.text = configuration.buttonText
+        binding.buttonB.onClick { configuration.handler.onButtonClick() }
+    }
+
     data class BottomButtonViewConfiguration(
         @StringRes val buttonText: Int,
+        val handler: BottomButtonViewHandler
+    )
+
+    data class BottomButtonViewStringConfiguration(
+        val buttonText: String,
         val handler: BottomButtonViewHandler
     )
 

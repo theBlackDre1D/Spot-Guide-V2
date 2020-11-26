@@ -3,17 +3,21 @@ package com.g3.spot_guide.screens.profile.otherUserProfile
 import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
+import androidx.lifecycle.LiveData
 import com.g3.base.screens.activity.BaseActivity
 import com.g3.base.screens.activity.BaseParameters
 import com.g3.spot_guide.R
 import com.g3.spot_guide.databinding.OtherUserProfileActivityBinding
 import com.g3.spot_guide.extensions.navigateSafe
 import com.g3.spot_guide.models.Spot
+import com.g3.spot_guide.models.TodaySpot
 import com.g3.spot_guide.models.User
 import com.g3.spot_guide.screens.spotDetail.ImagesPreviewFragmentArguments
 import com.g3.spot_guide.screens.spotDetail.SpotDetailFragmentArguments
 import com.g3.spot_guide.screens.spotDetail.SpotDetailFragmentDirections
 import com.g3.spot_guide.screens.spotDetail.SpotDetailFragmentHandler
+import com.g3.spot_guide.screens.todaySpot.addTodaySpot.AddTodaySpotBottomSheetFragmentArguments
+import com.g3.spot_guide.screens.todaySpot.addTodaySpot.AddTodaySpotBottomSheetFragmentHandler
 import com.g3.spot_guide.utils.InstagramUtils
 import com.g3.spot_guide.utils.OpenMapsUtils
 import org.koin.android.viewmodel.ext.android.viewModel
@@ -21,7 +25,8 @@ import java.io.Serializable
 
 const val USER_PARAMETERS__EXTRAS_KEY = "USER_PARAMETERS__EXTRAS_KEY"
 
-class OtherUserProfileActivity : BaseActivity<OtherUserProfileActivityBinding, OtherUserProfileActivity.Arguments>(), OtherUserProfileFragmentHandler, SpotDetailFragmentHandler {
+class OtherUserProfileActivity : BaseActivity<OtherUserProfileActivityBinding, OtherUserProfileActivity.Arguments>(), OtherUserProfileFragmentHandler, SpotDetailFragmentHandler,
+    AddTodaySpotBottomSheetFragmentHandler {
 
     inner class Arguments : BaseParameters {
         override fun loadParameters(extras: Bundle) {
@@ -64,5 +69,18 @@ class OtherUserProfileActivity : BaseActivity<OtherUserProfileActivityBinding, O
 
     override fun openAddReviewBottomSheet(spot: Spot) {
 //        TODO("Not yet implemented")
+    }
+
+    override fun fromSpotDetailToAddTodaySpot(spot: Spot, time: String?) {
+        val arguments = AddTodaySpotBottomSheetFragmentArguments(spot, time)
+        navController?.navigateSafe(SpotDetailFragmentDirections.actionSpotDetailToAddTodaySpot(arguments))
+    }
+
+    override fun getTodaySpotLiveData(): LiveData<TodaySpot> {
+        return otherUserProfileActivityViewModel.todaySpotLiveData
+    }
+
+    override fun saveTodaySpot(newTodaySpot: TodaySpot) {
+        otherUserProfileActivityViewModel.todaySpotLiveData.postValue(newTodaySpot)
     }
 }

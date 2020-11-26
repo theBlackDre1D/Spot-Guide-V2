@@ -5,6 +5,7 @@ import android.content.Context
 import android.net.Uri
 import android.view.LayoutInflater
 import androidx.core.view.isVisible
+import androidx.lifecycle.LiveData
 import androidx.navigation.fragment.navArgs
 import com.azoft.carousellayoutmanager.CarouselLayoutManager
 import com.azoft.carousellayoutmanager.CarouselZoomPostLayoutListener
@@ -17,6 +18,8 @@ import com.g3.spot_guide.Session
 import com.g3.spot_guide.databinding.SpotDetailFragmentBinding
 import com.g3.spot_guide.extensions.onClick
 import com.g3.spot_guide.models.Spot
+import com.g3.spot_guide.models.TodaySpot
+import com.g3.spot_guide.views.BottomButtonView
 import org.koin.android.viewmodel.ext.android.viewModel
 import java.io.Serializable
 
@@ -31,6 +34,9 @@ class SpotDetailFragment : BaseBottomSheet<SpotDetailFragmentBinding, SpotDetail
 
     private val photosAdapter: SpotDetailPhotosAdapter by lazy { SpotDetailPhotosAdapter(this) }
 
+    private val isBottomSheet: Boolean
+        get() = this.dialog != null
+
     private val spotDetailFragmentViewModel: SpotDetailFragmentViewModel by viewModel()
     override fun setBinding(layoutInflater: LayoutInflater): SpotDetailFragmentBinding = SpotDetailFragmentBinding.inflate(layoutInflater)
     override fun onFragmentLoadingFinished(binding: SpotDetailFragmentBinding, context: Context) {
@@ -39,6 +45,9 @@ class SpotDetailFragment : BaseBottomSheet<SpotDetailFragmentBinding, SpotDetail
         setupImagesRV()
         downloadImages()
         setupButtons()
+        setupTodaySpot()
+
+        binding.groundQualityPurpleTV.text = arguments.spotArguments.spot?.groundType ?: ""
     }
 
     private fun setupSpotData() {
@@ -109,6 +118,37 @@ class SpotDetailFragment : BaseBottomSheet<SpotDetailFragmentBinding, SpotDetail
         }
     }
 
+    private fun setupTodaySpot() {
+        val buttonHandler = object : BottomButtonView.BottomButtonViewHandler {
+            override fun onButtonClick() {
+                val spot = spotDetailFragmentViewModel.spot.value?.getValueOrNull()
+                spot?.let {
+                    if (Session.loggedInUser?.todaySpot?.spotId == arguments.spotArguments.spot?.id) {
+                        handler.fromSpotDetailToAddTodaySpot(spot, Session.loggedInUser?.todaySpot?.time)
+                    } else {
+                        handler.fromSpotDetailToAddTodaySpot(spot, null)
+                    }
+                }
+            }
+        }
+
+        val currentUser = Session.loggedInUser
+        if (currentUser != null) {
+            if (currentUser.todaySpot?.spotId == arguments.spotArguments.spot?.id) {
+                val buttonText = String.format(getString(R.string.spot_detail__today_spot_with_time), currentUser.todaySpot?.time)
+                binding.todaySpotV.stringConfiguration = BottomButtonView.BottomButtonViewStringConfiguration(buttonText, buttonHandler)
+            } else {
+                binding.todaySpotV.configuration = BottomButtonView.BottomButtonViewConfiguration(R.string.spot_detail__today_spot, buttonHandler)
+            }
+
+            val liveData = handler.getTodaySpotLiveData()
+            liveData.observe(this, { todaySpot ->
+                val buttonText = String.format(getString(R.string.spot_detail__today_spot_with_time), todaySpot.time)
+                binding.todaySpotV.stringConfiguration = BottomButtonView.BottomButtonViewStringConfiguration(buttonText, buttonHandler)
+            })
+        }
+    }
+
     override fun onPhotoClick(position: Int) {
         handler.openImagesGallery(spotDetailFragmentViewModel.imagesUris.value ?: listOf(), position)
     }
@@ -118,4 +158,6 @@ interface SpotDetailFragmentHandler : BaseFragmentHandler {
     fun openImagesGallery(images: List<Uri>, position: Int)
     fun openSpotInMaps(spot: Spot)
     fun openAddReviewBottomSheet(spot: Spot)
+    fun fromSpotDetailToAddTodaySpot(spot: Spot, time: String?)
+    fun getTodaySpotLiveData(): LiveData<TodaySpot>
 }

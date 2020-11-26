@@ -27,6 +27,18 @@ class EmojiRatingView : ConstraintLayout {
             value?.let { setupView(value) }
         }
 
+    fun setRating(rating: Int) {
+        val correctImageView = when (rating) {
+            1 -> binding.horribleIV
+            2 -> binding.badIV
+            3 -> binding.okIV
+            4 -> binding.goodIV
+            else -> binding.perfectIV
+        }
+
+        setupSelectedEmoji(correctImageView, SIZE_SELECTED)
+    }
+
     private fun setupView(configuration: EmojiRatingViewConfiguration) {
         binding.horribleIV.onClick {
             onEmojiClick(GroundType.HORRIBLE, configuration.listener)

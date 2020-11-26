@@ -20,6 +20,7 @@ import com.g3.spot_guide.screens.profile.otherUserProfile.OtherUserProfileActivi
 import com.g3.spot_guide.screens.profile.otherUserProfile.OtherUserProfileFragmentViewModel
 import com.g3.spot_guide.screens.splash.SplashActivityViewModel
 import com.g3.spot_guide.screens.spotDetail.SpotDetailFragmentViewModel
+import com.g3.spot_guide.screens.todaySpot.addTodaySpot.AddTodaySpotBottomSheetFragmentViewModel
 import org.koin.android.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
@@ -41,6 +42,7 @@ val appModules = module {
     viewModel { SplashActivityViewModel( get() ) }
     viewModel { OtherUserProfileActivityViewModel() }
     viewModel { OtherUserProfileFragmentViewModel( get(), get() ) }
+    viewModel { AddTodaySpotBottomSheetFragmentViewModel( get() ) }
 
     // Repositories
     single { SpotRepository( get() ) }
