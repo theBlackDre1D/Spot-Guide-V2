@@ -31,6 +31,7 @@ import com.g3.spot_guide.screens.todaySpot.addTodaySpot.AddTodaySpotBottomSheetF
 import com.g3.spot_guide.screens.todaySpot.addTodaySpot.AddTodaySpotBottomSheetFragmentHandler
 import com.g3.spot_guide.utils.InstagramUtils
 import com.g3.spot_guide.utils.OpenMapsUtils
+import com.g3.spot_guide.utils.SpotUtils
 import com.google.android.gms.maps.model.LatLng
 import org.koin.android.viewmodel.ext.android.viewModel
 
@@ -44,6 +45,7 @@ class MainActivity : BaseActivity<MainActivityNavBarBinding, Nothing>(), MapFrag
     override fun setBinding(layoutInflater: LayoutInflater): MainActivityNavBarBinding = MainActivityNavBarBinding.inflate(layoutInflater)
     override fun onActivityLoadingFinished(binding: MainActivityNavBarBinding) {
         setupNavBar()
+        deleteTodaySpotIfNotActual()
     }
 
     override fun openSpotDetailScreen(spot: Spot) {
@@ -108,6 +110,15 @@ class MainActivity : BaseActivity<MainActivityNavBarBinding, Nothing>(), MapFrag
         Session.application.coordinator.startOtherUserProfileActivity(this, parameters)
     }
 
+    private fun deleteTodaySpotIfNotActual() {
+        val user = Session.loggedInUser
+        user?.let { user ->
+            if (!SpotUtils.isTodaySpotValid(user.todaySpot)) {
+                mapActivityViewModel.deleteLoggedUserTodaySpot()
+            }
+        }
+    }
+
     override fun openProfileFragment(user: User) = openOtherProfileActivity(user)
     override fun onCrewMemberClick(member: User) = openOtherProfileActivity(member)
 
@@ -127,6 +138,10 @@ class MainActivity : BaseActivity<MainActivityNavBarBinding, Nothing>(), MapFrag
 
     override fun openInstagramAccount(instagramNick: String) {
         InstagramUtils.openInstagramProfile(this, instagramNick)
+    }
+
+    override fun fromMyProfileToTodaySpot(todaySpot: TodaySpot) {
+        navController?.navigateSafe(MyProfileFragmentDirections.actionProfileFragmentToSpotDetailBottomSheet(todaySpot))
     }
 
     override fun openSpotDetailFromTodaySpotBottomSheet(spotId: String) {

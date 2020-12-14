@@ -104,6 +104,14 @@
                 app:layout_constraintTop_toTopOf="@id/instagramIV"
                 tools:text="michalkooo" />
 
+            <com.g3.spot_guide.views.TodaySpotView
+                android:id="@+id/todaySpotV"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/instagramIV" />
+
             <com.g3.spot_guide.views.HeaderWithTextView
                 android:id="@+id/aboutMeV"
                 android:layout_width="0dp"
@@ -111,7 +119,7 @@
                 android:layout_marginTop="20dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/instagramIV" />
+                app:layout_constraintTop_toBottomOf="@id/todaySpotV" />
 
             <com.g3.spot_guide.views.HeaderWithTextView
                 android:id="@+id/sponsorsV"

@@ -32,7 +32,7 @@ val appModules = module {
     viewModel { SpotDetailFragmentViewModel( get() ) }
     viewModel { MapFragmentViewModel( get() ) }
     viewModel { GalleryFragmentViewModel( get() ) }
-    viewModel { MapActivityViewModel() }
+    viewModel { MapActivityViewModel( get() ) }
     viewModel { LoginFragmentViewModel( get() ) }
     viewModel { RegisterFragmentViewModel( get() ) }
     viewModel { MyProfileFragmentViewModel( get(), get() ) }

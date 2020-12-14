@@ -12,7 +12,7 @@ object SpotUtils {
             val spotDate = dateFormat.parse(todaySpot.date)
             val currentDate = Calendar.getInstance().time
 
-            return spotDate?.before(currentDate) ?: false
+            return spotDate?.after(currentDate) ?: false
         }
 
         return false

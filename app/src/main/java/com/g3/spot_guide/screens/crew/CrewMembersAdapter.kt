@@ -12,6 +12,7 @@ import com.g3.spot_guide.extensions.onClick
 import com.g3.spot_guide.models.TodaySpot
 import com.g3.spot_guide.models.User
 import com.g3.spot_guide.utils.SpotUtils
+import com.g3.spot_guide.views.TodaySpotView
 
 class CrewMembersAdapter(
     private val handler: CrewMembersAdapterHandler
@@ -27,19 +28,20 @@ class CrewMembersAdapter(
         holder.realName.text = adapterItem.user.fullName
         holder.stance.text = adapterItem.user.stance
         holder.instagramNick.text = adapterItem.user.instagramNick
-        holder.spotName.text = adapterItem.user.todaySpot?.spotName
 
-        holder.spotName.isVisible = SpotUtils.isTodaySpotValid(adapterItem.user.todaySpot)
+        val todaySpotHandler = object : TodaySpotView.TodaySpotViewHandler {
+            override fun onBubbleClick() {
+                adapterItem.user.todaySpot?.let { todaySpot ->
+                    handler.onTodaySpotClick(todaySpot)
+                }
+            }
+        }
+        val todaySpotConfiguration = TodaySpotView.TodaySpotViewConfiguration(adapterItem.user.todaySpot?.spotName ?: "", todaySpotHandler)
+        holder.todaySpot.configuration = todaySpotConfiguration
+        holder.todaySpot.isVisible = adapterItem.user.todaySpot != null && SpotUtils.isTodaySpotValid(adapterItem.user.todaySpot)
 
         holder.binding.root.onClick {
             handler.onCrewMemberClick(adapterItem.user)
-        }
-
-        holder.binding.spotBubbleBL.isVisible = adapterItem.user.todaySpot != null
-        holder.binding.spotBubbleBL.onClick {
-            adapterItem.user.todaySpot?.let { todaySpot ->
-                handler.onTodaySpotClick(todaySpot)
-            }
         }
 
         holder.instagramNick.isVisible = adapterItem.user.instagramNick != null
@@ -60,7 +62,7 @@ class CrewMembersAdapter(
         val realName = binding.nameTV
         val stance = binding.stanceTV
         val instagramNick = binding.instagramNickTV
-        val spotName = binding.spotBubbleTV
+        val todaySpot = binding.todaySpotV
         val instagramIcon = binding.instagramIV
     }
 

@@ -17,5 +17,6 @@ class UserRepository (
     suspend fun saveUser(user: User) = provider.saveUser(user)
     suspend fun changeProfilePicture(context: Context, newProfilePicture: ImageModel, currentProfilePicturePath: String) = provider.changeProfilePicture(context, newProfilePicture, currentProfilePicturePath)
     suspend fun addTodaySpotToCurrentUser(newTodaySpot: TodaySpot) = provider.addTodaySpotToCurrentUser(newTodaySpot)
+    suspend fun deleteTodaySpot() = provider.deleteTodaySpot()
 }
 

@@ -2,6 +2,7 @@ package com.g3.spot_guide.screens.profile.myProfile
 
 import android.content.Context
 import android.view.LayoutInflater
+import androidx.core.view.isVisible
 import com.g3.base.either.Either
 import com.g3.base.screens.fragment.BaseFragment
 import com.g3.base.screens.fragment.BaseFragmentHandler
@@ -10,11 +11,14 @@ import com.g3.spot_guide.databinding.ProfileFragmentBinding
 import com.g3.spot_guide.extensions.loadImageFromFirebase
 import com.g3.spot_guide.extensions.onClick
 import com.g3.spot_guide.models.Spot
+import com.g3.spot_guide.models.TodaySpot
 import com.g3.spot_guide.models.User
 import com.g3.spot_guide.screens.profile.UserSpotsAdapter
+import com.g3.spot_guide.utils.SpotUtils
 import com.g3.spot_guide.views.AppBarView
 import com.g3.spot_guide.views.BottomButtonView
 import com.g3.spot_guide.views.HeaderWithTextView
+import com.g3.spot_guide.views.TodaySpotView
 import com.google.firebase.auth.FirebaseAuth
 import org.koin.android.viewmodel.ext.android.viewModel
 
@@ -47,7 +51,7 @@ class MyProfileFragment : BaseFragment<ProfileFragmentBinding, ProfileFragmentHa
             override fun onButtonClick() {
                 val user = myProfileFragmentViewModel.userLiveData.value
                 if (user is Either.Success) {
-                    user.value?.let {
+                    user.value.let {
                         handler.openEditProfileScreen(it)
                     }
                 }
@@ -118,6 +122,20 @@ class MyProfileFragment : BaseFragment<ProfileFragmentBinding, ProfileFragmentHa
         binding.spotsRV.adapter = userSpotsAdapter
 
         myProfileFragmentViewModel.getUsersSpots(user.id)
+
+        setupTodaySpot(user)
+    }
+
+    private fun setupTodaySpot(user: User) {
+        binding.todaySpotV.isVisible = user.todaySpot != null && SpotUtils.isTodaySpotValid(user.todaySpot)
+        val todaySpotHandler = object : TodaySpotView.TodaySpotViewHandler {
+            override fun onBubbleClick() {
+                user.todaySpot?.let { todaySpot ->
+                    handler.fromMyProfileToTodaySpot(todaySpot)
+                }
+            }
+        }
+        binding.todaySpotV.configuration = TodaySpotView.TodaySpotViewConfiguration(user.todaySpot?.spotName ?: "", todaySpotHandler)
     }
 
     override fun onSpotClick(spot: Spot) = handler.openSpotDetail(spot)
@@ -128,4 +146,5 @@ interface ProfileFragmentHandler : BaseFragmentHandler {
     fun openProfileFragment(user: User)
     fun openSpotDetail(spot: Spot)
     fun openInstagramAccount(instagramNick: String)
+    fun fromMyProfileToTodaySpot(todaySpot: TodaySpot)
 }

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <com.daasuu.bl.BubbleLayout
+        android:id="@+id/spotBubbleBL"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:padding="5dp"
+        app:bl_arrowDirection="top_center"
+        app:bl_cornersRadius="5dp"
+        app:bl_strokeColor="@color/colorAccent"
+        app:bl_strokeWidth="1dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/spotBubbleTV"
+            style="@style/normal_sfpro_text__16__purple_6B14A6"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:ellipsize="middle"
+            android:singleLine="true"
+            android:textAlignment="center"
+            tools:text="Skatepark Gercenova dlkslflskl kdflsdf" />
+
+    </com.daasuu.bl.BubbleLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

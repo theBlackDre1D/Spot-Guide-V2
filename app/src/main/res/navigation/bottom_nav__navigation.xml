@@ -26,6 +26,9 @@
         <action
             android:id="@+id/action__open_spot_detail"
             app:destination="@id/spotDetailFragment" />
+        <action
+            android:id="@+id/action__profileFragment_to_spotDetailBottomSheet"
+            app:destination="@id/todaySpotBottomSheet" />
     </fragment>
 
     <fragment

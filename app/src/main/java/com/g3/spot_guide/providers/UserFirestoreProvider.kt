@@ -105,4 +105,18 @@ class UserFirestoreProvider : BaseFirestoreProvider(FirestoreEntityName.USERS) {
             return Either.Error(null)
         }
     }
+
+    suspend fun deleteTodaySpot(): Either<Unit> {
+        try {
+            val currentUser = Session.loggedInUser
+            currentUser?.let { user ->
+                val userToUpload = user.copy(todaySpot = null)
+                collectionReference.document(user.id).set(userToUpload).await()
+                return Either.Success(Unit)
+            }
+            return Either.Error("deleteTodaySpot : Current user is null")
+        } catch (e: Exception) {
+            return Either.Error("deleteTodaySpot : Today spot delete error")
+        }
+    }
 }
