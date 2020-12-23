@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/userProfilePictureIV"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_margin="20dp"
+        android:scaleType="centerCrop"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:shapeAppearanceOverlay="@style/circleImageView" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/userNameTV"
+        style="@style/normal_sfpro_text__16__purple_6B14A6"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        app:layout_constraintBottom_toBottomOf="@id/userProfilePictureIV"
+        app:layout_constraintEnd_toStartOf="@id/timeTV"
+        app:layout_constraintStart_toEndOf="@id/userProfilePictureIV"
+        app:layout_constraintTop_toTopOf="@id/userProfilePictureIV"
+        tools:text="Michalkoo Gaborik" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/timeTV"
+        style="@style/bold_sfpro_text__16__grey_272637"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="20:00" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

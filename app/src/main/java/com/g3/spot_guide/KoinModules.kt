@@ -29,7 +29,7 @@ val appModules = module {
     // ViewModels
     viewModel { AddSpotActivityViewModel() }
     viewModel { AddSpotFragmentViewModel( get() ) }
-    viewModel { SpotDetailFragmentViewModel( get() ) }
+    viewModel { SpotDetailFragmentViewModel( get(), get() ) }
     viewModel { MapFragmentViewModel( get() ) }
     viewModel { GalleryFragmentViewModel( get() ) }
     viewModel { MapActivityViewModel( get() ) }

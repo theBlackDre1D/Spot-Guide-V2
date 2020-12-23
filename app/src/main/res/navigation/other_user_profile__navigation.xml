@@ -29,6 +29,9 @@
         <action
             android:id="@+id/action__spot_detail_to_imagesPreview"
             app:destination="@id/imagesPreviewFragment" />
+        <action
+            android:id="@+id/action__spotDetail_to_spotCrewMembers"
+            app:destination="@id/spotCrewMembersBottomSheet" />
     </fragment>
 
     <fragment
@@ -52,6 +55,16 @@
         <action
             android:id="@+id/action__todaySpotBottomSheet_to_spotDetailFragment"
             app:destination="@id/spotDetailFragment" />
+    </dialog>
+
+    <dialog
+        android:id="@+id/spotCrewMembersBottomSheet"
+        android:name="com.g3.spot_guide.screens.spotCrewMembers.SpotCrewMembersBottomSheet"
+        android:label="SpotCrewMembersBottomSheet"
+        tools:layout="@layout/spot_crew_members__bottom_sheet">
+        <argument
+            android:name="args"
+            app:argType="com.g3.spot_guide.screens.spotCrewMembers.SpotCrewMembersBottomSheetParams" />
     </dialog>
 
 </navigation>

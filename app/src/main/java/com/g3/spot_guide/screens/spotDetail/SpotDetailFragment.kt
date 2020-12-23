@@ -19,6 +19,7 @@ import com.g3.spot_guide.databinding.SpotDetailFragmentBinding
 import com.g3.spot_guide.extensions.onClick
 import com.g3.spot_guide.models.Spot
 import com.g3.spot_guide.models.TodaySpot
+import com.g3.spot_guide.models.User
 import com.g3.spot_guide.views.BottomButtonView
 import org.koin.android.viewmodel.ext.android.viewModel
 import java.io.Serializable
@@ -33,9 +34,6 @@ class SpotDetailFragment : BaseBottomSheet<SpotDetailFragmentBinding, SpotDetail
     private val arguments: SpotDetailFragmentArgs by navArgs()
 
     private val photosAdapter: SpotDetailPhotosAdapter by lazy { SpotDetailPhotosAdapter(this) }
-
-    private val isBottomSheet: Boolean
-        get() = this.dialog != null
 
     private val spotDetailFragmentViewModel: SpotDetailFragmentViewModel by viewModel()
     override fun setBinding(layoutInflater: LayoutInflater): SpotDetailFragmentBinding = SpotDetailFragmentBinding.inflate(layoutInflater)
@@ -72,6 +70,8 @@ class SpotDetailFragment : BaseBottomSheet<SpotDetailFragmentBinding, SpotDetail
                 binding.descriptionContentTV.text = spotValue.description
                 binding.spotTypeTV.text = spotValue.spotType
                 binding.addReviewB.isVisible = spotValue.authorId != Session.loggedInUser?.id
+
+                setupCrewMembersForThisSpot(spotValue.id)
             } else {
                 showSnackBar(binding.root, R.string.error__spots_load)
             }
@@ -149,6 +149,22 @@ class SpotDetailFragment : BaseBottomSheet<SpotDetailFragmentBinding, SpotDetail
         }
     }
 
+    private fun setupCrewMembersForThisSpot(spotId: String) {
+        spotDetailFragmentViewModel.spotCrewMembers.observe(this, { usersEither ->
+            binding.spotCrewMembersLoadingV.isVisible = false
+            usersEither.getValueOrNull()?.let { users ->
+                binding.spotCrewMembersTV.isVisible = users.isNotEmpty()
+                binding.spotCrewMemberContainerCL.isVisible = users.isNotEmpty()
+
+                binding.spotCrewMemberContainerCL.onClick {
+                    handler.fromSpotDetailToSpotCrewMembers(users)
+                }
+            }
+        })
+
+        spotDetailFragmentViewModel.getCrewMembersForThisSpot(spotId)
+    }
+
     override fun onPhotoClick(position: Int) {
         handler.openImagesGallery(spotDetailFragmentViewModel.imagesUris.value ?: listOf(), position)
     }
@@ -160,4 +176,5 @@ interface SpotDetailFragmentHandler : BaseFragmentHandler {
     fun openAddReviewBottomSheet(spot: Spot)
     fun fromSpotDetailToAddTodaySpot(spot: Spot, time: String?)
     fun getTodaySpotLiveData(): LiveData<TodaySpot>
+    fun fromSpotDetailToSpotCrewMembers(spotCrewMembers: List<User>)
 }

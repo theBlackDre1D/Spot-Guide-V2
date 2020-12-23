@@ -148,7 +148,30 @@ class UserFirestoreProvider : BaseFirestoreProvider(FirestoreEntityName.USERS) {
                 return Either.Error(null)
             }
         } catch (e: Exception) {
-            return Either.Error("onCrewMemberRequestDecision : Error when handling creq member request")
+            return Either.Error("onCrewMemberRequestDecision : Error when handling crew member request")
+        }
+    }
+
+    suspend fun getCrewMembersForThisSpot(spotId: String): Either<List<User>> {
+        try {
+            val loggedUser = Session.loggedInUser
+            if (loggedUser != null) {
+                val crewMembers = mutableListOf<User>()
+                loggedUser.friends.forEach { crewMemberId ->
+                    val userEither = getUserById(crewMemberId)
+                    userEither.getValueOrNull()?.let { user ->
+                        crewMembers.add(user)
+                    }
+                }
+
+                val crewMembersForSpot = crewMembers.filter { it.todaySpot?.spotId == spotId }
+
+                return Either.Success(crewMembersForSpot)
+            } else {
+                return Either.Error("getCrewMembersForThisSpot : Logged user null")
+            }
+        } catch (e: Exception) {
+            return Either.Error("getCrewMembersForThisSpot : Error when loading crew members for current spot")
         }
     }
 }

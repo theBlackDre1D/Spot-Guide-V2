@@ -12,6 +12,7 @@ import com.g3.spot_guide.extensions.navigateSafe
 import com.g3.spot_guide.models.Spot
 import com.g3.spot_guide.models.TodaySpot
 import com.g3.spot_guide.models.User
+import com.g3.spot_guide.screens.spotCrewMembers.SpotCrewMembersBottomSheetParams
 import com.g3.spot_guide.screens.spotDetail.ImagesPreviewFragmentArguments
 import com.g3.spot_guide.screens.spotDetail.SpotDetailFragmentArguments
 import com.g3.spot_guide.screens.spotDetail.SpotDetailFragmentDirections
@@ -82,6 +83,10 @@ class OtherUserProfileActivity : BaseActivity<OtherUserProfileActivityBinding, O
 
     override fun getTodaySpotLiveData(): LiveData<TodaySpot> {
         return otherUserProfileActivityViewModel.todaySpotLiveData
+    }
+
+    override fun fromSpotDetailToSpotCrewMembers(spotCrewMembers: List<User>) {
+        navController?.navigateSafe(SpotDetailFragmentDirections.actionSpotDetailToSpotCrewMembers(SpotCrewMembersBottomSheetParams(spotCrewMembers)))
     }
 
     override fun saveTodaySpot(newTodaySpot: TodaySpot) {

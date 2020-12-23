@@ -30,6 +30,7 @@
     <string name="spot_detail__parking">Parking</string>
     <string name="spot_detail__today_spot">I\'ll be here at...</string>
     <string name="spot_detail__today_spot_with_time">I\'ll be here at %1$s</string>
+    <string name="spot_detail__crew_members_here">See who will be here today...</string>
 
     <!--  Add spot  -->
     <string name="add_spot__header">Add spot</string>

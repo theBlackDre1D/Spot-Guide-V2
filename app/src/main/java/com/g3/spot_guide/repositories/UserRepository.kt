@@ -19,5 +19,6 @@ class UserRepository (
     suspend fun addTodaySpotToCurrentUser(newTodaySpot: TodaySpot) = provider.addTodaySpotToCurrentUser(newTodaySpot)
     suspend fun deleteTodaySpot() = provider.deleteTodaySpot()
     suspend fun onCrewMemberRequestDecision(accept: Boolean, requestUserId: String) = provider.onCrewMemberRequestDecision(accept, requestUserId)
+    suspend fun getCrewMembersForThisSpot(spotId: String) = provider.getCrewMembersForThisSpot(spotId)
 }
 

@@ -115,6 +115,34 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@id/parkingIV" />
 
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/spotCrewMemberContainerCL"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/parkingTV">
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/spotCrewMembersTV"
+                style="@style/normal_sfpro_text__14__purple_6B14A6"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/spot_detail__crew_members_here"
+                android:textAlignment="center"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <com.g3.spot_guide.views.SpotGuideLoadingView
+                android:id="@+id/spotCrewMembersLoadingV"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/descriptionTV"
             style="@style/bold_sfpro_text__16__black_333333"
@@ -125,7 +153,7 @@
             android:text="@string/map__description"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/parkingIV" />
+            app:layout_constraintTop_toBottomOf="@id/spotCrewMemberContainerCL" />
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/descriptionContentTV"

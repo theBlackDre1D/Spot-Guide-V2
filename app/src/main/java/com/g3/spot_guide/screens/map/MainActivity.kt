@@ -21,6 +21,7 @@ import com.g3.spot_guide.screens.profile.editProfile.EditProfileActivity
 import com.g3.spot_guide.screens.profile.myProfile.MyProfileFragmentDirections
 import com.g3.spot_guide.screens.profile.myProfile.ProfileFragmentHandler
 import com.g3.spot_guide.screens.profile.otherUserProfile.OtherUserProfileActivity
+import com.g3.spot_guide.screens.spotCrewMembers.SpotCrewMembersBottomSheetParams
 import com.g3.spot_guide.screens.spotDetail.ImagesPreviewFragmentArguments
 import com.g3.spot_guide.screens.spotDetail.SpotDetailFragmentArguments
 import com.g3.spot_guide.screens.spotDetail.SpotDetailFragmentDirections
@@ -85,6 +86,10 @@ class MainActivity : BaseActivity<MainActivityNavBarBinding, Nothing>(), MapFrag
 
     override fun getTodaySpotLiveData(): LiveData<TodaySpot> {
         return mapActivityViewModel.todaySpotLiveData
+    }
+
+    override fun fromSpotDetailToSpotCrewMembers(spotCrewMembers: List<User>) {
+        navController?.navigateSafe(SpotDetailFragmentDirections.actionSpotDetailToSpotCrewMembers(SpotCrewMembersBottomSheetParams(spotCrewMembers)))
     }
 
     override fun onSpotTypeCLick(spotType: SpotType) {
