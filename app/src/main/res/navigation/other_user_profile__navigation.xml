@@ -13,6 +13,9 @@
         <action
             android:id="@+id/action__otherUserProfileFragment_to_spotDetailFragment"
             app:destination="@id/spotDetailFragment" />
+        <action
+            android:id="@+id/action__otherUserProfileFragment_to_todaySpotBottomSheet"
+            app:destination="@id/todaySpotBottomSheet" />
     </fragment>
 
     <fragment
@@ -37,5 +40,18 @@
             android:name="args"
             app:argType="com.g3.spot_guide.screens.spotDetail.ImagesPreviewFragmentArguments" />
     </fragment>
+
+    <dialog
+        android:id="@+id/todaySpotBottomSheet"
+        android:name="com.g3.spot_guide.screens.todaySpot.TodaySpotBottomSheetFragment"
+        android:label="TodaySpotBottomSheetFragment"
+        tools:layout="@layout/today_spot__bottom_sheet_fragment">
+        <argument
+            android:name="args"
+            app:argType="com.g3.spot_guide.models.TodaySpot" />
+        <action
+            android:id="@+id/action__todaySpotBottomSheet_to_spotDetailFragment"
+            app:destination="@id/spotDetailFragment" />
+    </dialog>
 
 </navigation>

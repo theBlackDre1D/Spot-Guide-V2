@@ -58,6 +58,10 @@ class OtherUserProfileActivity : BaseActivity<OtherUserProfileActivityBinding, O
         navController?.navigateSafe(OtherUserProfileFragmentDirections.actionOtherUserProfileFragmentToSpotDetailFragment(arguments))
     }
 
+    override fun fromMyProfileToTodaySpot(todaySpot: TodaySpot) {
+        navController?.navigateSafe(OtherUserProfileFragmentDirections.actionOtherUserProfileFragmentToTodaySpotBottomSheet(todaySpot))
+    }
+
     override fun openImagesGallery(images: List<Uri>, position: Int) {
         val arguments = ImagesPreviewFragmentArguments(images, position)
         navController?.navigateSafe(SpotDetailFragmentDirections.actionSpotDetailToImagesPreview(arguments))

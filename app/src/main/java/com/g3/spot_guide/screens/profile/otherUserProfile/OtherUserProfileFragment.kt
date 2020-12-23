@@ -11,10 +11,13 @@ import com.g3.spot_guide.databinding.ProfileFragmentBinding
 import com.g3.spot_guide.extensions.loadImageFromFirebase
 import com.g3.spot_guide.extensions.onClick
 import com.g3.spot_guide.models.Spot
+import com.g3.spot_guide.models.TodaySpot
 import com.g3.spot_guide.models.User
 import com.g3.spot_guide.screens.profile.UserSpotsAdapter
+import com.g3.spot_guide.utils.SpotUtils
 import com.g3.spot_guide.views.AppBarView
 import com.g3.spot_guide.views.HeaderWithTextView
+import com.g3.spot_guide.views.TodaySpotView
 import org.koin.android.viewmodel.ext.android.viewModel
 
 class OtherUserProfileFragment : BaseFragment<ProfileFragmentBinding, OtherUserProfileFragmentHandler>(), UserSpotsAdapter.SpotsAdapterHandler {
@@ -89,6 +92,20 @@ class OtherUserProfileFragment : BaseFragment<ProfileFragmentBinding, OtherUserP
         binding.spotsRV.adapter = userSpotsAdapter
 
         otherUserProfileFragmentViewModel.getUsersSpots(user.id)
+
+        setupTodaySpot(user)
+    }
+
+    private fun setupTodaySpot(user: User) {
+        binding.todaySpotV.isVisible = user.todaySpot != null && SpotUtils.isTodaySpotValid(user.todaySpot)
+        val todaySpotHandler = object : TodaySpotView.TodaySpotViewHandler {
+            override fun onBubbleClick() {
+                user.todaySpot?.let { todaySpot ->
+                    handler.fromMyProfileToTodaySpot(todaySpot)
+                }
+            }
+        }
+        binding.todaySpotV.configuration = TodaySpotView.TodaySpotViewConfiguration(user.todaySpot?.spotName ?: "", todaySpotHandler)
     }
 
     override fun onSpotClick(spot: Spot) {
@@ -100,4 +117,5 @@ interface OtherUserProfileFragmentHandler : BaseFragmentHandler {
     fun getUser(): User
     fun openInstagramAccount(instagramNick: String)
     fun openSpotDetailScreen(spot: Spot)
+    fun fromMyProfileToTodaySpot(todaySpot: TodaySpot)
 }
