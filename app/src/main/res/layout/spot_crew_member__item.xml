@@ -9,7 +9,7 @@
         android:id="@+id/userProfilePictureIV"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:layout_margin="20dp"
+        android:layout_margin="10dp"
         android:scaleType="centerCrop"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
