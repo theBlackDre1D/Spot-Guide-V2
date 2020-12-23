@@ -18,5 +18,6 @@ class UserRepository (
     suspend fun changeProfilePicture(context: Context, newProfilePicture: ImageModel, currentProfilePicturePath: String) = provider.changeProfilePicture(context, newProfilePicture, currentProfilePicturePath)
     suspend fun addTodaySpotToCurrentUser(newTodaySpot: TodaySpot) = provider.addTodaySpotToCurrentUser(newTodaySpot)
     suspend fun deleteTodaySpot() = provider.deleteTodaySpot()
+    suspend fun onCrewMemberRequestDecision(accept: Boolean, requestUserId: String) = provider.onCrewMemberRequestDecision(accept, requestUserId)
 }
 

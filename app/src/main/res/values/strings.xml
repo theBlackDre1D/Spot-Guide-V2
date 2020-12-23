@@ -89,6 +89,8 @@
     <string name="crew__requests">Requests</string>
     <string name="crew__accept">Accept</string>
     <string name="crew_decline">Decline</string>
+    <string name="crew__already_members">You are together in one crew</string>
+    <string name="crew__declined_membership">Crew member request was declined</string>
 
     <!--  Today spot  -->
     <string name="today_spot__skate_session">Today session at:</string>

@@ -28,6 +28,10 @@ class CrewMemberRequestsAdapter(
         holder.stance.text = adapterItem.user.stance
         holder.instagramNick.text = adapterItem.user.instagramNick
 
+        holder.memberRequestContainer.isVisible = adapterItem.membershipAccepted == null
+        holder.alreadyMembersContainer.isVisible = adapterItem.membershipAccepted == true
+        holder.declinedMembershipContainer.isVisible = adapterItem.membershipAccepted == false
+
         val buttonsHandler = object : BottomButtonsView.BottomButtonsViewListener {
             override fun onLeftButtonClick() {
                 handler.onRequestDecision(false, adapterItem.user.id)
@@ -52,6 +56,13 @@ class CrewMemberRequestsAdapter(
         handler.itemsLoaded()
     }
 
+    fun memberRequestDecided(userId: String, accepted: Boolean) {
+        val memberRequest = adapterItems.firstOrNull { it.user.id == userId }
+        memberRequest?.membershipAccepted = accepted
+
+        notifyDataSetChanged()
+    }
+
     class CrewMemberRequestsAdapterViewHolder(val binding: CrewMemberRequestItemBinding) : BaseViewHolder(binding.root) {
         val profilePicture = binding.profilePictureIV
         val nick = binding.nickTV
@@ -60,12 +71,16 @@ class CrewMemberRequestsAdapter(
         val instagramNick = binding.instagramNickTV
         val instagramIcon = binding.instagramIV
         val buttons = binding.buttonsV
+
+        val memberRequestContainer = binding.memberRequestContainerCL
+        val alreadyMembersContainer = binding.alreadyMembersContainerCL
+        val declinedMembershipContainer = binding.membershipDeclinedContainerCL
     }
 
-    class CrewMemberRequestsAdapterItem(val user: User) : BaseAdapterItem()
+    class CrewMemberRequestsAdapterItem(val user: User, var membershipAccepted: Boolean?) : BaseAdapterItem()
 
     interface CrewMemberRequestsAdapterHandler {
-        fun onRequestDecision(accept: Boolean, userId: String)
+        fun onRequestDecision(accept: Boolean, requestUserId: String)
         fun onInstagramClick(instagramNick: String)
         fun itemsLoaded()
     }

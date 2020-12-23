@@ -5,6 +5,7 @@ import com.g3.base.either.Either
 import com.g3.spot_guide.Session
 import com.g3.spot_guide.enums.FirestoreEntityName
 import com.g3.spot_guide.models.ImageModel
+import com.g3.spot_guide.models.MemberRequestDecision
 import com.g3.spot_guide.models.TodaySpot
 import com.g3.spot_guide.models.User
 import com.g3.spot_guide.utils.ImageCompressorUtils
@@ -80,9 +81,7 @@ class UserFirestoreProvider : BaseFirestoreProvider(FirestoreEntityName.USERS) {
 
                 try {
                     storageRef.child(currentProfilePicturePath).delete().await() // deleting old profile picture
-                } catch (e: Exception) {
-
-                }
+                } catch (e: Exception) {}
 
                 return Either.Success(storageReferenceString)
             }
@@ -117,6 +116,39 @@ class UserFirestoreProvider : BaseFirestoreProvider(FirestoreEntityName.USERS) {
             return Either.Error("deleteTodaySpot : Current user is null")
         } catch (e: Exception) {
             return Either.Error("deleteTodaySpot : Today spot delete error")
+        }
+    }
+
+    suspend fun onCrewMemberRequestDecision(accept: Boolean, requestUserId: String): Either<MemberRequestDecision> {
+        try {
+            val otherUser = getUserById(requestUserId).getValueOrNull()
+            val currentUser = Session.loggedInUser
+            if (currentUser != null && otherUser != null) {
+                if (accept) {
+                    val remainingMemberRequests = currentUser.memberRequests.filter { it != requestUserId }
+                    val currentUserNewCrewMemberList = mutableListOf<String>()
+                    currentUserNewCrewMemberList.addAll(currentUser.friends)
+                    currentUserNewCrewMemberList.add(requestUserId)
+                    val currentUserWithChanges = currentUser.copy(memberRequests = remainingMemberRequests, friends = currentUserNewCrewMemberList)
+
+                    val otherUserCrewMembers = mutableListOf<String>()
+                    otherUserCrewMembers.addAll(otherUser.friends)
+                    otherUserCrewMembers.add(currentUser.id)
+                    val otherUserWithChanges = otherUser.copy(friends = otherUserCrewMembers)
+
+                    collectionReference.document(currentUserWithChanges.id).set(currentUserWithChanges).await()
+                    collectionReference.document(otherUserWithChanges.id).set(otherUserWithChanges).await()
+
+                    Session.saveAndSetLoggedInUser(currentUserWithChanges)
+                    return Either.Success(MemberRequestDecision(accept, requestUserId))
+                } else {
+                    return Either.Error(null)
+                }
+            } else {
+                return Either.Error(null)
+            }
+        } catch (e: Exception) {
+            return Either.Error("onCrewMemberRequestDecision : Error when handling creq member request")
         }
     }
 }

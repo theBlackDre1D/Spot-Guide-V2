@@ -15,7 +15,7 @@ import org.koin.android.viewmodel.ext.android.viewModel
 class CrewFragment : BaseFragment<CrewFragmentBinding, CrewFragmentHandler>(), CrewMembersAdapter.CrewMembersAdapterHandler,
     CrewMemberRequestsAdapter.CrewMemberRequestsAdapterHandler {
 
-    private val profileFragmentViewModel: CrewFragmentViewModel by viewModel()
+    private val crewFragmentViewModel: CrewFragmentViewModel by viewModel()
     private val membersAdapter: CrewMembersAdapter by lazy { CrewMembersAdapter(this) }
     private val memberRequestsAdapter: CrewMemberRequestsAdapter by lazy { CrewMemberRequestsAdapter(this) }
 
@@ -43,11 +43,11 @@ class CrewFragment : BaseFragment<CrewFragmentBinding, CrewFragmentHandler>(), C
                     if (tab.text == getString(R.string.crew__members)) {
                         binding.crewRV.adapter = membersAdapter
                         binding.appBarV.showLoading(true)
-                        profileFragmentViewModel.getCrewMembers()
+                        crewFragmentViewModel.getCrewMembers()
                     } else {
                         binding.crewRV.adapter = memberRequestsAdapter
                         binding.appBarV.showLoading(true)
-                        profileFragmentViewModel.getCrewMemberRequests()
+                        crewFragmentViewModel.getCrewMemberRequests()
                     }
                 }
             }
@@ -55,7 +55,7 @@ class CrewFragment : BaseFragment<CrewFragmentBinding, CrewFragmentHandler>(), C
     }
 
     private fun setupObservers() {
-        profileFragmentViewModel.crewMembers.observe(this, { crewMembers ->
+        crewFragmentViewModel.crewMembers.observe(this, { crewMembers ->
             val adapterItems = mutableListOf<CrewMembersAdapter.CrewMembersAdapterItem>()
             crewMembers.forEach { memberEither ->
                 memberEither.getValueOrNull()?.let { user ->
@@ -66,22 +66,28 @@ class CrewFragment : BaseFragment<CrewFragmentBinding, CrewFragmentHandler>(), C
             membersAdapter.injectData(adapterItems)
         })
 
-        profileFragmentViewModel.crewMemberRequests.observe(this, { memberRequests ->
+        crewFragmentViewModel.crewMemberRequests.observe(this, { memberRequests ->
             val adapterItems = mutableListOf<CrewMemberRequestsAdapter.CrewMemberRequestsAdapterItem>()
             memberRequests.forEach { requestEither ->
                 requestEither.getValueOrNull()?.let { user ->
-                    adapterItems.add(CrewMemberRequestsAdapter.CrewMemberRequestsAdapterItem(user))
+                    adapterItems.add(CrewMemberRequestsAdapter.CrewMemberRequestsAdapterItem(user, null))
                 }
             }
 
             memberRequestsAdapter.injectData(adapterItems)
         })
+
+        crewFragmentViewModel.crewMemberResult.observe(this, { resultEither ->
+            resultEither.getValueOrNull()?.let { memberDecision ->
+                memberRequestsAdapter.memberRequestDecided(memberDecision.userId, memberDecision.decision)
+            }
+        })
     }
 
     private fun getInitialRequests() {
         binding.appBarV.showLoading(true)
-        profileFragmentViewModel.getCrewMembers()
-        profileFragmentViewModel.getCrewMemberRequests()
+        crewFragmentViewModel.getCrewMembers()
+        crewFragmentViewModel.getCrewMemberRequests()
     }
 
     override fun onTodaySpotClick(todaySpot: TodaySpot) {
@@ -92,8 +98,8 @@ class CrewFragment : BaseFragment<CrewFragmentBinding, CrewFragmentHandler>(), C
         handler.onCrewMemberClick(member)
     }
 
-    override fun onRequestDecision(accept: Boolean, userId: String) {
-        // TODO finish member request decision
+    override fun onRequestDecision(accept: Boolean, requestUserId: String) {
+        crewFragmentViewModel.onCrewMemberRequestDecision(accept, requestUserId)
     }
 
     override fun onInstagramClick(instagramNick: String) {
