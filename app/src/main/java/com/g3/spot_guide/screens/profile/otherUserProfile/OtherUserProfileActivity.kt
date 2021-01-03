@@ -89,6 +89,14 @@ class OtherUserProfileActivity : BaseActivity<OtherUserProfileActivityBinding, O
         navController?.navigateSafe(SpotDetailFragmentDirections.actionSpotDetailToSpotCrewMembers(SpotCrewMembersBottomSheetParams(spotCrewMembers)))
     }
 
+    override fun fromSpotDetailToAddSpotReview(spot: Spot) {
+        navController?.navigateSafe(SpotDetailFragmentDirections.actionSpotDetailToAddSpotReview(spot))
+    }
+
+    override fun fromSpotDetailBottomSheetToAddSpotReview(spot: Spot) {
+        fromSpotDetailToAddSpotReview(spot)
+    }
+
     override fun saveTodaySpot(newTodaySpot: TodaySpot) {
         otherUserProfileActivityViewModel.todaySpotLiveData.postValue(newTodaySpot)
     }

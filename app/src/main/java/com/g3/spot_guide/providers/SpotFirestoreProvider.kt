@@ -39,7 +39,7 @@ class SpotFirestoreProvider : BaseFirestoreProvider(FirestoreEntityName.SPOTS) {
 
     suspend fun uploadSpot(spot: Spot): Either<Unit> {
         return try {
-            db.collection(FirestoreEntityName.SPOTS.collectionName).document().set(spot.toUploadModel()).await()
+            collectionReference.document().set(spot.toUploadModel()).await()
             Either.Success(Unit)
         } catch (e: Exception) {
             Either.Error(e.message)

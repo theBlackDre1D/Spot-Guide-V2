@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/spotNameTV"
+            style="@style/bold_sfpro_text__18__black_333333"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Skatepark Gercenova" />
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/reviewAuthorIV"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_margin="20dp"
+            android:scaleType="centerCrop"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/spotNameTV"
+            app:shapeAppearanceOverlay="@style/circleImageView" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/reviewAuthorTV"
+            style="@style/normal_sfpro_text__16__purple_6B14A6"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="20dp"
+            app:layout_constraintBottom_toBottomOf="@id/reviewAuthorIV"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/reviewAuthorIV"
+            app:layout_constraintTop_toTopOf="@id/reviewAuthorIV"
+            tools:text="Johny Silverhand" />
+
+        <androidx.appcompat.widget.AppCompatRatingBar
+            android:id="@+id/starRatingV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:scaleX="0.8"
+            android:scaleY="0.8"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/reviewAuthorIV" />
+
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/spotReviewET"
+            style="@style/normal_sfpro_text__14__grey_8A8A8A"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="20dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/starRatingV"
+            tools:text="Some review text" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/reviewDateTV"
+            style="@style/normal_sfpro_text__14__grey_8A8A8A"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="20dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/spotReviewET"
+            tools:text="24. Dec 2020" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/postReviewB"
+            style="@style/AppButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/map__add_review"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/reviewDateTV" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/loadingContainerCL"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="@color/white_FFFFFF"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <com.g3.spot_guide.views.SpotGuideLoadingView
+                android:id="@+id/loadingV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.core.widget.NestedScrollView>

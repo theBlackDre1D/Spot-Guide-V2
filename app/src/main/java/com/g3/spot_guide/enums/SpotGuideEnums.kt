@@ -21,5 +21,5 @@ enum class GroundType(val typeName: String) {
 }
 
 enum class FirestoreEntityName(val collectionName: String) {
-    SPOTS("spots"), USERS("users")
+    SPOTS("spots"), USERS("users"), REVIEWS("reviews")
 }

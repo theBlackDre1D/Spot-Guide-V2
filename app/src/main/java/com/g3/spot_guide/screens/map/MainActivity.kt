@@ -1,6 +1,7 @@
 package com.g3.spot_guide.screens.map
 
 import android.net.Uri
+import android.os.Handler
 import android.view.LayoutInflater
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -10,6 +11,8 @@ import com.g3.spot_guide.R
 import com.g3.spot_guide.Session
 import com.g3.spot_guide.databinding.MainActivityNavBarBinding
 import com.g3.spot_guide.enums.SpotType
+import com.g3.spot_guide.eventBus.EventBus
+import com.g3.spot_guide.eventBus.EventBusListener
 import com.g3.spot_guide.extensions.navigateSafe
 import com.g3.spot_guide.models.Spot
 import com.g3.spot_guide.models.TodaySpot
@@ -30,16 +33,16 @@ import com.g3.spot_guide.screens.todaySpot.TodaySpotBottomSheetFragmentDirection
 import com.g3.spot_guide.screens.todaySpot.TodaySpotBottomSheetFragmentHandler
 import com.g3.spot_guide.screens.todaySpot.addTodaySpot.AddTodaySpotBottomSheetFragmentArguments
 import com.g3.spot_guide.screens.todaySpot.addTodaySpot.AddTodaySpotBottomSheetFragmentHandler
+import com.g3.spot_guide.utils.DateUtils
 import com.g3.spot_guide.utils.InstagramUtils
 import com.g3.spot_guide.utils.OpenMapsUtils
-import com.g3.spot_guide.utils.SpotUtils
 import com.google.android.gms.maps.model.LatLng
 import org.koin.android.viewmodel.ext.android.viewModel
 
 
 class MainActivity : BaseActivity<MainActivityNavBarBinding, Nothing>(), MapFragmentHandler,
     SpotDetailFragmentHandler, FilterSpotsBottomSheetHandler, ProfileFragmentHandler, CrewFragmentHandler,
-    TodaySpotBottomSheetFragmentHandler, AddTodaySpotBottomSheetFragmentHandler {
+    TodaySpotBottomSheetFragmentHandler, AddTodaySpotBottomSheetFragmentHandler, EventBusListener {
 
     private val mapActivityViewModel: MapActivityViewModel by viewModel()
     override fun setNavigationGraph() = R.id.mainNavigationContainer
@@ -47,6 +50,14 @@ class MainActivity : BaseActivity<MainActivityNavBarBinding, Nothing>(), MapFrag
     override fun onActivityLoadingFinished(binding: MainActivityNavBarBinding) {
         setupNavBar()
         deleteTodaySpotIfNotActual()
+
+        EventBus.subscribeOnEvent(this)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+
+        EventBus.unsubscribe(this)
     }
 
     override fun openSpotDetailScreen(spot: Spot) {
@@ -92,6 +103,17 @@ class MainActivity : BaseActivity<MainActivityNavBarBinding, Nothing>(), MapFrag
         navController?.navigateSafe(SpotDetailFragmentDirections.actionSpotDetailToSpotCrewMembers(SpotCrewMembersBottomSheetParams(spotCrewMembers)))
     }
 
+    override fun fromSpotDetailToAddSpotReview(spot: Spot) {
+        navController?.navigateSafe(SpotDetailFragmentDirections.actionSpotDetailToAddSpotReview(spot))
+    }
+
+    override fun fromSpotDetailBottomSheetToAddSpotReview(spot: Spot) {
+        val handler = Handler()
+        handler.postDelayed({
+            navController?.navigateSafe(MapFragmentDirections.actionMapFragmentToAddSpotReview(spot))
+        }, 1)
+    }
+
     override fun onSpotTypeCLick(spotType: SpotType) {
         val currentFiltersValue = mapActivityViewModel.spotsFilters.value
         if (currentFiltersValue != null) {
@@ -118,7 +140,7 @@ class MainActivity : BaseActivity<MainActivityNavBarBinding, Nothing>(), MapFrag
     private fun deleteTodaySpotIfNotActual() {
         val user = Session.loggedInUser
         user?.let { user ->
-            if (!SpotUtils.isTodaySpotValid(user.todaySpot)) {
+            if (!DateUtils.isTodaySpotValid(user.todaySpot)) {
                 mapActivityViewModel.deleteLoggedUserTodaySpot()
             }
         }
@@ -156,5 +178,24 @@ class MainActivity : BaseActivity<MainActivityNavBarBinding, Nothing>(), MapFrag
 
     override fun saveTodaySpot(newTodaySpot: TodaySpot) {
         mapActivityViewModel.todaySpotLiveData.postValue(newTodaySpot)
+    }
+
+    override fun onEventPosted(event: EventBus.Event) {
+        when (event) {
+            is EventBus.Event.SpotReviewAdded -> {
+                event.spot?.let { spot ->
+                    delayOpenSpotDetail(spot)
+                }
+            }
+            is EventBus.Event.SpotReviewDismissed -> {
+                delayOpenSpotDetail(event.spot)
+            }
+        }
+    }
+
+    private fun delayOpenSpotDetail(spot: Spot) {
+        Handler().postDelayed({
+            openSpotDetailScreen(spot)
+        }, 200)
     }
 }

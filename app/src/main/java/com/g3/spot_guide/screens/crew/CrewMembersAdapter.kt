@@ -11,7 +11,7 @@ import com.g3.spot_guide.extensions.loadImageFromFirebase
 import com.g3.spot_guide.extensions.onClick
 import com.g3.spot_guide.models.TodaySpot
 import com.g3.spot_guide.models.User
-import com.g3.spot_guide.utils.SpotUtils
+import com.g3.spot_guide.utils.DateUtils
 import com.g3.spot_guide.views.TodaySpotView
 
 class CrewMembersAdapter(
@@ -38,7 +38,7 @@ class CrewMembersAdapter(
         }
         val todaySpotConfiguration = TodaySpotView.TodaySpotViewConfiguration(adapterItem.user.todaySpot?.spotName ?: "", todaySpotHandler)
         holder.todaySpot.configuration = todaySpotConfiguration
-        holder.todaySpot.isVisible = adapterItem.user.todaySpot != null && SpotUtils.isTodaySpotValid(adapterItem.user.todaySpot)
+        holder.todaySpot.isVisible = adapterItem.user.todaySpot != null && DateUtils.isTodaySpotValid(adapterItem.user.todaySpot)
 
         holder.binding.root.onClick {
             handler.onCrewMemberClick(adapterItem.user)

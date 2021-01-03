@@ -12,6 +12,7 @@
     <string name="error__location_not_available">Current location is not available.</string>
     <string name="error__user_not_saved">Unable to update information right now.</string>
     <string name="error__today_spot_not_saved">Unable to add today spot/</string>
+    <string name="error__add_spot_review">Unable to post your review. Try again later</string>
 
     <!--  On boarding  -->
     <string name="on_boarding__community_spots">Spots are created by community - riders from all corners of world. If you saw good spot share it with community as they shared theirs with you.</string>
@@ -31,6 +32,7 @@
     <string name="spot_detail__today_spot">I\'ll be here at...</string>
     <string name="spot_detail__today_spot_with_time">I\'ll be here at %1$s</string>
     <string name="spot_detail__crew_members_here">See who will be here today...</string>
+    <string name="spot_detail__reviews">Reviews</string>
 
     <!--  Add spot  -->
     <string name="add_spot__header">Add spot</string>

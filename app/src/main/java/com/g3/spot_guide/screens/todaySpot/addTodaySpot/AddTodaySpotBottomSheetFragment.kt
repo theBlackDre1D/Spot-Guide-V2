@@ -11,7 +11,7 @@ import com.g3.spot_guide.databinding.AddTodaySpotBottomSheetFragmentBinding
 import com.g3.spot_guide.extensions.afterTextChanged
 import com.g3.spot_guide.models.Spot
 import com.g3.spot_guide.models.TodaySpot
-import com.g3.spot_guide.utils.SpotUtils
+import com.g3.spot_guide.utils.DateUtils
 import com.g3.spot_guide.views.BottomButtonView
 import org.koin.android.viewmodel.ext.android.viewModel
 import java.io.Serializable
@@ -77,7 +77,7 @@ class AddTodaySpotBottomSheetFragment : BaseBottomSheet<AddTodaySpotBottomSheetF
                 binding.loadingV.isVisible = true
 
                 val time = "${addTodaySpotBottomSheetFragmentViewModel.hours}:${addTodaySpotBottomSheetFragmentViewModel.minutes}"
-                val newTodaySpot = TodaySpot(arguments.args.spot.id, arguments.args.spot.name, SpotUtils.getTodayDate(), time)
+                val newTodaySpot = TodaySpot(arguments.args.spot.id, arguments.args.spot.name, DateUtils.getTodayDate(), time)
                 addTodaySpotBottomSheetFragmentViewModel.addTodaySpotToCurrentUser(newTodaySpot)
             }
         }

@@ -4,7 +4,8 @@ import com.g3.spot_guide.models.TodaySpot
 import java.text.SimpleDateFormat
 import java.util.*
 
-object SpotUtils {
+object DateUtils {
+
     private val dateFormat = SimpleDateFormat("dd/MM/yyyy")
 
     fun isTodaySpotValid(todaySpot: TodaySpot?): Boolean {

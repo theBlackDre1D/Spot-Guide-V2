@@ -16,6 +16,9 @@
         <action
             android:id="@+id/action__open_spotBottomSheet"
             app:destination="@id/spotDetailBottomSheetFragment" />
+        <action
+            android:id="@+id/action__mapFragment_to_addSpotReview"
+            app:destination="@id/addSpotReviewBottomSheet" />
     </fragment>
 
     <fragment
@@ -66,6 +69,9 @@
         <action
             android:id="@+id/action__spotDetail_to_spotCrewMembers"
             app:destination="@id/spotCrewMembersBottomSheet" />
+        <action
+            android:id="@+id/action__spotDetail_to_addSpotReview"
+            app:destination="@id/addSpotReviewBottomSheet" />
     </fragment>
 
     <fragment
@@ -80,7 +86,7 @@
 
     <dialog
         android:id="@+id/spotDetailBottomSheetFragment"
-        android:name="com.g3.spot_guide.screens.spotDetail.SpotDetailFragment"
+        android:name="com.g3.spot_guide.screens.spotDetail.SpotDetailBottomSheet"
         android:label="SpotDetailFragment"
         tools:layout="@layout/spot_detail__fragment">
         <argument
@@ -138,6 +144,16 @@
         <argument
             android:name="args"
             app:argType="com.g3.spot_guide.screens.spotCrewMembers.SpotCrewMembersBottomSheetParams" />
+    </dialog>
+
+    <dialog
+        android:id="@+id/addSpotReviewBottomSheet"
+        android:name="com.g3.spot_guide.screens.spotReview.AddSpotReviewBottomSheet"
+        android:label="AddSpotReviewBottomSheet"
+        tools:layout="@layout/add_spot_review__bottom_sheet">
+        <argument
+            android:name="args"
+            app:argType="com.g3.spot_guide.models.Spot" />
     </dialog>
 
 </navigation>

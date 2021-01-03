@@ -14,7 +14,7 @@ import com.g3.spot_guide.models.Spot
 import com.g3.spot_guide.models.TodaySpot
 import com.g3.spot_guide.models.User
 import com.g3.spot_guide.screens.profile.UserSpotsAdapter
-import com.g3.spot_guide.utils.SpotUtils
+import com.g3.spot_guide.utils.DateUtils
 import com.g3.spot_guide.views.AppBarView
 import com.g3.spot_guide.views.BottomButtonView
 import com.g3.spot_guide.views.HeaderWithTextView
@@ -127,7 +127,7 @@ class MyProfileFragment : BaseFragment<ProfileFragmentBinding, ProfileFragmentHa
     }
 
     private fun setupTodaySpot(user: User) {
-        binding.todaySpotV.isVisible = user.todaySpot != null && SpotUtils.isTodaySpotValid(user.todaySpot)
+        binding.todaySpotV.isVisible = user.todaySpot != null && DateUtils.isTodaySpotValid(user.todaySpot)
         val todaySpotHandler = object : TodaySpotView.TodaySpotViewHandler {
             override fun onBubbleClick() {
                 user.todaySpot?.let { todaySpot ->

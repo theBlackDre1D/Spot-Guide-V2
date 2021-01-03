@@ -192,14 +192,44 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/photosRV" />
 
+        <View
+            android:id="@+id/reviewSpacerV"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginTop="15dp"
+            android:background="@color/colorPrimary"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/todaySpotV" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/reviewsTV"
+            style="@style/normal_sfpro_text__12__purple_6B14A6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="@string/spot_detail__reviews"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/reviewSpacerV" />
+
         <com.google.android.material.button.MaterialButton
             android:id="@+id/addReviewB"
             style="@style/AppButton"
             android:layout_marginHorizontal="16dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="15dp"
             android:text="@string/map__add_review"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/todaySpotV" />
+            app:layout_constraintTop_toBottomOf="@id/reviewsTV" />
+
+        <com.g3.spot_guide.views.SpotGuideLoadingView
+            android:id="@+id/reviewsLoadingV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/addReviewB" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/reviewsRV"

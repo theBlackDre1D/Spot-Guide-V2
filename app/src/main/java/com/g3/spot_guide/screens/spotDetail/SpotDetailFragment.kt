@@ -16,6 +16,8 @@ import com.g3.base.screens.fragment.BaseFragmentHandler
 import com.g3.spot_guide.R
 import com.g3.spot_guide.Session
 import com.g3.spot_guide.databinding.SpotDetailFragmentBinding
+import com.g3.spot_guide.eventBus.EventBus
+import com.g3.spot_guide.eventBus.EventBusListener
 import com.g3.spot_guide.extensions.onClick
 import com.g3.spot_guide.models.Spot
 import com.g3.spot_guide.models.TodaySpot
@@ -29,11 +31,13 @@ data class SpotDetailFragmentArguments(
     val spotId: String?
 ) : Serializable
 
-class SpotDetailFragment : BaseBottomSheet<SpotDetailFragmentBinding, SpotDetailFragmentHandler>(), SpotDetailPhotosAdapter.SpotDetailPhotosAdapterHandler {
+open class SpotDetailFragment : BaseBottomSheet<SpotDetailFragmentBinding, SpotDetailFragmentHandler>(), SpotDetailPhotosAdapter.SpotDetailPhotosAdapterHandler,
+    EventBusListener {
 
     private val arguments: SpotDetailFragmentArgs by navArgs()
 
     private val photosAdapter: SpotDetailPhotosAdapter by lazy { SpotDetailPhotosAdapter(this) }
+    private val reviewsAdapter: SpotReviewsAdapter by lazy { SpotReviewsAdapter() }
 
     private val spotDetailFragmentViewModel: SpotDetailFragmentViewModel by viewModel()
     override fun setBinding(layoutInflater: LayoutInflater): SpotDetailFragmentBinding = SpotDetailFragmentBinding.inflate(layoutInflater)
@@ -44,8 +48,34 @@ class SpotDetailFragment : BaseBottomSheet<SpotDetailFragmentBinding, SpotDetail
         downloadImages()
         setupButtons()
         setupTodaySpot()
+        setupReviews()
 
-        binding.groundQualityPurpleTV.text = arguments.spotArguments.spot?.groundType ?: ""
+        binding.groundQualityPurpleTV.text = arguments.spotArguments.spot?.groundType
+
+        EventBus.subscribeOnEvent(this)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+
+        EventBus.unsubscribe(this)
+    }
+
+    private fun setupReviews() {
+        binding.reviewsRV.adapter = reviewsAdapter
+
+        spotDetailFragmentViewModel.spotReviews.observe(this, { reviewsEither ->
+            binding.reviewsLoadingV.isVisible = false
+            val reviews = reviewsEither.getValueOrNull()
+            reviews?.let { reviews ->
+                val adapterItems = mutableListOf<SpotReviewsAdapter.SpotReviewsAdapterItem>()
+                reviews.forEach { spotReview ->
+                    adapterItems.add(SpotReviewsAdapter.SpotReviewsAdapterItem(spotReview))
+                }
+
+                reviewsAdapter.injectData(adapterItems)
+            }
+        })
     }
 
     private fun setupSpotData() {
@@ -69,9 +99,12 @@ class SpotDetailFragment : BaseBottomSheet<SpotDetailFragmentBinding, SpotDetail
                 binding.spotLocationTV.text = GeoCoderUtils.getNameFromLocation(requireContext(), spotValue.location)
                 binding.descriptionContentTV.text = spotValue.description
                 binding.spotTypeTV.text = spotValue.spotType
-                binding.addReviewB.isVisible = spotValue.authorId != Session.loggedInUser?.id
+
+                // TODO uncomment if current user cannot add spot review
+//                binding.addReviewB.isVisible = spotValue.authorId != Session.loggedInUser?.id
 
                 setupCrewMembersForThisSpot(spotValue.id)
+                spotDetailFragmentViewModel.getSpotReviews(spotValue.id)
             } else {
                 showSnackBar(binding.root, R.string.error__spots_load)
             }
@@ -114,7 +147,14 @@ class SpotDetailFragment : BaseBottomSheet<SpotDetailFragmentBinding, SpotDetail
         }
 
         binding.addReviewB.onClick {
-            // TODO open add review bottom sheet fragment
+            spotDetailFragmentViewModel.spot.value?.getValueOrNull()?.let { spot ->
+                if (this is SpotDetailBottomSheet) {
+                    this.dismiss()
+                    handler.fromSpotDetailBottomSheetToAddSpotReview(spot)
+                } else {
+                    handler.fromSpotDetailToAddSpotReview(spot)
+                }
+            }
         }
     }
 
@@ -168,6 +208,15 @@ class SpotDetailFragment : BaseBottomSheet<SpotDetailFragmentBinding, SpotDetail
     override fun onPhotoClick(position: Int) {
         handler.openImagesGallery(spotDetailFragmentViewModel.imagesUris.value ?: listOf(), position)
     }
+
+    override fun onEventPosted(event: EventBus.Event) {
+        if (event is EventBus.Event.SpotReviewAdded) {
+            val newReview = event.newReview
+            newReview.user = Session.loggedInUser
+            val adapterItem = SpotReviewsAdapter.SpotReviewsAdapterItem(newReview)
+            reviewsAdapter.addReview(adapterItem)
+        }
+    }
 }
 
 interface SpotDetailFragmentHandler : BaseFragmentHandler {
@@ -177,4 +226,6 @@ interface SpotDetailFragmentHandler : BaseFragmentHandler {
     fun fromSpotDetailToAddTodaySpot(spot: Spot, time: String?)
     fun getTodaySpotLiveData(): LiveData<TodaySpot>
     fun fromSpotDetailToSpotCrewMembers(spotCrewMembers: List<User>)
+    fun fromSpotDetailToAddSpotReview(spot: Spot)
+    fun fromSpotDetailBottomSheetToAddSpotReview(spot: Spot)
 }

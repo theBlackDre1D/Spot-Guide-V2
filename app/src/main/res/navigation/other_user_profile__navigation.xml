@@ -30,8 +30,14 @@
             android:id="@+id/action__spot_detail_to_imagesPreview"
             app:destination="@id/imagesPreviewFragment" />
         <action
+            android:id="@+id/action__spotDetail_to_addTodaySpot"
+            app:destination="@id/addTodaySpotBottomSheet" />
+        <action
             android:id="@+id/action__spotDetail_to_spotCrewMembers"
             app:destination="@id/spotCrewMembersBottomSheet" />
+        <action
+            android:id="@+id/action__spotDetail_to_addSpotReview"
+            app:destination="@id/addSpotReviewBottomSheet" />
     </fragment>
 
     <fragment
@@ -65,6 +71,16 @@
         <argument
             android:name="args"
             app:argType="com.g3.spot_guide.screens.spotCrewMembers.SpotCrewMembersBottomSheetParams" />
+    </dialog>
+
+    <dialog
+        android:id="@+id/addSpotReviewBottomSheet"
+        android:name="com.g3.spot_guide.screens.spotReview.AddSpotReviewBottomSheet"
+        android:label="AddSpotReviewBottomSheet"
+        tools:layout="@layout/add_spot_review__bottom_sheet">
+        <argument
+            android:name="args"
+            app:argType="com.g3.spot_guide.models.Spot" />
     </dialog>
 
 </navigation>
