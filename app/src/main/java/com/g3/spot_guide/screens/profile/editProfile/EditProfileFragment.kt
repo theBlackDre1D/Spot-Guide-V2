@@ -38,7 +38,7 @@ class EditProfileFragment : BaseFragment<EditProfileFragmentBinding, EditProfile
         val handler = object : AppBarView.AppBarViewHandler {
             override fun onLeftIconClick() { handler.navigateBack() }
         }
-        binding.appBarV.configuration = AppBarView.AppBarViewConfiguration(R.string.profile__edit_header, true, R.drawable.ic_arrow_left, handler)
+        binding.appBarV.configuration = AppBarView.AppBarViewConfiguration(R.string.profile__edit_header, true, null, handler)
     }
 
     private fun setupCurrentUserInfo() {

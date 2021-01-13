@@ -16,8 +16,9 @@
         <item name="android:windowTranslucentStatus">true</item>
     </style>
 
-    <style name="OnBoardingTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
+    <style name="OnBoardingTheme" parent="AppTheme">
         <item name="android:windowTranslucentStatus">true</item>
+<!--        <item name="materialButtonStyle">@style/AppButton</item>-->
     </style>
 
     <!--  Animation  -->

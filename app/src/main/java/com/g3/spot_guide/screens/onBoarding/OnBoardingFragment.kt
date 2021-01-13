@@ -10,6 +10,7 @@ import com.g3.base.screens.fragment.BaseFragmentHandler
 import com.g3.spot_guide.R
 import com.g3.spot_guide.databinding.OnBoardingFragmentBinding
 import com.g3.spot_guide.extensions.onClick
+import com.g3.spot_guide.views.AppBarView
 
 class OnBoardingFragment : BaseFragment<OnBoardingFragmentBinding, OnBoardingFragmentHandler>() {
 
@@ -31,6 +32,7 @@ class OnBoardingFragment : BaseFragment<OnBoardingFragmentBinding, OnBoardingFra
     override fun onFragmentLoadingFinished(binding: OnBoardingFragmentBinding, context: Context) {
         setupViewPager()
         setupNextButton()
+        setupAppBar()
     }
 
     private fun setupViewPager() {
@@ -49,6 +51,10 @@ class OnBoardingFragment : BaseFragment<OnBoardingFragmentBinding, OnBoardingFra
 
     private fun setupNextButton() {
         binding.nextB.onClick { handler.onNextClick() }
+    }
+
+    private fun setupAppBar() {
+        binding.appBarV.configuration = AppBarView.AppBarViewConfiguration(R.string.app_name, false, null, null)
     }
 }
 

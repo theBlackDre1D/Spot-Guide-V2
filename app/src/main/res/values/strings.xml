@@ -15,7 +15,7 @@
     <string name="error__add_spot_review">Unable to post your review. Try again later</string>
 
     <!--  On boarding  -->
-    <string name="on_boarding__community_spots">Spots are created by community - riders from all corners of world. If you saw good spot share it with community as they shared theirs with you.</string>
+    <string name="on_boarding__community_spots">Spots are created by community - riders from all corners of world. If you saw good spot share it with community as they share theirs with you.</string>
     <string name="on_boarding__add_review">You can add your review on created spots, your experience and overall opinion.</string>
     <string name="on_boarding__share_tricks">Share your tricks on spots with your clip from Instagram or YouTube.</string>
     <string name="on_boarding__next">Next</string>
