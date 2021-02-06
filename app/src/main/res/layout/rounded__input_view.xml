@@ -7,7 +7,7 @@
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/textTV"
-        style="@style/normal_sfpro_text__16__grey_272637"
+        style="@style/normal_sfpro_text__14__grey_272637"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
@@ -17,7 +17,6 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/inputTIL"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="20dp"
@@ -26,7 +25,9 @@
         app:boxCornerRadiusBottomStart="10dp"
         app:boxCornerRadiusTopEnd="10dp"
         app:boxCornerRadiusTopStart="10dp"
-        app:boxStrokeColor="@color/text_input_field_colors_list"
+        app:boxStrokeWidth="0dp"
+        app:boxBackgroundColor="@color/grey_DDDDDD"
+        app:boxStrokeColor="@color/grey_DDDDDD"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/textTV">
@@ -37,6 +38,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:inputType="text"
+            android:textAlignment="viewStart"
             android:freezesText="true"
             tools:text="michal.gaborik.77@tvojamamka.official.com" />
     </com.google.android.material.textfield.TextInputLayout>

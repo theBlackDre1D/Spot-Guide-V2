@@ -16,6 +16,7 @@ class EditProfileFragmentViewModel(
 
     val userSaved = MutableLiveData<Either<User>>()
     var profilePicture: ImageModel? = null
+    var isFirstLaunch = true
 
     var nick: String = ""
     var fullName: String = ""

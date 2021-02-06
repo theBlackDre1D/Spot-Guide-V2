@@ -34,4 +34,9 @@ data class User(
             "todaySpot" to todaySpot
         )
     }
+
+    val isUserValid: Boolean
+        get() {
+            return nick != "" && aboutMe != "" && fullName != "" && profilePictureUrl != ""
+        }
 }

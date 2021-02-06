@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.g3.spot_guide.Session
 import com.g3.spot_guide.screens.onBoarding.SHOW_ON_BOARDING__PREFS_KEY
+import com.g3.spot_guide.screens.profile.editProfile.EditProfileActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.pixplicity.easyprefs.library.Prefs
 import org.koin.android.viewmodel.ext.android.viewModel
@@ -23,10 +24,15 @@ class SplashActivity : AppCompatActivity() {
                     if (user != null) {
                         Session.saveAndSetLoggedInUser(user)
 
-                        if (Prefs.getBoolean(SHOW_ON_BOARDING__PREFS_KEY, true)) {
-                            Session.application.coordinator.startOnBoardingActivity(this)
+                        if (!user.isUserValid) {
+                            val parameters = EditProfileActivity.Parameters(user)
+                            Session.application.coordinator.startEditProfileActivity(this, parameters, true)
                         } else {
-                            Session.application.coordinator.startMapActivity(this)
+                            if (Prefs.getBoolean(SHOW_ON_BOARDING__PREFS_KEY, true)) {
+                                Session.application.coordinator.startOnBoardingActivity(this)
+                            } else {
+                                Session.application.coordinator.startMapActivity(this)
+                            }
                         }
                     } else {
                         Session.application.coordinator.startLoginActivity(this)

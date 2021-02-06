@@ -40,6 +40,7 @@ class UserFirestoreProvider : BaseFirestoreProvider(FirestoreEntityName.USERS) {
                 val newUser = User(nick = userName, email = email)
                 val userCreationResult = createUser(newUser)
                 return if (userCreationResult.getValueOrNull() != null) {
+                    Session.saveAndSetLoggedInUser(newUser)
                     loginUserWithFirebase(email, password)
                 } else {
                     Either.Error(null)

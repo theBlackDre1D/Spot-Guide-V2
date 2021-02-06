@@ -157,7 +157,7 @@ class MainActivity : BaseActivity<MainActivityNavBarBinding, Nothing>(), MapFrag
 
     override fun openEditProfileScreen(user: User) {
         val coordinator = Session.application.coordinator
-        coordinator.startEditProfileActivity(this, EditProfileActivity.Parameters(user))
+        coordinator.startEditProfileActivity(this, EditProfileActivity.Parameters(user), false)
     }
 
     override fun openSpotDetail(spot: Spot) {

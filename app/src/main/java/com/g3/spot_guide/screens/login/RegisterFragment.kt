@@ -2,11 +2,14 @@ package com.g3.spot_guide.screens.login
 
 import android.content.Context
 import android.view.LayoutInflater
+import androidx.core.view.isVisible
 import com.g3.base.screens.fragment.BaseFragment
 import com.g3.base.screens.fragment.BaseFragmentHandler
 import com.g3.spot_guide.R
+import com.g3.spot_guide.Session
 import com.g3.spot_guide.databinding.RegisterFragmentBinding
 import com.g3.spot_guide.extensions.onClick
+import com.g3.spot_guide.models.User
 import com.g3.spot_guide.views.RoundedInputView
 import com.g3.spot_guide.views.TwoColorsTextView
 import org.koin.android.viewmodel.ext.android.viewModel
@@ -16,11 +19,14 @@ class RegisterFragment : BaseFragment<RegisterFragmentBinding, RegisterFragmentH
     private val registerFragmentViewModel: RegisterFragmentViewModel by viewModel()
     override fun setBinding(layoutInflater: LayoutInflater): RegisterFragmentBinding = RegisterFragmentBinding.inflate(layoutInflater)
     override fun onFragmentLoadingFinished(binding: RegisterFragmentBinding, context: Context) {
-        setupInputViews()
         setupRegisterListener()
         setupRegisterButton()
         setupBottomText()
         checkAllFields()
+    }
+
+    override fun onFragmentResumed() {
+        setupInputViews()
     }
 
     private fun setupInputViews() {
@@ -51,14 +57,28 @@ class RegisterFragment : BaseFragment<RegisterFragmentBinding, RegisterFragmentH
 
     private fun setupRegisterListener() {
         registerFragmentViewModel.registerResult.observe(this, { resultEither ->
-            resultEither.getValueOrNull()?.let {
-                handler.openMapScreen()
+            val result = resultEither.getValueOrNull()
+            if (result != null) {
+                registerFragmentViewModel.getCurrentUser()
+            } else {
+                binding.loadingV.isVisible = false
+            }
+        })
+
+        registerFragmentViewModel.userAfterRegister.observe(this, { userEither ->
+            userEither.getValueOrNull()?.let { user ->
+                Session.saveAndSetLoggedInUser(user)
+                handler.fromRegisterToEditProfile(user)
             }
         })
     }
 
     private fun setupRegisterButton() {
-        binding.registerB.onClick { registerFragmentViewModel.registerUser() }
+        binding.registerB.onClick {
+            binding.loadingV.isBlurVisible = true
+            binding.loadingV.isVisible = true
+            registerFragmentViewModel.registerUser()
+        }
     }
 
     private fun checkAllFields() {
@@ -72,6 +92,6 @@ class RegisterFragment : BaseFragment<RegisterFragmentBinding, RegisterFragmentH
 }
 
 interface RegisterFragmentHandler : BaseFragmentHandler {
-    fun openMapScreen()
     fun navigateBack()
+    fun fromRegisterToEditProfile(user: User)
 }

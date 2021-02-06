@@ -19,6 +19,16 @@
         android:id="@+id/registerFragment"
         android:name="com.g3.spot_guide.screens.login.RegisterFragment"
         android:label="RegisterFragment"
-        tools:layout="@layout/register__fragment" />
+        tools:layout="@layout/register__fragment">
+        <action
+            android:id="@+id/action__registerFragment_to_editProfileFragment"
+            app:destination="@id/editProfileFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/editProfileFragment"
+        android:name="com.g3.spot_guide.screens.profile.editProfile.EditProfileFragment"
+        android:label="EditProfileFragment"
+        tools:layout="@layout/edit_profile__fragment" />
 
 </navigation>

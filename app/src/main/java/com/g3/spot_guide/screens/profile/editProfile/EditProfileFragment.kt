@@ -26,7 +26,10 @@ class EditProfileFragment : BaseFragment<EditProfileFragmentBinding, EditProfile
     private val editProfileFragmentViewModel: EditProfileFragmentViewModel by viewModel()
     override fun setBinding(layoutInflater: LayoutInflater): EditProfileFragmentBinding = EditProfileFragmentBinding.inflate(layoutInflater)
     override fun onFragmentLoadingFinished(binding: EditProfileFragmentBinding, context: Context) {
-        editProfileFragmentViewModel.fillAttributesWithValues(user)
+        if (editProfileFragmentViewModel.isFirstLaunch) {
+            editProfileFragmentViewModel.fillAttributesWithValues(user)
+            editProfileFragmentViewModel.isFirstLaunch = false
+        }
         setupAppBar()
         setupCurrentUserInfo()
         setupBottomButton()
@@ -129,6 +132,7 @@ class EditProfileFragment : BaseFragment<EditProfileFragmentBinding, EditProfile
             if (user != null) {
                 Session.saveAndSetLoggedInUser(user)
                 showSnackBar(binding.root, R.string.profile__user_saved)
+                handler.onEditInfoSuccess()
             } else {
                 showSnackBar(binding.root, R.string.error__user_not_saved)
             }
@@ -155,4 +159,5 @@ interface EditProfileFragmentHandler : BaseFragmentHandler {
     fun navigateBack()
     fun fromEditProfileToGallery()
     fun getProfilePictureLiveData(): LiveData<ImageModel?>
+    fun onEditInfoSuccess()
 }

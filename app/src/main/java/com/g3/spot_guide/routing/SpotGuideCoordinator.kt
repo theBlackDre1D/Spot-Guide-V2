@@ -36,10 +36,10 @@ class SpotGuideCoordinator : BaseCoordinator() {
         super.startActivity(activity, intent, true)
     }
 
-    fun startEditProfileActivity(activity: Activity, parameters: EditProfileActivity.Parameters) {
+    fun startEditProfileActivity(activity: Activity, parameters: EditProfileActivity.Parameters, finishPreviousActivity: Boolean, ) {
         val intent = Intent(activity, EditProfileActivity::class.java)
         intent.putExtra(EDIT_PROFILE_PARAMETERS__EXTRAS_KEY, parameters)
-        super.startActivity(activity, intent)
+        super.startActivity(activity, intent, finishPreviousActivity)
     }
 
     fun startOtherUserProfileActivity(activity: Activity, parameters: OtherUserProfileActivity.Parameters) {

@@ -6,6 +6,8 @@ import com.g3.spot_guide.models.ImageModel
 
 class EditProfileActivityViewModel : ViewModel() {
 
+    var cameFromRegister = false
+
     lateinit var activityParams: EditProfileActivity.Parameters
 
     val profilePicture = MutableLiveData<ImageModel?>()

@@ -6,6 +6,8 @@ import com.g3.spot_guide.R
 import com.g3.spot_guide.Session
 import com.g3.spot_guide.databinding.LogInActivityBinding
 import com.g3.spot_guide.extensions.navigateSafe
+import com.g3.spot_guide.models.User
+import com.g3.spot_guide.screens.profile.editProfile.EditProfileActivity
 
 class LogInActivity : BaseActivity<LogInActivityBinding, Nothing>(), LoginFragmentHandler, RegisterFragmentHandler {
 
@@ -22,4 +24,9 @@ class LogInActivity : BaseActivity<LogInActivityBinding, Nothing>(), LoginFragme
     }
 
     override fun navigateBack() = super.onBackPressed()
+
+    override fun fromRegisterToEditProfile(user: User) {
+        val parameters = EditProfileActivity.Parameters(user)
+        Session.application.coordinator.startEditProfileActivity(this, parameters, true)
+    }
 }

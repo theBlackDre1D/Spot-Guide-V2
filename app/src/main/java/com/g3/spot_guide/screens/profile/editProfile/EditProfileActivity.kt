@@ -6,6 +6,7 @@ import androidx.lifecycle.LiveData
 import com.g3.base.screens.activity.BaseActivity
 import com.g3.base.screens.activity.BaseParameters
 import com.g3.spot_guide.R
+import com.g3.spot_guide.Session
 import com.g3.spot_guide.databinding.EditProfileActivityBinding
 import com.g3.spot_guide.extensions.navigateSafe
 import com.g3.spot_guide.models.ImageModel
@@ -33,7 +34,8 @@ class EditProfileActivity : BaseActivity<EditProfileActivityBinding, EditProfile
     override fun createParameters() = Arguments()
     override fun setBinding(layoutInflater: LayoutInflater): EditProfileActivityBinding = EditProfileActivityBinding.inflate(layoutInflater)
     override fun onActivityLoadingFinished(binding: EditProfileActivityBinding) {
-        editProfileActivityViewModel.activityParams
+        val params = editProfileActivityViewModel.activityParams
+        editProfileActivityViewModel.cameFromRegister = params.user.isUserValid // user came from registration in not valid form
     }
 
     override fun getUser() = editProfileActivityViewModel.activityParams.user
@@ -51,5 +53,11 @@ class EditProfileActivity : BaseActivity<EditProfileActivityBinding, EditProfile
 
     override fun getProfilePictureLiveData(): LiveData<ImageModel?> {
         return editProfileActivityViewModel.profilePicture
+    }
+
+    override fun onEditInfoSuccess() {
+        if (editProfileActivityViewModel.cameFromRegister) {
+            Session.application.coordinator.startMapActivity(this)
+        }
     }
 }
