@@ -14,8 +14,8 @@ android {
         applicationId "com.g3.spot_guide"
         minSdkVersion 23
         targetSdkVersion 30
-        versionCode 1
-        versionName "0.0.2b"
+        versionCode 3
+        versionName "0.0.3b"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -46,7 +46,6 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     implementation 'androidx.core:core-ktx:1.3.2'
     implementation 'androidx.appcompat:appcompat:1.2.0'
-    implementation 'com.google.android.material:material:1.2.1'
     implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
     testImplementation 'junit:junit:4.13.1'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
@@ -54,7 +53,7 @@ dependencies {
 
     // UI
     implementation 'androidx.recyclerview:recyclerview:1.1.0'
-    implementation 'com.google.android.material:material:1.3.0-beta01'
+    implementation 'com.google.android.material:material:1.3.0'
 
     // koin
     implementation "org.koin:koin-android:2.1.6"
@@ -62,9 +61,9 @@ dependencies {
     implementation "org.koin:koin-android-viewmodel:2.1.6"
 
     // navigation
-    implementation "androidx.navigation:navigation-fragment-ktx:2.3.2"
-    implementation "androidx.navigation:navigation-ui-ktx:2.3.2"
-    implementation 'androidx.navigation:navigation-runtime-ktx:2.3.2'
+    implementation "androidx.navigation:navigation-fragment-ktx:2.3.3"
+    implementation "androidx.navigation:navigation-ui-ktx:2.3.3"
+    implementation 'androidx.navigation:navigation-runtime-ktx:2.3.3'
 
     // Maps
     implementation 'com.google.android.gms:play-services-maps:17.0.0'
@@ -76,9 +75,9 @@ dependencies {
 
     // Firebase
     implementation 'com.google.firebase:firebase-storage:19.2.1'
-    implementation 'com.google.firebase:firebase-firestore:22.0.1'
-    implementation 'com.google.firebase:firebase-auth:20.0.1'
-    implementation 'com.google.firebase:firebase-crashlytics:17.3.0'
+    implementation 'com.google.firebase:firebase-firestore:22.0.2'
+    implementation 'com.google.firebase:firebase-auth:20.0.2'
+    implementation 'com.google.firebase:firebase-crashlytics:17.3.1'
 
     // Fotoapparat
     implementation 'io.fotoapparat:fotoapparat:2.7.0'
