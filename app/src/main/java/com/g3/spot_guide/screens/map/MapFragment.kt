@@ -5,7 +5,6 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.Canvas
-import android.location.Location
 import android.location.LocationListener
 import android.location.LocationManager
 import android.os.Bundle
@@ -47,16 +46,8 @@ class MapFragment : BaseFragment<MapFragmentBinding, MapFragmentHandler>(), Goog
         }
     }
 
-    private val locationListener = object : LocationListener {
-        override fun onLocationChanged(location: Location?) {
-            location?.let {
-                mapFragmentViewModel.lastKnownLocation = location
-            }
-        }
-
-        override fun onStatusChanged(provider: String?, status: Int, extras: Bundle?) {}
-        override fun onProviderEnabled(provider: String?) {}
-        override fun onProviderDisabled(provider: String?) {}
+    private val locationListener = LocationListener {
+        location -> mapFragmentViewModel.lastKnownLocation = location
     }
 
     private val mapFragmentViewModel: MapFragmentViewModel by viewModel()

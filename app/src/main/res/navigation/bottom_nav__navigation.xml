@@ -50,6 +50,12 @@
             app:destination="@id/todaySpotBottomSheet" />
     </fragment>
 
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="com.g3.spot_guide.screens.settings.SettingsFragment"
+        android:label="SettingsFragment"
+        tools:layout="@layout/settings__fragment" />
+
     <!--  End of bottom nav bar fragments  -->
 
     <fragment

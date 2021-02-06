@@ -22,7 +22,7 @@ import com.g3.spot_guide.extensions.onClick
 import com.g3.spot_guide.models.ImageModel
 import com.g3.spot_guide.views.AppBarView
 import com.g3.spot_guide.views.BottomButtonsView
-import com.g3.spot_guide.views.EmojiRatingView
+import com.g3.spot_guide.views.SliderRatingView
 import com.google.android.gms.maps.model.LatLng
 import org.koin.android.viewmodel.ext.android.viewModel
 
@@ -40,7 +40,7 @@ class AddSpotFragment : BaseFragment<AddSpotFragmentBinding, AddSpotFragmentHand
         saveLocationData()
         setupAppBar()
         setupBottomButtons()
-        setupGroundEmojiRating()
+        setupGroundRating()
         setupLocationName()
         setupPhotosSection()
         setupSpotCategorySection()
@@ -76,14 +76,21 @@ class AddSpotFragment : BaseFragment<AddSpotFragmentBinding, AddSpotFragmentHand
         binding.bottomButtonsV.configuration = configuration
     }
 
-    private fun setupGroundEmojiRating() {
-        val listener = object : EmojiRatingView.EmojiRatingViewListener {
-            override fun onEmojiClick(type: GroundType) {
-                addSpotFragmentViewModel.groundType = type
+    private fun setupGroundRating() {
+        val listener = object : SliderRatingView.SliderRatingViewListener {
+            override fun onSliderValueChanged(newValue: Int) {
+                val groundType = when(newValue) {
+                    GroundType.BAD.ordinal -> GroundType.BAD
+                    GroundType.GOOD.ordinal -> GroundType.GOOD
+                    GroundType.HORRIBLE.ordinal -> GroundType.HORRIBLE
+                    GroundType.OK.ordinal -> GroundType.OK
+                    else -> GroundType.PERFECT
+                }
+                addSpotFragmentViewModel.groundType = groundType
             }
         }
 
-        val configuration = EmojiRatingView.EmojiRatingViewConfiguration(addSpotFragmentViewModel.groundType, listener)
+        val configuration = SliderRatingView.SliderRatingViewConfiguration(addSpotFragmentViewModel.groundType, listener)
         binding.groundQualityRatingV.configuration = configuration
     }
 

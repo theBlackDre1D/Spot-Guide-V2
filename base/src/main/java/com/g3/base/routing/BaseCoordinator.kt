@@ -10,10 +10,11 @@ abstract class BaseCoordinator {
     }
 
     protected fun startActivity(activity: Activity, intent: Intent, finishStarterActivity: Boolean = false) {
-        activity.startActivity(intent)
         if (finishStarterActivity) {
-            activity.finish()
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+
         }
+        activity.startActivity(intent)
     }
 
     protected fun startActivityForResult(activity: Activity, intent: Intent, requestCode: Int) {

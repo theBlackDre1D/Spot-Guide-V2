@@ -23,6 +23,7 @@ class SpotDetailFragmentViewModel(
     val spot = MutableLiveData<Either<Spot>>()
     val spotCrewMembers = MutableLiveData<Either<List<User>>>()
     val spotReviews = MutableLiveData<Either<List<SpotReview>>>()
+    val spotAuthor = MutableLiveData<Either<User>>()
 
     fun loadImages(imagesPaths: List<String>) {
         doInCoroutine {
@@ -61,6 +62,13 @@ class SpotDetailFragmentViewModel(
                 }
             }
             spotReviews.postValue(reviewResult)
+        }
+    }
+
+    fun getSpotAuthor(authorId: String) {
+        doInCoroutine {
+            val result = userRepository.getUserById(authorId)
+            spotAuthor.postValue(result)
         }
     }
 }

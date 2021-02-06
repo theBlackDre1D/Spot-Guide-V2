@@ -18,13 +18,18 @@ class SplashActivity : AppCompatActivity() {
         if (FirebaseAuth.getInstance().currentUser != null) {
             val loggedUserEmail = FirebaseAuth.getInstance().currentUser?.email
             loggedUserEmail?.let { email ->
-                splashActivityViewModel.user.observe(this, { user ->
-                    Session.saveAndSetLoggedInUser(user)
+                splashActivityViewModel.user.observe(this, { userEither ->
+                    val user = userEither.getValueOrNull()
+                    if (user != null) {
+                        Session.saveAndSetLoggedInUser(user)
 
-                    if (Prefs.getBoolean(SHOW_ON_BOARDING__PREFS_KEY, true)) {
-                        Session.application.coordinator.startOnBoardingActivity(this)
+                        if (Prefs.getBoolean(SHOW_ON_BOARDING__PREFS_KEY, true)) {
+                            Session.application.coordinator.startOnBoardingActivity(this)
+                        } else {
+                            Session.application.coordinator.startMapActivity(this)
+                        }
                     } else {
-                        Session.application.coordinator.startMapActivity(this)
+                        Session.application.coordinator.startLoginActivity(this)
                     }
                 })
 

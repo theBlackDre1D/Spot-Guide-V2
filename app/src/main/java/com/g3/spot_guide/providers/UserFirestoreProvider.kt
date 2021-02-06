@@ -21,17 +21,35 @@ class UserFirestoreProvider : BaseFirestoreProvider(FirestoreEntityName.USERS) {
             val firebaseAuth = FirebaseAuth.getInstance()
             val result = firebaseAuth.signInWithEmailAndPassword(email, password).await()
             val firebaseUser = result.user
-            if (firebaseUser != null) Either.Success(firebaseUser) else Either.Error(null)
-        } catch (e: Exception) { Either.Error(e.localizedMessage) }
+            if (firebaseUser != null) {
+                Either.Success(firebaseUser)
+            } else {
+                Either.Error(null)
+            }
+        } catch (e: Exception) {
+            Either.Error(e.localizedMessage)
+        }
     }
 
-    suspend fun registerUserWithFirebase(email: String, password: String): Either<FirebaseUser> {
+    suspend fun registerUserWithFirebase(email: String, password: String, userName: String): Either<FirebaseUser> {
         return try {
             val firebaseAuth = FirebaseAuth.getInstance()
             val result = firebaseAuth.createUserWithEmailAndPassword(email, password).await()
             val firebaseUser = result.user
-            return if (firebaseUser != null) Either.Success(firebaseUser) else Either.Error(null)
-        } catch (e: Exception) { Either.Error(null) }
+            return if (firebaseUser != null) {
+                val newUser = User(nick = userName, email = email)
+                val userCreationResult = createUser(newUser)
+                return if (userCreationResult.getValueOrNull() != null) {
+                    loginUserWithFirebase(email, password)
+                } else {
+                    Either.Error(null)
+                }
+            } else {
+                Either.Error(null)
+            }
+        } catch (e: Exception) {
+            Either.Error(null)
+        }
     }
 
     suspend fun getUserByEmail(email: String): Either<User> {
@@ -66,7 +84,18 @@ class UserFirestoreProvider : BaseFirestoreProvider(FirestoreEntityName.USERS) {
         return try {
             collectionReference.document(user.id).set(user).await()
             Either.Success(user)
-        } catch (e: Exception) { Either.Error(null) }
+        } catch (e: Exception) {
+            Either.Error(null)
+        }
+    }
+
+    suspend fun createUser(user: User): Either<User> {
+        return try {
+            collectionReference.document().set(user.toUploadModel()).await()
+            Either.Success(user)
+        } catch (e: Exception) {
+            Either.Error(null)
+        }
     }
 
     suspend fun changeProfilePicture(context: Context, newProfilePicture: ImageModel, currentProfilePicturePath: String): Either<String> {

@@ -2,7 +2,6 @@ package com.g3.spot_guide.screens.login
 
 import android.content.Context
 import android.view.LayoutInflater
-import androidx.lifecycle.Observer
 import com.g3.base.screens.fragment.BaseFragment
 import com.g3.base.screens.fragment.BaseFragmentHandler
 import com.g3.spot_guide.R
@@ -51,8 +50,10 @@ class RegisterFragment : BaseFragment<RegisterFragmentBinding, RegisterFragmentH
     }
 
     private fun setupRegisterListener() {
-        registerFragmentViewModel.registerResult.observe(this, Observer {
-            handler.openMapScreen()
+        registerFragmentViewModel.registerResult.observe(this, { resultEither ->
+            resultEither.getValueOrNull()?.let {
+                handler.openMapScreen()
+            }
         })
     }
 

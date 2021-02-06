@@ -24,6 +24,7 @@ import com.g3.spot_guide.screens.profile.editProfile.EditProfileActivity
 import com.g3.spot_guide.screens.profile.myProfile.MyProfileFragmentDirections
 import com.g3.spot_guide.screens.profile.myProfile.ProfileFragmentHandler
 import com.g3.spot_guide.screens.profile.otherUserProfile.OtherUserProfileActivity
+import com.g3.spot_guide.screens.settings.SettingsFragmentHandler
 import com.g3.spot_guide.screens.spotCrewMembers.SpotCrewMembersBottomSheetParams
 import com.g3.spot_guide.screens.spotDetail.ImagesPreviewFragmentArguments
 import com.g3.spot_guide.screens.spotDetail.SpotDetailFragmentArguments
@@ -42,7 +43,8 @@ import org.koin.android.viewmodel.ext.android.viewModel
 
 class MainActivity : BaseActivity<MainActivityNavBarBinding, Nothing>(), MapFragmentHandler,
     SpotDetailFragmentHandler, FilterSpotsBottomSheetHandler, ProfileFragmentHandler, CrewFragmentHandler,
-    TodaySpotBottomSheetFragmentHandler, AddTodaySpotBottomSheetFragmentHandler, EventBusListener {
+    TodaySpotBottomSheetFragmentHandler, AddTodaySpotBottomSheetFragmentHandler, EventBusListener,
+    SettingsFragmentHandler {
 
     private val mapActivityViewModel: MapActivityViewModel by viewModel()
     override fun setNavigationGraph() = R.id.mainNavigationContainer
@@ -197,5 +199,9 @@ class MainActivity : BaseActivity<MainActivityNavBarBinding, Nothing>(), MapFrag
         Handler().postDelayed({
             openSpotDetailScreen(spot)
         }, 200)
+    }
+
+    override fun fromSettingsToLogin() {
+        Session.application.coordinator.startLoginActivity(this)
     }
 }

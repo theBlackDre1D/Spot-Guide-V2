@@ -11,6 +11,7 @@ import com.g3.spot_guide.screens.profile.editProfile.EDIT_PROFILE_PARAMETERS__EX
 import com.g3.spot_guide.screens.profile.editProfile.EditProfileActivity
 import com.g3.spot_guide.screens.profile.otherUserProfile.OtherUserProfileActivity
 import com.g3.spot_guide.screens.profile.otherUserProfile.USER_PARAMETERS__EXTRAS_KEY
+import com.g3.spot_guide.screens.splash.SplashActivity
 
 class SpotGuideCoordinator : BaseCoordinator() {
 
@@ -44,6 +45,11 @@ class SpotGuideCoordinator : BaseCoordinator() {
     fun startOtherUserProfileActivity(activity: Activity, parameters: OtherUserProfileActivity.Parameters) {
         val intent = Intent(activity, OtherUserProfileActivity::class.java)
         intent.putExtra(USER_PARAMETERS__EXTRAS_KEY, parameters)
+        super.startActivity(activity, intent)
+    }
+
+    fun startSplashActivity(activity: Activity) {
+        val intent = Intent(activity, SplashActivity::class.java)
         super.startActivity(activity, intent)
     }
 }

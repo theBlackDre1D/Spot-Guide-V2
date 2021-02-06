@@ -19,7 +19,7 @@ class RegisterFragmentViewModel(
 
     fun registerUser() {
         doInCoroutine {
-            val result = repository.registerUserWithFirebase(email, password)
+            val result = repository.registerUserWithFirebase(email, password, userName)
             registerResult.postValue(result)
         }
     }

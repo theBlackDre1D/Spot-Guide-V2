@@ -11,7 +11,7 @@ class UserRepository (
 ) {
 
     suspend fun loginUserWithFirebase(email: String, password: String) = provider.loginUserWithFirebase(email, password)
-    suspend fun registerUserWithFirebase(email: String, password: String) = provider.registerUserWithFirebase(email, password)
+    suspend fun registerUserWithFirebase(email: String, password: String, userName: String) = provider.registerUserWithFirebase(email, password, userName)
     suspend fun getUserByEmail(email: String) = provider.getUserByEmail(email)
     suspend fun getUserById(userId: String) = provider.getUserById(userId)
     suspend fun saveUser(user: User) = provider.saveUser(user)

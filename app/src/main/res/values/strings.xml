@@ -33,6 +33,7 @@
     <string name="spot_detail__today_spot_with_time">I\'ll be here at %1$s</string>
     <string name="spot_detail__crew_members_here">See who will be here today...</string>
     <string name="spot_detail__reviews">Reviews</string>
+    <string name="spot_detail__author">Author</string>
 
     <!--  Add spot  -->
     <string name="add_spot__header">Add spot</string>
@@ -98,5 +99,6 @@
     <!--  Today spot  -->
     <string name="today_spot__skate_session">Today session at:</string>
     <string name="today_spot__add">Add</string>
+    <string name="settings__log_out">Log out</string>
 
 </resources>

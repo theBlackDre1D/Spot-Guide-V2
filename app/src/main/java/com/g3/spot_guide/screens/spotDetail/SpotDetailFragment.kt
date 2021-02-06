@@ -18,6 +18,7 @@ import com.g3.spot_guide.Session
 import com.g3.spot_guide.databinding.SpotDetailFragmentBinding
 import com.g3.spot_guide.eventBus.EventBus
 import com.g3.spot_guide.eventBus.EventBusListener
+import com.g3.spot_guide.extensions.loadImageFromFirebase
 import com.g3.spot_guide.extensions.onClick
 import com.g3.spot_guide.models.Spot
 import com.g3.spot_guide.models.TodaySpot
@@ -105,6 +106,7 @@ open class SpotDetailFragment : BaseBottomSheet<SpotDetailFragmentBinding, SpotD
 
                 setupCrewMembersForThisSpot(spotValue.id)
                 spotDetailFragmentViewModel.getSpotReviews(spotValue.id)
+                spotDetailFragmentViewModel.getSpotAuthor(spotValue.authorId)
             } else {
                 showSnackBar(binding.root, R.string.error__spots_load)
             }
@@ -118,6 +120,17 @@ open class SpotDetailFragment : BaseBottomSheet<SpotDetailFragmentBinding, SpotD
             photosAdapter.injectData(adapterItems)
             binding.photosLoadingV.isVisible = imageUris.isEmpty()
         })
+
+        spotDetailFragmentViewModel.spotAuthor.observe(this, { eitherUser ->
+            eitherUser.getValueOrNull()?.let { author ->
+                setupSpotAuthor(author)
+            }
+        })
+    }
+
+    private fun setupSpotAuthor(spotAuthor: User) {
+        binding.spotAuthorProfilePictureIV.loadImageFromFirebase(spotAuthor.profilePictureUrl)
+        binding.spotAuthorNameTV.text = spotAuthor.fullName
     }
 
     private fun setupImagesRV() {
