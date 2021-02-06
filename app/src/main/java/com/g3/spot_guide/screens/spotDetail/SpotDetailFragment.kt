@@ -130,7 +130,7 @@ open class SpotDetailFragment : BaseBottomSheet<SpotDetailFragmentBinding, SpotD
 
     private fun setupSpotAuthor(spotAuthor: User) {
         binding.spotAuthorProfilePictureIV.loadImageFromFirebase(spotAuthor.profilePictureUrl)
-        binding.spotAuthorNameTV.text = spotAuthor.fullName
+        binding.spotAuthorNameTV.text = spotAuthor.nick
     }
 
     private fun setupImagesRV() {
