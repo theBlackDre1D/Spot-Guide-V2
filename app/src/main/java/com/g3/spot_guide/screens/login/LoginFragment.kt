@@ -54,16 +54,24 @@ class LoginFragment : BaseFragment<LoginFragmentBinding, LoginFragmentHandler>()
     private fun logIn() {
         loginFragmentViewModel.loggedInUser.observe(this, { result ->
             when (result) {
-                is Either.Error -> showSnackBar(binding.root, R.string.error__log_in, true)
-                is Either.Success -> handler.openMapScreen()
+                is Either.Error -> {
+                    showSnackBar(binding.root, R.string.error__log_in, true)
+                    setLoadingMode(false)
+                }
+                is Either.Success -> {
+                    handler.openMapScreen()
+                }
             }
-
-            binding.loadingV.isVisible = false
         })
 
-        binding.loadingV.isBlurVisible = true
-        binding.loadingV.isVisible = true
+        setLoadingMode(true)
         loginFragmentViewModel.logIn()
+    }
+
+    private fun setLoadingMode(isLoading: Boolean) {
+        handler.setLoginProgress(isLoading)
+        binding.loadingV.isVisible = isLoading
+        binding.loginB.isVisible = !isLoading
     }
 
     private fun setupNavigationToRegister() {
@@ -75,9 +83,15 @@ class LoginFragment : BaseFragment<LoginFragmentBinding, LoginFragmentHandler>()
     private fun checkAllFields() {
         binding.loginB.isEnabled = loginFragmentViewModel.email.isNotBlank() && loginFragmentViewModel.password.isNotBlank()
     }
+
+    override fun onFragmentDestroyed() {
+        handler.setLoginProgress(false)
+        super.onFragmentDestroyed()
+    }
 }
 
 interface LoginFragmentHandler : BaseFragmentHandler {
     fun openMapScreen()
     fun openRegisterScreen()
+    fun setLoginProgress(isLoggingIn: Boolean)
 }

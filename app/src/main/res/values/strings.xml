@@ -13,6 +13,7 @@
     <string name="error__user_not_saved">Unable to update information right now.</string>
     <string name="error__today_spot_not_saved">Unable to add today spot/</string>
     <string name="error__add_spot_review">Unable to post your review. Try again later</string>
+    <string name="error__register">Unable to register. Check if information you provided are correct and try again.</string>
 
     <!--  On boarding  -->
     <string name="on_boarding__community_spots">Spots are created by community - riders from all corners of world. If you saw good spot share it with community as they share theirs with you.</string>

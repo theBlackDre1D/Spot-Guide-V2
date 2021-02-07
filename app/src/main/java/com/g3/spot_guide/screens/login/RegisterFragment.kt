@@ -61,7 +61,8 @@ class RegisterFragment : BaseFragment<RegisterFragmentBinding, RegisterFragmentH
             if (result != null) {
                 registerFragmentViewModel.getCurrentUser()
             } else {
-                binding.loadingV.isVisible = false
+                setLoadingMode(false)
+                showSnackBar(binding.root, R.string.error__register, true)
             }
         })
 
@@ -75,10 +76,15 @@ class RegisterFragment : BaseFragment<RegisterFragmentBinding, RegisterFragmentH
 
     private fun setupRegisterButton() {
         binding.registerB.onClick {
-            binding.loadingV.isBlurVisible = true
-            binding.loadingV.isVisible = true
+            setLoadingMode(true)
             registerFragmentViewModel.registerUser()
         }
+    }
+
+    private fun setLoadingMode(isLoading: Boolean) {
+        handler.setLoginProgress(isLoading)
+        binding.loadingV.isVisible = isLoading
+        binding.registerB.isVisible = !isLoading
     }
 
     private fun checkAllFields() {
@@ -89,9 +95,15 @@ class RegisterFragment : BaseFragment<RegisterFragmentBinding, RegisterFragmentH
         binding.toLoginV.configuration = TwoColorsTextView.TwoColorsTextViewConfiguration(R.string.login__existing_account, R.string.login__login)
         binding.toLoginV.onClick { handler.navigateBack() }
     }
+
+    override fun onFragmentDestroyed() {
+        handler.setLoginProgress(false)
+        super.onFragmentDestroyed()
+    }
 }
 
 interface RegisterFragmentHandler : BaseFragmentHandler {
     fun navigateBack()
     fun fromRegisterToEditProfile(user: User)
+    fun setLoginProgress(isLoggingIn: Boolean)
 }

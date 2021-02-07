@@ -6,9 +6,14 @@
 
     <View
         android:id="@+id/blurV"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/white_FFFFFF" />
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@color/white_FFFFFF"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <com.github.ybq.android.spinkit.SpinKitView
         android:id="@+id/loadingV"

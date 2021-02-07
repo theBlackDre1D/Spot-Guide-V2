@@ -49,7 +49,7 @@ class UserFirestoreProvider : BaseFirestoreProvider(FirestoreEntityName.USERS) {
                 Either.Error(null)
             }
         } catch (e: Exception) {
-            Either.Error(null)
+            Either.Error(e)
         }
     }
 

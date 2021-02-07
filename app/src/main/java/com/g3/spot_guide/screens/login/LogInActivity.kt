@@ -11,6 +11,8 @@ import com.g3.spot_guide.screens.profile.editProfile.EditProfileActivity
 
 class LogInActivity : BaseActivity<LogInActivityBinding, Nothing>(), LoginFragmentHandler, RegisterFragmentHandler {
 
+    private var isLoggingInProgress = false
+
     override fun setNavigationGraph() = R.id.loginNavigationContainer
     override fun setBinding(layoutInflater: LayoutInflater): LogInActivityBinding = LogInActivityBinding.inflate(layoutInflater)
     override fun onActivityLoadingFinished(binding: LogInActivityBinding) {}
@@ -23,7 +25,17 @@ class LogInActivity : BaseActivity<LogInActivityBinding, Nothing>(), LoginFragme
         navController?.navigateSafe(LoginFragmentDirections.actionLoginFragmentToRegisterFragment())
     }
 
-    override fun navigateBack() = super.onBackPressed()
+    override fun setLoginProgress(isLoggingIn: Boolean) {
+        isLoggingInProgress = isLoggingIn
+    }
+
+    override fun onBackPressed() {
+        if (!isLoggingInProgress) {
+            super.onBackPressed()
+        }
+    }
+
+    override fun navigateBack() = onBackPressed()
 
     override fun fromRegisterToEditProfile(user: User) {
         val parameters = EditProfileActivity.Parameters(user)
