@@ -20,7 +20,7 @@ android {
         versionCode 4
         versionName "0.0.4b"
 
-        archivesBaseName = "Spot Guide" + versionName
+        archivesBaseName = "Spot Guide-" + versionName
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
