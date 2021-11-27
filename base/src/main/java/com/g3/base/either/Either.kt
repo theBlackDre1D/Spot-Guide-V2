@@ -5,6 +5,7 @@ sealed class Either<out T> {
         constructor(exception: Exception) : this(exception.localizedMessage)
     }
     data class Success<T>(val value: T) : Either<T>()
+    object Loading : Either<Nothing>()
 
     fun handleResult(onSuccess: (Success<out T>) -> Unit, onError: (Error) -> Unit) {
         when (this) {
@@ -15,7 +16,7 @@ sealed class Either<out T> {
 
     fun getValueOrNull(): T? {
         return when (this) {
-            is Error -> null
+            is Error, Loading -> null
             is Success -> this.value
         }
     }
